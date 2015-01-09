@@ -7,6 +7,12 @@ static ID id_tunemygc_raw_snapshot;
 static VALUE sym_gc_cycle_start;
 static VALUE sym_gc_cycle_end;
 
+/* For 2.2.x incremental GC */
+#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
+static VALUE sym_gc_cycle_enter;
+static VALUE sym_gc_cycle_exit;
+#endif
+
 /* From @tmm1/gctools */
 static double _tunemygc_walltime()
 {
@@ -42,7 +48,7 @@ static void tunemygc_invoke_gc_snapshot(void *data)
     VALUE snapshot = tunemygc_get_stat_record(stat);
     rb_funcall(rb_mTunemygc, id_tunemygc_raw_snapshot, 1, snapshot);
     free(stat);
-}
+	}
 
 /* GC tracepoint hook. Snapshots GC state using new low level helpers which are safe
  * to call from within tracepoint handlers as they don't allocate and change the heap state
@@ -52,9 +58,7 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     rb_trace_arg_t *tparg = rb_tracearg_from_tracepoint(tpval);
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
     tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
-
     stat->ts = _tunemygc_walltime();
-
     switch (flag) {
         case RUBY_INTERNAL_EVENT_GC_START:
             stat->stage = sym_gc_cycle_start;
@@ -62,6 +66,14 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
         case RUBY_INTERNAL_EVENT_GC_END_SWEEP:
             stat->stage = sym_gc_cycle_end;
             break;
+#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
+        case RUBY_INTERNAL_EVENT_GC_ENTER:
+            stat->stage = sym_gc_cycle_enter;
+            break;
+        case RUBY_INTERNAL_EVENT_GC_EXIT:
+            stat->stage = sym_gc_cycle_exit;
+            break;
+#endif
     }
 
     tunemygc_set_stat_record(stat);
@@ -79,7 +91,12 @@ static VALUE tunemygc_install_gc_tracepoint(VALUE mod)
         rb_tracepoint_disable(tunemygc_tracepoint);
         rb_ivar_set(rb_mTunemygc, id_tunemygc_tracepoint, Qnil);
     }
+    /* For 2.2.x incremental GC */
+#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
+    events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_SWEEP | RUBY_INTERNAL_EVENT_GC_ENTER | RUBY_INTERNAL_EVENT_GC_EXIT;
+#else
     events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_SWEEP;
+#endif
     tunemygc_tracepoint = rb_tracepoint_new(0, events, tunemygc_gc_hook_i, (void *)0);
     if (NIL_P(tunemygc_tracepoint)) rb_warn("Could not install GC tracepoint!");
     rb_tracepoint_enable(tunemygc_tracepoint);
@@ -106,6 +123,12 @@ void Init_tunemygc_ext()
 
     sym_gc_cycle_start = ID2SYM(rb_intern("GC_CYCLE_START"));
     sym_gc_cycle_end = ID2SYM(rb_intern("GC_CYCLE_END"));
+
+    /* For 2.2.x incremental GC */
+#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
+    sym_gc_cycle_enter = ID2SYM(rb_intern("GC_CYCLE_ENTER"));
+    sym_gc_cycle_exit = ID2SYM(rb_intern("GC_CYCLE_EXIT"));
+#endif
 
     tunemygc_setup_trace_symbols();
 

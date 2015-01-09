@@ -5,9 +5,9 @@ require 'mkmf'
 dir_config('tunemygc')
 
 # Only defined for Ruby 2.1.x and 2.2.x
-gc_event = have_const('RUBY_INTERNAL_EVENT_GC_END_SWEEP')
+gc_events = have_const('RUBY_INTERNAL_EVENT_GC_END_SWEEP')
 
-if gc_event
+if gc_events
   # From ko1/gc_tracer
   # Piggy backs off the new methods to retrieve GC stats and latest cycle info without doing
   # allocations - thus safe to call within a GC cycle and properly snapshot what we need without
