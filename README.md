@@ -1,6 +1,6 @@
 ## [TuneMyGC](https://www.tunemygc.com) - optimal MRI Ruby 2.1+ Garbage Collection
 
-[![Build Status](https://travis-ci.org/bear-metal/tunemygc.png)](https://travis-ci.org/bear-metal/tunemygc)
+[![Build Status](https://travis-ci.org/bear-metal/tunemygc.svg)](https://travis-ci.org/bear-metal/tunemygc)
 
 The Ruby garbage collector has been flagged as the crux of Ruby performance and memory use for a long time. It has improved a lot over the last years, but there's still a lot to tune and control. *The default configuration is not suitable and optimal for Rails applications, and neither is there a one-size-fits-all set of tuned parameters that would suit every app.* However, hand-tuning the GC parameters is a slippery slope to navigate for most developers.
 
