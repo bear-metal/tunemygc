@@ -1,0 +1,4 @@
+.DS_Store
+.ruby-version
+tmp/*
+lib/tunemygc/tunemygc_ext.*
