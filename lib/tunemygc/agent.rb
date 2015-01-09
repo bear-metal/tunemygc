@@ -50,6 +50,8 @@ module TuneMyGc
         log "#{var}=#{val}"
       end
     end
+  rescue Exception => e
+    log "Config reccommendation error (#{e.message})"
   end
 
   extend self
