@@ -21,7 +21,7 @@ module TuneMyGc
       path = File.join(Rails.root, "tunemygc-#{strategy.downcase}.env")
       File.open(path, "w") do |f|
         config.delete(strategy).each do |var,val|
-          f.write "#{var}=#{val}"
+          f.write "#{var}=#{val}\n"
         end
       end
       path
