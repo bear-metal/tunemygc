@@ -10,16 +10,16 @@ module TuneMyGc
 
     def configure
       if Hash === config && !config.empty?
-        log "==== Recommended GC config (#{config.delete("callback")}) ===="
+        TuneMyGc.log "==== Recommended GC config (#{config.delete("callback")}) ===="
         memory = config.delete("Memory")
-        log "== Optimize for memory"
+        TuneMyGc.log "== Optimize for memory"
         memory.each do |var,val|
-          log "#{var}=#{val}"
+          TuneMyGc.log "#{var}=#{val}"
         end
         speed = config.delete("Speed")
-        log "== Optimize for speed"
+        TuneMyGc.log "== Optimize for speed"
         speed.each do |var,val|
-          log "#{var}=#{val}"
+          TuneMyGc.log "#{var}=#{val}"
         end
       end
     end
