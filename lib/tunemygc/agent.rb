@@ -38,7 +38,7 @@ module TuneMyGc
     syncer = TuneMyGc::Syncer.new
     config = syncer.sync(snapshotter)
     if Hash === config && !config.empty?
-      log "==== Recommended GC config ===="
+      log "==== Recommended GC config (#{config.delete("callback")}) ===="
       memory = config.delete("Memory")
       log "== Optimize for memory"
       memory.each do |var,val|
