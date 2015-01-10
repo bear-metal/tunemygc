@@ -57,34 +57,12 @@ This gem is only a lightweight agent and designed to not get in your way. There'
 
 #### Interpreting configurations
 
-At the moment an instrumented process would dump the following to Rails log or STDOUT on exit after successfull communication with the tuning web service:
+An instrumented process dumps two [foreman](https://github.com/ddollar/foreman) compatible config files for a speed and memory tuning strategy respectively:
 
 ``` sh
-[TuneMyGC] ==== Recommended GC config ====
-[TuneMyGC] == Optimize for memory
-[TuneMyGC] RUBY_GC_HEAP_INIT_SLOTS=308564
-[TuneMyGC] RUBY_GC_HEAP_FREE_SLOTS=9387
-[TuneMyGC] RUBY_GC_HEAP_GROWTH_FACTOR=0.07
-[TuneMyGC] RUBY_GC_HEAP_GROWTH_MAX_SLOTS=6171
-[TuneMyGC] RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=0.11
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_MIN=2000000
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_MAX=4000000
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_GROWTH_FACTOR=0.11
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_MIN=2000000
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_MAX=4000000
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=0.11
-[TuneMyGC] == Optimize for speed
-[TuneMyGC] RUBY_GC_HEAP_INIT_SLOTS=370277
-[TuneMyGC] RUBY_GC_HEAP_FREE_SLOTS=65016
-[TuneMyGC] RUBY_GC_HEAP_GROWTH_FACTOR=1.2
-[TuneMyGC] RUBY_GC_HEAP_GROWTH_MAX_SLOTS=123425
-[TuneMyGC] RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=0
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_MIN=64000000
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_MAX=128000000
-[TuneMyGC] RUBY_GC_MALLOC_LIMIT_GROWTH_FACTOR=1.2
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_MIN=64000000
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_MAX=128000000
-[TuneMyGC] RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=1.2
+[TuneMyGC] ==== Recommended GC configs from https://tunemygc.com/configs/742ec8eaef85b10a0ba07d930feed637.json
+[TuneMyGC] == Wrote /tmp/build_da862b177590bb56f248403e2c191cdb/tunemygc-memory.env
+[TuneMyGC] == Wrote /tmp/build_da862b177590bb56f248403e2c191cdb/tunemygc-speed.env
 ```
 
 We're still in the process of building tools and a launcher shim around this.
