@@ -28,19 +28,8 @@ module TuneMyGc
       require "tunemygc/syncer"
       syncer = TuneMyGc::Syncer.new
       config = syncer.sync(snapshotter)
-      if Hash === config && !config.empty?
-        log "==== Recommended GC config (#{config.delete("callback")}) ===="
-        memory = config.delete("Memory")
-        log "== Optimize for memory"
-        memory.each do |var,val|
-          log "#{var}=#{val}"
-        end
-        speed = config.delete("Speed")
-        log "== Optimize for speed"
-        speed.each do |var,val|
-          log "#{var}=#{val}"
-        end
-      end
+      require "tunemygc/tuner"
+      TuneMyGc::Tuner.new(config).configure
     end
   rescue Exception => e
     log "Config reccommendation error (#{e.message})"
