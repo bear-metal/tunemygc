@@ -42,7 +42,7 @@ module TuneMyGc
         elsif Net::HTTPBadRequest === response
           TuneMyGc.log "Invalid payload (#{response.body}). Failed to sync #{snapshots} snapshots"
         else
-          ActiveSupport::JSON.decode(response.body)
+          config_callback(response)
         end
       end
     rescue Exception => e
@@ -50,6 +50,13 @@ module TuneMyGc
     ensure
       # Prefer to loose data points than accumulate buffers indefinitely on error or other conditions
       snapshotter.clear
+    end
+
+    private
+    def config_callback(response)
+      callback_url = ActiveSupport::JSON.decode(response.body)
+      config = client.get(URI(callback_url).path)
+      ActiveSupport::JSON.decode(config)
     end
   end
 end
