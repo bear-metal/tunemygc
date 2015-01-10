@@ -120,7 +120,10 @@ void Init_tunemygc_ext()
     /* Warm up the symbol table */
     id_tunemygc_tracepoint = rb_intern("__tunemygc_tracepoint");
     id_tunemygc_raw_snapshot = rb_intern("raw_snapshot");
+    rb_funcall(rb_mGC, rb_intern("stat"), 0);
+    rb_funcall(rb_mGC, rb_intern("latest_gc_info"), 0);
 
+    /* Symbol warmup */
     sym_gc_cycle_start = ID2SYM(rb_intern("GC_CYCLE_START"));
     sym_gc_cycle_end = ID2SYM(rb_intern("GC_CYCLE_END"));
 
