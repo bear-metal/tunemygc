@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'tunemygc'
+require 'tunemygc/cli'
+
+TuneMyGc::CLI.start(ARGV)
