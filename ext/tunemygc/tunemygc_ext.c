@@ -4,13 +4,13 @@ VALUE rb_mTunemygc;
 static ID id_tunemygc_tracepoint;
 static ID id_tunemygc_raw_snapshot;
 
-static VALUE sym_gc_cycle_start;
-static VALUE sym_gc_cycle_end;
+static VALUE sym_gc_cycle_started;
+static VALUE sym_gc_cycle_ended;
 
 /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
-static VALUE sym_gc_cycle_enter;
-static VALUE sym_gc_cycle_exit;
+static VALUE sym_gc_cycle_entered;
+static VALUE sym_gc_cycle_exited;
 #endif
 
 /* From @tmm1/gctools */
@@ -61,17 +61,17 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     stat->ts = _tunemygc_walltime();
     switch (flag) {
         case RUBY_INTERNAL_EVENT_GC_START:
-            stat->stage = sym_gc_cycle_start;
+            stat->stage = sym_gc_cycle_started;
             break;
         case RUBY_INTERNAL_EVENT_GC_END_SWEEP:
-            stat->stage = sym_gc_cycle_end;
+            stat->stage = sym_gc_cycle_ended;
             break;
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
         case RUBY_INTERNAL_EVENT_GC_ENTER:
-            stat->stage = sym_gc_cycle_enter;
+            stat->stage = sym_gc_cycle_entered;
             break;
         case RUBY_INTERNAL_EVENT_GC_EXIT:
-            stat->stage = sym_gc_cycle_exit;
+            stat->stage = sym_gc_cycle_exited;
             break;
 #endif
     }
@@ -124,13 +124,13 @@ void Init_tunemygc_ext()
     rb_funcall(rb_mGC, rb_intern("latest_gc_info"), 0);
 
     /* Symbol warmup */
-    sym_gc_cycle_start = ID2SYM(rb_intern("GC_CYCLE_START"));
-    sym_gc_cycle_end = ID2SYM(rb_intern("GC_CYCLE_END"));
+    sym_gc_cycle_started = ID2SYM(rb_intern("GC_CYCLE_STARTED"));
+    sym_gc_cycle_ended = ID2SYM(rb_intern("GC_CYCLE_ENDED"));
 
     /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
-    sym_gc_cycle_enter = ID2SYM(rb_intern("GC_CYCLE_ENTER"));
-    sym_gc_cycle_exit = ID2SYM(rb_intern("GC_CYCLE_EXIT"));
+    sym_gc_cycle_entered = ID2SYM(rb_intern("GC_CYCLE_ENTERED"));
+    sym_gc_cycle_exited = ID2SYM(rb_intern("GC_CYCLE_EXITED"));
 #endif
 
     tunemygc_setup_trace_symbols();

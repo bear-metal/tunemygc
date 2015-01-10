@@ -14,15 +14,15 @@ module TuneMyGc
     def on_initialized
       TuneMyGc.install_gc_tracepoint
       TuneMyGc.log "hooked: GC tracepoints"
-      TuneMyGc.snapshot(:READY)
+      TuneMyGc.snapshot(:BOOTED)
 
       TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/) do |*args|
-        TuneMyGc.snapshot(:START_REQUEST_PROCESSING)
+        TuneMyGc.snapshot(:REQUEST_PROCESSING_STARTED)
       end
       TuneMyGc.log "hooked: start_processing.action_controller"
 
       TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/) do |*args|
-        TuneMyGc.snapshot(:END_REQUEST_PROCESSING)
+        TuneMyGc.snapshot(:REQUEST_PROCESSING_ENDED)
         TuneMyGc.interposer.check_uninstall_request_processing
       end
       TuneMyGc.log "hooked: process_action.action_controller"
@@ -40,7 +40,7 @@ module TuneMyGc
         if @installed
           TuneMyGc.log "at_exit"
           uninstall_request_processing
-          TuneMyGc.snapshot(:TERM)
+          TuneMyGc.snapshot(:TERMINATED)
           TuneMyGc.reccommendations
         end
       end

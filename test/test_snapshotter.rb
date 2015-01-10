@@ -10,14 +10,14 @@ class TestSnapshotter < TuneMyGcTestCase
 
   def test_take
     snapshots = TuneMyGc::Snapshotter.new
-    snapshots.take(:READY)
+    snapshots.take(:BOOTED)
     assert_equal 1, snapshots.size
     snapshots.clear
   end
 
   def test_clear
     snapshots = TuneMyGc::Snapshotter.new
-    snapshots.take(:READY)
+    snapshots.take(:BOOTED)
     assert_equal 1, snapshots.size
     snapshots.clear
     assert_equal 0, snapshots.size
