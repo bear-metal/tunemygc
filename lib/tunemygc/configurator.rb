@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 module TuneMyGc
-  class Tuner
+  class Configurator
     attr_reader :config
 
     def initialize(config)

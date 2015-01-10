@@ -28,8 +28,8 @@ module TuneMyGc
       require "tunemygc/syncer"
       syncer = TuneMyGc::Syncer.new
       config = syncer.sync(snapshotter)
-      require "tunemygc/tuner"
-      TuneMyGc::Tuner.new(config).configure
+      require "tunemygc/configurator"
+      TuneMyGc::Configurator.new(config).configure
     end
   rescue Exception => e
     log "Config reccommendation error (#{e.message})"
