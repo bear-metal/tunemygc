@@ -1,12 +1,14 @@
 # encoding: utf-8
 
+require 'thread'
+
 module TuneMyGc
   class Snapshotter
     MAX_SAMPLES = 1000
 
     attr_reader :buffer
 
-    def initialize(buf = [])
+    def initialize(buf = Queue.new)
       @buffer = buf
     end
 
@@ -14,7 +16,7 @@ module TuneMyGc
       _buffer([TuneMyGc.walltime, stage, GC.stat, GC.latest_gc_info, meta])
     end
 
-    # low level interface, for tests
+    # low level interface, for tests and GC callback
     def take_raw(snapshot)
       _buffer(snapshot)
     end
@@ -27,9 +29,12 @@ module TuneMyGc
       @buffer.size
     end
 
-    def debug
-      TuneMyGc.log "=== Snapshots ==="
-      buffer.each{|l| TuneMyGc.log(l) }
+    def deq
+      @buffer.deq
+    end
+
+    def empty?
+      @buffer.empty?
     end
 
     private

@@ -33,7 +33,16 @@ class TestInterposer < TuneMyGcTestCase
 
     GC.start(full_mark: true, immediate_sweep: false)
 
-    assert TuneMyGc.snapshotter.buffer.any?{|s| s[1] == :GC_CYCLE_START }
+    stages = []
+
+    while !TuneMyGc.snapshotter.empty?
+      stages << TuneMyGc.snapshotter.deq
+    end
+
+    # Account for incremental GC on 2.2
+    cycles = [:GC_CYCLE_START, :GC_CYCLE_ENTER]
+
+    assert stages.any?{|s| cycles.include?(s[1]) }
 
     interposer.uninstall
     assert_equal [], interposer.subscriptions

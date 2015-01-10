@@ -13,6 +13,7 @@ class TestAgent < TuneMyGcTestCase
 
   def test_log
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       TuneMyGc.log 'test'
     end
     assert_match(/test/, out)

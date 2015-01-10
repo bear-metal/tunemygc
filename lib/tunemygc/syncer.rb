@@ -43,8 +43,14 @@ module TuneMyGc
       # Fallback to Timeout if Net::HTTP read timeout fails
       snapshots = snapshotter.size
       TuneMyGc.log "Syncing #{snapshots} snapshots"
-      payload = snapshotter.buffer
-      payload.unshift(ENVIRONMENT)
+      payload = [ENVIRONMENT]
+      debug = ENV["RUBY_GC_TUNE_DEBUG"]
+      TuneMyGc.log "=== Snapshots ===" if debug
+      while !snapshotter.empty?
+        snapshot = snapshotter.deq
+        TuneMyGc.log(snapshot) if debug
+        payload << snapshot
+      end
       data = ActiveSupport::JSON.encode(payload)
       response = client.post(uri.path, data, HEADERS)
       if Net::HTTPNotImplemented === response

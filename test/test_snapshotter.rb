@@ -30,21 +30,12 @@ class TestSnapshotter < TuneMyGcTestCase
     end
     assert_equal 1000, snapshots.size
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       snapshots.take(:MORE)
       snapshots.take(:ANOTHER)
     end
     assert_match(/Discarding snapshot/, out)
     assert_equal 1000, snapshots.size
     snapshots.clear
-  end
-
-  def test_debug
-    snapshots = TuneMyGc::Snapshotter.new
-    snapshots.take(:READY)
-    out, err = capture_io do
-      snapshots.debug
-    end
-    assert_match(/Snapshots/, out)
-    assert_match(/READY/, out)
   end
 end

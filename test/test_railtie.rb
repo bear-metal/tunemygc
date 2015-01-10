@@ -5,6 +5,7 @@ require File.join(File.dirname(__FILE__), 'helper')
 class TestRailtie < TuneMyGcTestCase
   def test_init
     out, err = capture_io do
+      Rails.logger = Logger.new($stdout)
       TuneMyGc::Railtie.run_initializers
       sleep 1
     end
@@ -14,7 +15,7 @@ class TestRailtie < TuneMyGcTestCase
     assert_match(/at_exit/, out)
     assert_match(/interposed/, out)
   ensure
-    TuneMyGc.logger = nil
+    TuneMyGc.logger = Logger.new($stdout)
     TuneMyGc.interposer.uninstall
   end
 end

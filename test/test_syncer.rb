@@ -28,6 +28,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 200, :body => "", :headers => {})
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Syncing 1 snapshots/, out)
@@ -43,6 +44,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 501, :body => "", :headers => {})
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_nil syncer.sync(snapshots)
     end
     assert_match(/Ruby version/, out)
@@ -61,6 +63,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 412, :body => "", :headers => {})
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_nil syncer.sync(snapshots)
     end
     assert_match(/The GC is already tuned by environment variables/, out)
@@ -77,6 +80,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 400, :body => "snapshot timestamp", :headers => {})
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_nil syncer.sync(snapshots)
     end
     assert_match(/Invalid payload/, out)
@@ -94,6 +98,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 426, :body => "2", :headers => {})
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_nil syncer.sync(snapshots)
     end
     assert_match(/Agent version 2 required/, out)
@@ -109,6 +114,7 @@ class TestSyncer < TuneMyGcTestCase
            :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).to_raise(IOError.new("dang"))
 
     out, err = capture_io do
+      TuneMyGc.logger = Logger.new($stdout)
       assert_nil syncer.sync(snapshots)
     end
     assert_match(/Failed to sync 1 snapshots/, out)
