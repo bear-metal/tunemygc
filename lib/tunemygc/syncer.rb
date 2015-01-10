@@ -71,8 +71,8 @@ module TuneMyGc
     end
 
     def process_config_callback(response)
-      response = client.get(URI(response.body).path)
-      ActiveSupport::JSON.decode(response)
+      config = client.get(URI(response.body).path)
+      ActiveSupport::JSON.decode(config.body)
     rescue Exception => e
       TuneMyGc.log "Failed to process config callback url #{response.body} (error: #{e})"
       return false
