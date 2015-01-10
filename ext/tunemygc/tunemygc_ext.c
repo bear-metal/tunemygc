@@ -91,12 +91,7 @@ static VALUE tunemygc_install_gc_tracepoint(VALUE mod)
         rb_tracepoint_disable(tunemygc_tracepoint);
         rb_ivar_set(rb_mTunemygc, id_tunemygc_tracepoint, Qnil);
     }
-    /* For 2.2.x incremental GC */
-#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
-    events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_SWEEP | RUBY_INTERNAL_EVENT_GC_ENTER | RUBY_INTERNAL_EVENT_GC_EXIT;
-#else
     events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_SWEEP;
-#endif
     tunemygc_tracepoint = rb_tracepoint_new(0, events, tunemygc_gc_hook_i, (void *)0);
     if (NIL_P(tunemygc_tracepoint)) rb_warn("Could not install GC tracepoint!");
     rb_tracepoint_enable(tunemygc_tracepoint);
