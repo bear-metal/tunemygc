@@ -28,7 +28,7 @@ class TestSyncer < TuneMyGcTestCase
       to_return(:status => 200, :body => "", :headers => {})
 
     out, err = capture_io do
-      assert_nil syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Syncing 1 snapshots/, out)
   end

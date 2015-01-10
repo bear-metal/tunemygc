@@ -24,39 +24,59 @@ module TuneMyGc
     end
 
     def sync(snapshotter)
+      response = nil
+      timeout do
+        response = sync_with_tuner(snapshotter)
+      end
+      timeout do
+        process_config_callback(response)
+      end if response
+    end
+
+    private
+    def timeout(&block)
+      Timeout.timeout(TIMEOUT + 1){ block.call }
+    end
+
+    def sync_with_tuner(snapshotter)
       snapshots = 0
       # Fallback to Timeout if Net::HTTP read timeout fails
-      Timeout.timeout(TIMEOUT + 1) do
-        snapshots = snapshotter.size
-        TuneMyGc.log "Syncing #{snapshots} snapshots"
-        payload = snapshotter.buffer
-        payload.unshift(ENVIRONMENT)
-        data = ActiveSupport::JSON.encode(payload)
-        response = client.post(uri.path, data, HEADERS)
-        if Net::HTTPNotImplemented === response
-          TuneMyGc.log "Ruby version #{RUBY_VERSION} or Rails version #{Rails.version} not supported. Failed to sync #{snapshots} snapshots"
-        elsif Net::HTTPUpgradeRequired === response
-          TuneMyGc.log "Agent version #{response.body} required - please upgrade. Failed to sync #{snapshots} snapshots"
-        elsif Net::HTTPPreconditionFailed === response
-          TuneMyGc.log "The GC is already tuned by environment variables (#{response.body}) - we respect that, doing nothing. Failed to sync #{snapshots} snapshots"
-        elsif Net::HTTPBadRequest === response
-          TuneMyGc.log "Invalid payload (#{response.body}). Failed to sync #{snapshots} snapshots"
-        else
-          config_callback(response)
-        end
+      snapshots = snapshotter.size
+      TuneMyGc.log "Syncing #{snapshots} snapshots"
+      payload = snapshotter.buffer
+      payload.unshift(ENVIRONMENT)
+      data = ActiveSupport::JSON.encode(payload)
+      response = client.post(uri.path, data, HEADERS)
+      if Net::HTTPNotImplemented === response
+        TuneMyGc.log "Ruby version #{RUBY_VERSION} or Rails version #{Rails.version} not supported. Failed to sync #{snapshots} snapshots"
+        return false
+      elsif Net::HTTPUpgradeRequired === response
+        TuneMyGc.log "Agent version #{response.body} required - please upgrade. Failed to sync #{snapshots} snapshots"
+        return false
+      elsif Net::HTTPPreconditionFailed === response
+        TuneMyGc.log "The GC is already tuned by environment variables (#{response.body}) - we respect that, doing nothing. Failed to sync #{snapshots} snapshots"
+        return false
+      elsif Net::HTTPBadRequest === response
+        TuneMyGc.log "Invalid payload (#{response.body}). Failed to sync #{snapshots} snapshots"
+        return false
+      else
+        response
       end
     rescue Exception => e
       TuneMyGc.log "Failed to sync #{snapshots} snapshots (error: #{e})"
+      return false
     ensure
       # Prefer to loose data points than accumulate buffers indefinitely on error or other conditions
       snapshotter.clear
     end
 
-    private
-    def config_callback(response)
+    def process_config_callback(response)
       callback_url = ActiveSupport::JSON.decode(response.body)
-      config = client.get(URI(callback_url).path)
-      ActiveSupport::JSON.decode(config)
+      response = client.get(URI(callback_url).path)
+      ActiveSupport::JSON.decode(response)
+    rescue Exception => e
+      TuneMyGc.log "Failed to process config callback url #{callback_url} (error: #{e})"
+      return false
     end
   end
 end
