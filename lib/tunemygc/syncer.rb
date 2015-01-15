@@ -8,7 +8,7 @@ require 'timeout'
 module TuneMyGc
   class Syncer
     HOST = (ENV['RUBY_GC_TUNE_HOST'] || "tunemygc.com:443").freeze
-    TIMEOUT = 5 #seconds
+    TIMEOUT = 10 #seconds
     HEADERS = { "Content-Type" => "application/json",
                 "Accept" => "application/json",
                 "User-Agent" => "TuneMyGC #{TuneMyGc::VERSION}"}.freeze
