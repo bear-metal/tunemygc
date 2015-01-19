@@ -19,7 +19,7 @@ module TuneMyGc
     def initialize(host = HOST)
       @uri = URI("http://#{host}/ruby")
       @client = Net::HTTP.new(@uri.host, @uri.port)
-      @client.use_ssl = true
+      @client.use_ssl = (uri.port == 443)
       @client.read_timeout = TIMEOUT
     end
 
