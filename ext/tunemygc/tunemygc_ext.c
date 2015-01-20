@@ -48,7 +48,7 @@ static void tunemygc_invoke_gc_snapshot(void *data)
     VALUE snapshot = tunemygc_get_stat_record(stat);
     rb_funcall(rb_mTunemygc, id_tunemygc_raw_snapshot, 1, snapshot);
     free(stat);
-	}
+}
 
 /* GC tracepoint hook. Snapshots GC state using new low level helpers which are safe
  * to call from within tracepoint handlers as they don't allocate and change the heap state
@@ -59,6 +59,8 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
     tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
     stat->ts = _tunemygc_walltime();
+    stat->peak_rss = getPeakRSS();
+    stat->current_rss = getCurrentRSS();
     switch (flag) {
         case RUBY_INTERNAL_EVENT_GC_START:
             stat->stage = sym_gc_cycle_started;
@@ -110,6 +112,16 @@ static VALUE tunemygc_uninstall_gc_tracepoint(VALUE mod)
     return Qnil;
 }
 
+static VALUE tunemygc_peak_rss(VALUE mod)
+{
+    return SIZET2NUM(getPeakRSS());
+}
+
+static VALUE tunemygc_current_rss(VALUE mod)
+{
+    return SIZET2NUM(getCurrentRSS());
+}
+
 void Init_tunemygc_ext()
 {
     /* Warm up the symbol table */
@@ -137,4 +149,6 @@ void Init_tunemygc_ext()
     rb_define_module_function(rb_mTunemygc, "uninstall_gc_tracepoint", tunemygc_uninstall_gc_tracepoint, 0);
 
     rb_define_module_function(rb_mTunemygc, "walltime", tunemygc_walltime, 0);
+    rb_define_module_function(rb_mTunemygc, "peak_rss", tunemygc_peak_rss, 0);
+    rb_define_module_function(rb_mTunemygc, "current_rss", tunemygc_current_rss, 0);
 }

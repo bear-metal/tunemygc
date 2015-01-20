@@ -14,4 +14,8 @@ extern VALUE rb_mTunemygc;
 /* header we codegen'ed in extconf.rb from VM specific GC stats */
 #include "tunemygc_env.h"
 
+/* From getRSS.c */
+size_t getPeakRSS();
+size_t getCurrentRSS();
+
 #endif

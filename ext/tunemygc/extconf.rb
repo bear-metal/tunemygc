@@ -21,6 +21,8 @@ if gc_events
 
     f.puts 'typedef struct {'
     f.puts '    double ts;'
+    f.puts '    size_t peak_rss;'
+    f.puts '    size_t current_rss;'
     f.puts '    VALUE stage;'
     gc_stat.keys.each do |key|
       f.puts "    size_t #{key};"
@@ -49,7 +51,7 @@ if gc_events
       #
       f.puts  "    VALUE stat = rb_hash_new();"
       f.puts  "    VALUE latest_info = rb_hash_new();"
-      f.puts  "    VALUE snapshot = rb_ary_new2(5);"
+      f.puts  "    VALUE snapshot = rb_ary_new2(7);"
       gc_stat.keys.each.with_index{|k, i|
         f.puts "    rb_hash_aset(stat, sym_gc_stat[#{i}], SIZET2NUM(record->#{k}));"
       }
@@ -57,10 +59,12 @@ if gc_events
         f.puts "    rb_hash_aset(latest_info, sym_latest_gc_info[#{i}], record->#{k});"
       }
       f.puts "    rb_ary_store(snapshot, 0, DBL2NUM(record->ts));"
-      f.puts "    rb_ary_store(snapshot, 1, record->stage);"
-      f.puts "    rb_ary_store(snapshot, 2, stat);"
-      f.puts "    rb_ary_store(snapshot, 3, latest_info);"
-      f.puts "    rb_ary_store(snapshot, 4, Qnil);"
+      f.puts "    rb_ary_store(snapshot, 1, SIZET2NUM(record->peak_rss));"
+      f.puts "    rb_ary_store(snapshot, 2, SIZET2NUM(record->current_rss));"
+      f.puts "    rb_ary_store(snapshot, 3, record->stage);"
+      f.puts "    rb_ary_store(snapshot, 4, stat);"
+      f.puts "    rb_ary_store(snapshot, 5, latest_info);"
+      f.puts "    rb_ary_store(snapshot, 6, Qnil);"
       f.puts "    return snapshot;"
       #
     f.puts "}"
