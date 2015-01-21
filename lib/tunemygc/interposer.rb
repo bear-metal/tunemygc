@@ -12,6 +12,7 @@ module TuneMyGc
     end
 
     def on_initialized
+      GC.start(full_mark: true, immediate_sweep: true)
       TuneMyGc.install_gc_tracepoint
       TuneMyGc.log "hooked: GC tracepoints"
       TuneMyGc.snapshot(:BOOTED)
