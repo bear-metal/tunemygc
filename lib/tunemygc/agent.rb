@@ -11,8 +11,8 @@ module TuneMyGc
 
   attr_accessor :logger, :interposer, :snapshotter
 
-  def snapshot(stage, meta = nil)
-    snapshotter.take(stage, meta)
+  def snapshot(stage, timestamp = nil, meta = nil)
+    snapshotter.take(stage, timestamp, meta)
   end
 
   def raw_snapshot(snapshot)

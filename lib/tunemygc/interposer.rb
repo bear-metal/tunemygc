@@ -18,12 +18,12 @@ module TuneMyGc
       TuneMyGc.snapshot(:BOOTED)
 
       TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/) do |*args|
-        TuneMyGc.snapshot(:REQUEST_PROCESSING_STARTED)
+        TuneMyGc.snapshot(:REQUEST_PROCESSING_STARTED, args[1].to_f)
       end
       TuneMyGc.log "hooked: start_processing.action_controller"
 
       TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/) do |*args|
-        TuneMyGc.snapshot(:REQUEST_PROCESSING_ENDED)
+        TuneMyGc.snapshot(:REQUEST_PROCESSING_ENDED, args[2].to_f)
         TuneMyGc.interposer.check_uninstall_request_processing
       end
       TuneMyGc.log "hooked: process_action.action_controller"
