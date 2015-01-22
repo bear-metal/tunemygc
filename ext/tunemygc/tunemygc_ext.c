@@ -6,6 +6,7 @@ static ID id_tunemygc_raw_snapshot;
 
 static VALUE sym_gc_cycle_started;
 static VALUE sym_gc_cycle_ended;
+static VALUE sym_gc_immediate_sweep;
 
 /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
@@ -55,28 +56,39 @@ static void tunemygc_invoke_gc_snapshot(void *data)
  */
 static void tunemygc_gc_hook_i(VALUE tpval, void *data)
 {
+    VALUE stage;
     rb_trace_arg_t *tparg = rb_tracearg_from_tracepoint(tpval);
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
+
+    switch (flag) {
+        case RUBY_INTERNAL_EVENT_GC_START:
+            stage = sym_gc_cycle_started;
+            break;
+        case RUBY_INTERNAL_EVENT_GC_END_MARK:
+            if (RTEST(rb_gc_latest_gc_info(sym_gc_immediate_sweep))){
+                stage = sym_gc_cycle_ended;
+            }	else {
+                return;
+            }
+            break;
+        case RUBY_INTERNAL_EVENT_GC_END_SWEEP:
+            stage = sym_gc_cycle_ended;
+            break;
+#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
+        case RUBY_INTERNAL_EVENT_GC_ENTER:
+            stage = sym_gc_cycle_entered;
+            break;
+        case RUBY_INTERNAL_EVENT_GC_EXIT:
+            stage = sym_gc_cycle_exited;
+            break;
+#endif
+    }
+
     tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
     stat->ts = _tunemygc_walltime();
     stat->peak_rss = getPeakRSS();
     stat->current_rss = getCurrentRSS();
-    switch (flag) {
-        case RUBY_INTERNAL_EVENT_GC_START:
-            stat->stage = sym_gc_cycle_started;
-            break;
-        case RUBY_INTERNAL_EVENT_GC_END_SWEEP:
-            stat->stage = sym_gc_cycle_ended;
-            break;
-#ifdef RUBY_INTERNAL_EVENT_GC_ENTER
-        case RUBY_INTERNAL_EVENT_GC_ENTER:
-            stat->stage = sym_gc_cycle_entered;
-            break;
-        case RUBY_INTERNAL_EVENT_GC_EXIT:
-            stat->stage = sym_gc_cycle_exited;
-            break;
-#endif
-    }
+    stat->stage = stage;
 
     tunemygc_set_stat_record(stat);
     rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat);
@@ -93,7 +105,7 @@ static VALUE tunemygc_install_gc_tracepoint(VALUE mod)
         rb_tracepoint_disable(tunemygc_tracepoint);
         rb_ivar_set(rb_mTunemygc, id_tunemygc_tracepoint, Qnil);
     }
-    events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_SWEEP;
+    events = RUBY_INTERNAL_EVENT_GC_START | RUBY_INTERNAL_EVENT_GC_END_MARK | RUBY_INTERNAL_EVENT_GC_END_SWEEP;
     tunemygc_tracepoint = rb_tracepoint_new(0, events, tunemygc_gc_hook_i, (void *)0);
     if (NIL_P(tunemygc_tracepoint)) rb_warn("Could not install GC tracepoint!");
     rb_tracepoint_enable(tunemygc_tracepoint);
@@ -133,6 +145,7 @@ void Init_tunemygc_ext()
     /* Symbol warmup */
     sym_gc_cycle_started = ID2SYM(rb_intern("GC_CYCLE_STARTED"));
     sym_gc_cycle_ended = ID2SYM(rb_intern("GC_CYCLE_ENDED"));
+    sym_gc_immediate_sweep = ID2SYM(rb_intern("immediate_sweep"));
 
     /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
