@@ -32,6 +32,7 @@ class TestInterposer < TuneMyGcTestCase
     TuneMyGc.interposer.on_initialized
 
     GC.start(full_mark: true, immediate_sweep: false)
+    GC.start(full_mark: true, immediate_sweep: true)
 
     stages = []
 
