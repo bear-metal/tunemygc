@@ -53,7 +53,10 @@ module TuneMyGc
       end
       data = ActiveSupport::JSON.encode(payload)
       response = client.post(uri.path, data, HEADERS)
-      if Net::HTTPNotImplemented === response
+      if Net::HTTPNotFound === response
+        TuneMyGc.log "Invalid application token. Please generate one with 'bundle exec tunemygc <a_valid_email_address>' and set the RUBY_GC_TOKEN environment variable"
+        return false
+      elsif Net::HTTPNotImplemented === response
         TuneMyGc.log "Ruby version #{RUBY_VERSION} or Rails version #{Rails.version} not supported. Failed to sync #{snapshots} snapshots"
         return false
       elsif Net::HTTPUpgradeRequired === response
