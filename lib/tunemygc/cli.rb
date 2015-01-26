@@ -38,6 +38,8 @@ module TuneMyGc
           puts "[TuneMyGC] Application registered. Use RUBY_GC_TOKEN=#{response.body} in your environment."
         end
       end
+    rescue Exception => e
+      puts "[TuneMyGC] Registration error: #{e.inspect}"
     end
 
     private
