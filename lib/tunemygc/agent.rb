@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require "tunemygc/tunemygc_ext"
-require "tunemygc/version" unless defined? TuneMyGc::VERSION
 require "tunemygc/interposer"
 require "tunemygc/snapshotter"
 require "logger"

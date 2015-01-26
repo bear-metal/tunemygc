@@ -6,16 +6,12 @@ require 'timeout'
 
 module TuneMyGc
   class Syncer
-    HOST = (ENV['RUBY_GC_TUNE_HOST'] || "tunemygc.com:443").freeze
     TIMEOUT = 10 #seconds
-    HEADERS = { "Content-Type" => "application/json",
-                "Accept" => "application/json",
-                "User-Agent" => "TuneMyGC #{TuneMyGc::VERSION}"}.freeze
     ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, Rails.version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
 
     attr_reader :uri, :client
 
-    def initialize(host = HOST)
+    def initialize(host = TuneMyGc::HOST)
       @uri = URI("http://#{host}/ruby")
       @client = Net::HTTP.new(@uri.host, @uri.port)
       @client.use_ssl = (uri.port == 443)
@@ -51,7 +47,7 @@ module TuneMyGc
         payload << snapshot
       end
       data = ActiveSupport::JSON.encode(payload)
-      response = client.post(uri.path, data, HEADERS)
+      response = client.post(uri.path, data, TuneMyGc::HEADERS)
       if Net::HTTPNotFound === response
         TuneMyGc.log "Invalid application token. Please generate one with 'bundle exec tunemygc <a_valid_email_address>' and set the RUBY_GC_TOKEN environment variable"
         return false
@@ -66,6 +62,9 @@ module TuneMyGc
         return false
       elsif Net::HTTPBadRequest === response
         TuneMyGc.log "Invalid payload (#{response.body}). Failed to sync #{snapshots} snapshots"
+        return false
+      elsif Net::HTTPInternalServerError === response
+        TuneMyGc.log "An internal error occurred (#{response.body}). Failed to sync #{snapshots} snapshots"
         return false
       else
         response
