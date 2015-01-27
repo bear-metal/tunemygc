@@ -29,7 +29,7 @@ module TuneMyGc
 
     def register
       timeout do
-        registration = Net::HTTP::Post.new('/accounts')
+        registration = Net::HTTP::Post.new(@uri.path)
         registration.set_form_data(:email => @email)
         response = client.request(registration)
         if Net::HTTPUnprocessableEntity === response
