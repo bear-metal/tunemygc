@@ -48,6 +48,12 @@ Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in yo
 
 We require a valid email address as a canonical reference for tuner tokens for your applications.
 
+For the above command sequences, to sample your Rails app for tuning, run:
+
+``` sh
+RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
+```
+
 The CLI interface supports retrieving configuration options for your application as well.
 
 ``` sh
