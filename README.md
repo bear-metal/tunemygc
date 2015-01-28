@@ -29,7 +29,7 @@ We used [Discourse](http://www.discourse.org) as our primary test harness as it'
 Add to your Gemfile and run `bundle install`
 
 ``` sh
-gem 'tunemygc'
+gem 'tunemygc', :require => 'tunemygc'
 ```
 This gem linterposes itself into the Rails request/response lifecycles and piggy backs off the new GC events in Ruby 2.x for introspection. Tuning recommendations are handled through a web service at `https://tunemygc.com`. You will need a `rails > 4.1`, installation and MRI Ruby `2.1`, or later.
 
