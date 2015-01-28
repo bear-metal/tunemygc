@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
   Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 in your environment.
 
-  The sample your Rails app for tuning:
+  Then sample your Rails app for tuning:
 
   RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=1 bundle exec rails s
 
