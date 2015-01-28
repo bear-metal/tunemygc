@@ -1,11 +1,11 @@
 # encoding: utf-8
 
 require 'active_support'
-require 'tunemygc/request_subscriber'
+require 'tunemygc/spies/action_controller'
 
 module TuneMyGc
   class Interposer
-    attr_reader :subscriptions
+    attr_reader :spy
     attr_accessor :installed
 
     def initialize
@@ -18,11 +18,7 @@ module TuneMyGc
       TuneMyGc.log "hooked: GC tracepoints"
       TuneMyGc.snapshot(:BOOTED)
 
-      TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
-      TuneMyGc.log "hooked: start_processing.action_controller"
-
-      TuneMyGc.interposer.subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
-      TuneMyGc.log "hooked: process_action.action_controller"
+      TuneMyGc.interposer.spy.install
     end
 
     def install
@@ -36,7 +32,7 @@ module TuneMyGc
       at_exit do
         if @installed
           TuneMyGc.log "at_exit"
-          uninstall_request_processing
+          @spy.uninstall
           TuneMyGc.snapshot(:TERMINATED)
           TuneMyGc.reccommendations
         end
@@ -46,36 +42,19 @@ module TuneMyGc
       TuneMyGc.log "interposed"
     end
 
-    def check_uninstall_request_processing
-      if ENV["RUBY_GC_TUNE_REQUESTS"]
-        @requests_limit ||= Integer(ENV["RUBY_GC_TUNE_REQUESTS"])
-        @requests_processed += 1
-        if @requests_processed == @requests_limit
-          uninstall_request_processing
-          TuneMyGc.log "kamikaze after #{@requests_processed} of #{@requests_limit} requests"
-        end
-      end
-    end
-
-    def uninstall_request_processing
-      TuneMyGc.uninstall_gc_tracepoint
-      TuneMyGc.log "uninstalled GC tracepoint"
-      @subscriptions.each{|s| ActiveSupport::Notifications.unsubscribe(s) }
-      @subscriptions.clear
-      TuneMyGc.log "cleared ActiveSupport subscriptions"
+    def check_uninstall
+      @spy.check_uninstall
     end
 
     def uninstall
-      uninstall_request_processing
+      @spy.uninstall
       reset
     end
 
     private
     def reset
       @installed = false
-      @subscriptions = []
-      @requests_processed = 0
-      @requests_limit = nil
+      @spy = TuneMyGc::Spies::ActionController.new
     end
   end
 end

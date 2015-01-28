@@ -10,7 +10,7 @@ class TestInterposer < TuneMyGcTestCase
   def test_init
     interposer = TuneMyGc.interposer
     assert !interposer.installed
-    assert_equal [], interposer.subscriptions
+    assert_equal [], interposer.spy.subscriptions
   end
 
   def test_install_uninstall
@@ -18,12 +18,12 @@ class TestInterposer < TuneMyGcTestCase
     interposer.install
     TuneMyGc.interposer.on_initialized
 
-    assert_equal 2, interposer.subscriptions.size
+    assert_equal 2, interposer.spy.subscriptions.size
     assert interposer.installed
     assert_nil interposer.install
 
     interposer.uninstall
-    assert_equal [], interposer.subscriptions
+    assert_equal [], interposer.spy.subscriptions
   end
 
   def test_gc_hooks
@@ -46,7 +46,7 @@ class TestInterposer < TuneMyGcTestCase
     assert stages.any?{|s| cycles.include?(s[3]) }
 
     interposer.uninstall
-    assert_equal [], interposer.subscriptions
+    assert_equal [], interposer.spy.subscriptions
   end
 
   def test_requests_limit
@@ -54,14 +54,14 @@ class TestInterposer < TuneMyGcTestCase
     interposer.install
     TuneMyGc.interposer.on_initialized
 
-    assert_equal 2, interposer.subscriptions.size
+    assert_equal 2, interposer.spy.subscriptions.size
 
     ENV["RUBY_GC_TUNE_REQUESTS"] = "2"
 
     process_request
-    assert_equal 2, interposer.subscriptions.size
+    assert_equal 2, interposer.spy.subscriptions.size
     process_request
-    assert_equal 0, interposer.subscriptions.size
+    assert_equal 0, interposer.spy.subscriptions.size
     interposer.uninstall
   ensure
     ENV.delete("RUBY_GC_TUNE_REQUESTS")

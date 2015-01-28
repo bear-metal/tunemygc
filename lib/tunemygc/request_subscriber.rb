@@ -12,7 +12,7 @@ module TuneMyGc
   class EndRequestSubscriber < Subscriber
     def finish(name, id, payload)
       TuneMyGc.snapshot(:REQUEST_PROCESSING_ENDED)
-      TuneMyGc.interposer.check_uninstall_request_processing
+      TuneMyGc.interposer.check_uninstall
     end
   end
 end
