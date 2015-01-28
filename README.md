@@ -20,6 +20,8 @@ The Ruby garbage collector has been flagged as the crux of Ruby performance and 
 
 We used [Discourse](http://www.discourse.org) as our primary test harness as it's representative of most Rails applications and has been instrumental in asserting RGenC developments on Rails as well.
 
+![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/discourse_bench.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
+
 ## Installing
 
 #### OS X / Linux
@@ -43,6 +45,8 @@ There isn't much setup other than adding the gem to your Gemfile and running a s
 Lourenss-MacBook-Air-2:discourse lourens$ bundle exec tunemygc -r lourens@bearmetal.eu
 Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in your environment.
 ```
+
+We require a valid email address as a canonical reference for tuner tokens for your applications.
 
 The CLI interface supports retrieving configuration options for your application as well.
 
@@ -147,13 +151,13 @@ We don't track any data specific to your application other than a simple environ
 
 Samples hitting our tuner endpoint doesn't include any proprietary details from your application either - just data points about GC activity.
 
-We do however as for a valid email address as a canonical reference for tuner tokens for your applications.
+We do however ask for a valid email address as a canonical reference for tuner tokens for your applications.
 
 ## Feedback and issues
 
 When trouble strikes, please file an [issue](https://www.github.com/bear-metal/tunemygc/issues)
 
-[Bear Metal](http://www.bearmetal.eu) is also available for consulting around general Rails performance, heap dump analysis (more tools coming soon) and custom Ruby extension development.
+[Bear Metal OÜ](http://www.bearmetal.eu) is also available for consulting around general Rails performance, heap dump analysis (more tools coming soon) and custom Ruby extension development.
 
 ## License
 
@@ -161,7 +165,7 @@ When trouble strikes, please file an [issue](https://www.github.com/bear-metal/t
 
 Copyright (c) 2015:
 
-* {Bear Metal OÜ}[http://bearmetal.eu]
+* [Bear Metal OÜ](http://bearmetal.eu)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
