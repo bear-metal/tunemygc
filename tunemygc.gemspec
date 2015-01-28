@@ -42,9 +42,9 @@ Gem::Specification.new do |s|
   - the Bear Metal cubs
 eos
 
-  s.add_dependency('activesupport')
-  s.add_dependency('certified')
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rake-compiler', '~> 0.9.3')
-  s.add_development_dependency('webmock')
+  s.add_dependency('activesupport', '~> 4.1')
+  s.add_dependency('certified', '~> 1.0', '>= 1.0.0')
+  s.add_development_dependency('rake', '~> 10.3')
+  s.add_development_dependency('rake-compiler', '~> 0.9', '>= 0.9.5')
+  s.add_development_dependency('webmock', '~> 1.2', '>= 1.2.0')
 end
