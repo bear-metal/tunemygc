@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'active_support'
-require 'tunemygc/subscriber'
+require 'tunemygc/request_subscriber'
 
 module TuneMyGc
   class Interposer
