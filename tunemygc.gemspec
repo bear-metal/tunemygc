@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.extensions = "ext/tunemygc/extconf.rb"
   s.test_files = `git ls-files test`.split($/)
   s.require_paths = ["lib"]
+  s.required_ruby_version = '>= 2.1.0'
   s.post_install_message = <<-eos
   [TuneMyGC] Getting started:
 
