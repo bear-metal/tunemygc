@@ -66,8 +66,11 @@ module TuneMyGc
       elsif Net::HTTPInternalServerError === response
         TuneMyGc.log "An internal error occurred (#{response.body}). Failed to sync #{snapshots} snapshots"
         return false
-      else
+      elsif Net::HTTPSuccess === response
         response
+      else
+        TuneMyGc.log "Unknown error: #{response.body}"
+        return false
       end
     rescue Exception => e
       TuneMyGc.log "Failed to sync #{snapshots} snapshots (error: #{e})"
