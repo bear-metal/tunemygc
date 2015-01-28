@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.extensions = "ext/tunemygc/extconf.rb"
   s.test_files = `git ls-files test`.split($/)
   s.require_paths = ["lib"]
-  s.post_install_message <<-eos
+  s.post_install_message = <<-eos
   [TuneMyGC] Getting started:
 
   Run this setup command from your application root to register your application with the `https://tunemygc.com` service:
