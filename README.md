@@ -161,7 +161,7 @@ We do however ask for a valid email address as a canonical reference for tuner t
 
 ## Feedback and issues
 
-When trouble strikes, please file an [issue](https://www.github.com/bear-metal/tunemygc/issues)
+When trouble strikes, please file an [issue](https://www.github.com/bear-metal/tunemygc/issues) or email Lourens directly <info@bearmetal.eu>
 
 [Bear Metal OÜ](http://www.bearmetal.eu) is also available for consulting around general Rails performance, heap dump analysis (more tools coming soon) and custom Ruby extension development.
 
