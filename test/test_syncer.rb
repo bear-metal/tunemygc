@@ -29,7 +29,7 @@ class TestSyncer < TuneMyGcTestCase
 
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 200, :body => "https://www.tunemygc.com/configs/xxxxxxx", :headers => {})
 
     out, err = capture_io do
@@ -47,7 +47,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 501, :body => "", :headers => {})
 
     out, err = capture_io do
@@ -66,7 +66,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 412, :body => "", :headers => {})
 
     out, err = capture_io do
@@ -83,7 +83,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 400, :body => "snapshot timestamp", :headers => {})
 
     out, err = capture_io do
@@ -101,7 +101,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 404, :body => "", :headers => {})
 
     out, err = capture_io do
@@ -117,7 +117,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).
       to_return(:status => 426, :body => "2", :headers => {})
 
     out, err = capture_io do
@@ -134,7 +134,7 @@ class TestSyncer < TuneMyGcTestCase
     snapshots.take_raw(Fixtures::STAGE_BOOTED)
     stub_request(:post, "https://tunemygc.com/ruby").
       with(:body => "[#{ActiveSupport::JSON.encode(TuneMyGc::Syncer::ENVIRONMENT)},[1420152606.1162581,\"BOOTED\",{\"count\":32,\"heap_used\":950,\"heap_length\":1519,\"heap_increment\":569,\"heap_live_slot\":385225,\"heap_free_slot\":2014,\"heap_final_slot\":0,\"heap_swept_slot\":101119,\"heap_eden_page_length\":950,\"heap_tomb_page_length\":0,\"total_allocated_object\":2184137,\"total_freed_object\":1798912,\"malloc_increase\":9665288,\"malloc_limit\":16777216,\"minor_gc_count\":26,\"major_gc_count\":6,\"remembered_shady_object\":5145,\"remembered_shady_object_limit\":6032,\"old_object\":230164,\"old_object_limit\":301030,\"oldmalloc_increase\":11715304,\"oldmalloc_limit\":24159190},{\"major_by\":null,\"gc_by\":\"newobj\",\"have_finalizer\":false,\"immediate_sweep\":false},null]]",
-           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'TuneMyGC 1.0'}).to_raise(IOError.new("dang"))
+           :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>"TuneMyGC #{TuneMyGc::VERSION}"}).to_raise(IOError.new("dang"))
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
