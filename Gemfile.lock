@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0)
-      activesupport
-      certified
+    tunemygc (1.0.1)
+      activesupport (~> 4.1)
+      certified (~> 1.0, >= 1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -119,7 +119,7 @@ PLATFORMS
 
 DEPENDENCIES
   rails
-  rake
-  rake-compiler (~> 0.9.3)
+  rake (~> 10.3)
+  rake-compiler (~> 0.9, >= 0.9.5)
   tunemygc!
-  webmock
+  webmock (~> 1.2, >= 1.2.0)
