@@ -91,13 +91,9 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails 
 
 #### Advanced
 
-* `RUBY_GC_TUNE_REQUESTS=x`
+* `RUBY_GC_TUNE_REQUESTS=x` (a numeric value eg. `200`)
 
-Controls the interposer lifetime for sampling requests. It will enable itself, then remove request instrumentation after `x` requests. A good minimum ballpark sample set would be 200
-
-* `RUBY_GC_TUNE_DEBUG=1`
-
-As above, but dumps snapshots to Rails logger or STDOUT prior to submission. Mostly for developer use/support.
+Controls the interposer lifetime for sampling requests. It will enable itself, then remove request instrumentation after the specified number of requests. A good minimum ballpark sample set would be 200.
 
 ## How do I use this?
 
