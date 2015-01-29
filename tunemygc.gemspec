@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version = TuneMyGc::VERSION
   s.summary = "TuneMyGC - optimal MRI Ruby 2.1+ Garbage Collection"
   s.description = "Agent for the GC tuning webservice https://www.tunemygc.com - optimal settings for throughput and memory usage of Rails applications"
-  s.authors = ["Bear Metal OÜ"]
+  s.authors = ["Bear Metal"]
   s.email = ["info@bearmetal.eu"]
   s.license = "MIT"
   s.homepage = "https://tunemygc.com"

@@ -163,7 +163,7 @@ We do however ask for a valid email address as a canonical reference for tuner t
 
 When trouble strikes, please file an [issue](https://www.github.com/bear-metal/tunemygc/issues) or email Lourens directly <lourens@bearmetal.eu>
 
-[Bear Metal OÜ](http://www.bearmetal.eu) is also available for consulting around general Rails performance, heap dump analysis (more tools coming soon) and custom Ruby extension development.
+[Bear Metal](http://www.bearmetal.eu) is also available for consulting around general Rails performance, heap dump analysis (more tools coming soon) and custom Ruby extension development.
 
 ## License
 
@@ -171,7 +171,7 @@ When trouble strikes, please file an [issue](https://www.github.com/bear-metal/t
 
 Copyright (c) 2015:
 
-* [Bear Metal OÜ](http://bearmetal.eu)
+* [Bear Metal](http://bearmetal.eu)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
