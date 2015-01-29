@@ -7,7 +7,7 @@ require 'optparse'
 
 module TuneMyGc
   class CLI
-    TIMEOUT = 10
+    TIMEOUT = 20
 
     attr_reader :uri, :client, :options
 
