@@ -2,3 +2,4 @@
 .ruby-version
 tmp/*
 lib/tunemygc/tunemygc_ext.*
+*.gem
