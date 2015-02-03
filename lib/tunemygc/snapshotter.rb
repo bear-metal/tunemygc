@@ -4,12 +4,14 @@ require 'thread'
 
 module TuneMyGc
   class Snapshotter
+    UNITS_OF_WORK = /REQUEST_PROCESSING_STARTED|REQUEST_PROCESSING_ENDED/
     MAX_SAMPLES = 1000
 
-    attr_reader :buffer
+    attr_reader :buffer, :unit_of_work
 
     def initialize(buf = Queue.new)
       @buffer = buf
+      @unit_of_work = false
     end
 
     def take(stage, timestamp = nil, meta = nil)
@@ -40,6 +42,7 @@ module TuneMyGc
     private
     def _buffer(snapshot)
       if size < MAX_SAMPLES
+        @unit_if_work = true if snapshot[3] =~ UNITS_OF_WORK
         @buffer << snapshot
       else
         TuneMyGc.log "Discarding snapshot #{snapshot.inspect} (max samples threshold of #{MAX_SAMPLES} reached)"

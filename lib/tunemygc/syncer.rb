@@ -34,8 +34,7 @@ module TuneMyGc
 
     def sync_required?(snapshotter)
       return true if ENV['RUBY_GC_SYNC_ALWAYS']
-      # Avoid network sync for useless cases of just a [BOOTED, TERMINATED] snapshots combo
-      snapshotter.size > 2
+      snapshotter.unit_of_work
     end
 
     private
