@@ -28,6 +28,7 @@ module TuneMyGc
           process_config_callback(response)
         end if response
       else
+        TuneMyGc.log "Nothing to sync, discarding #{snapshotter.size} snapshots"
         snapshotter.clear
       end
     end
