@@ -19,13 +19,23 @@ module TuneMyGc
     end
 
     def sync(snapshotter)
-      response = nil
-      timeout do
-        response = sync_with_tuner(snapshotter)
+      if sync_required?(snapshotter)
+        response = nil
+        timeout do
+          response = sync_with_tuner(snapshotter)
+        end
+        timeout do
+          process_config_callback(response)
+        end if response
+      else
+        snapshotter.clear
       end
-      timeout do
-        process_config_callback(response)
-      end if response
+    end
+
+    def sync_required?(snapshotter)
+      return true if ENV['RUBY_GC_SYNC_ALWAYS']
+      # Avoid network sync for useless cases of just a [BOOTED, TERMINATED] snapshots combo
+      snapshotter.size > 2
     end
 
     private
