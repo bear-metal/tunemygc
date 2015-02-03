@@ -58,6 +58,7 @@ module TuneMyGc
       end
       data = ActiveSupport::JSON.encode(payload)
       response = client.post(uri.path, data, TuneMyGc::HEADERS)
+      snapshotter.unit_of_work = false
       if Net::HTTPNotFound === response
         TuneMyGc.log "Invalid application token. Please generate one with 'bundle exec tunemygc <a_valid_email_address>' and set the RUBY_GC_TOKEN environment variable"
         return false
