@@ -5,7 +5,7 @@ require 'thread'
 module TuneMyGc
   class Snapshotter
     UNITS_OF_WORK = /REQUEST_PROCESSING_STARTED|REQUEST_PROCESSING_ENDED/
-    MAX_SAMPLES = 1000
+    MAX_SAMPLES = (ENV['RUBY_GC_MAX_SAMPLES'] ? Integer(ENV['RUBY_GC_MAX_SAMPLES']) : 2000)
 
     attr_reader :buffer
     attr_accessor :unit_of_work
