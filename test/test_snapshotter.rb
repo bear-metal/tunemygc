@@ -25,17 +25,17 @@ class TestSnapshotter < TuneMyGcTestCase
 
   def test_max_samples
     snapshots = TuneMyGc::Snapshotter.new
-    1000.times do |i|
+    2000.times do |i|
       snapshots.take(:MAX)
     end
-    assert_equal 1000, snapshots.size
+    assert_equal 2000, snapshots.size
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
       snapshots.take(:MORE)
       snapshots.take(:ANOTHER)
     end
     assert_match(/Discarding snapshot/, out)
-    assert_equal 1000, snapshots.size
+    assert_equal 2000, snapshots.size
     snapshots.clear
   end
 end
