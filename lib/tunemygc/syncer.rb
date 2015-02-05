@@ -38,6 +38,10 @@ module TuneMyGc
       snapshotter.unit_of_work
     end
 
+    def environment(snapshotter)
+      ENVIRONMENT.dup.push(snapshotter.stat_keys)
+    end
+
     private
     def timeout(&block)
       Timeout.timeout(TIMEOUT + 1){ block.call }
@@ -48,7 +52,7 @@ module TuneMyGc
       # Fallback to Timeout if Net::HTTP read timeout fails
       snapshots = snapshotter.size
       TuneMyGc.log "Syncing #{snapshots} snapshots"
-      payload = [ENVIRONMENT]
+      payload = [environment(snapshotter)]
       debug = ENV["RUBY_GC_TUNE_DEBUG"]
       TuneMyGc.log "=== Snapshots ===" if debug
       while !snapshotter.empty?
