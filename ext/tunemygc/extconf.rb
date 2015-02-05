@@ -49,11 +49,11 @@ if gc_events
     f.puts "tunemygc_get_stat_record(tunemygc_stat_record *record)"
     f.puts "{"
       #
-      f.puts  "    VALUE stat = rb_hash_new();"
+      f.puts  "    VALUE stat = rb_ary_new2(#{gc_stat.keys.size});"
       f.puts  "    VALUE latest_info = rb_hash_new();"
       f.puts  "    VALUE snapshot = rb_ary_new2(7);"
       gc_stat.keys.each.with_index{|k, i|
-        f.puts "    rb_hash_aset(stat, sym_gc_stat[#{i}], SIZET2NUM(record->#{k}));"
+        f.puts "    rb_ary_store(stat, #{i}, SIZET2NUM(record->#{k}));"
       }
       gc_latest_info.keys.each.with_index{|k, i|
         f.puts "    rb_hash_aset(latest_info, sym_latest_gc_info[#{i}], record->#{k});"
