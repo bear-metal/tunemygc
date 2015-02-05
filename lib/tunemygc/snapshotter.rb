@@ -10,10 +10,14 @@ module TuneMyGc
 
     attr_reader :buffer
     attr_accessor :unit_of_work
+    attr_reader :stat_keys
+    attr_reader :latest_gc_info_keys
 
     def initialize(buf = Queue.new)
       @buffer = buf
       @unit_of_work = false
+      @stat_keys = GC.stat.keys
+      @latest_gc_keys = GC.latest_gc_info.keys
     end
 
     def take(stage, timestamp = nil, meta = nil)
