@@ -36,6 +36,8 @@ class TestSnapshotter < TuneMyGcTestCase
     end
     assert_match(/Discarding snapshot/, out)
     assert_equal 2000, snapshots.size
+    snapshots.take(:TERMINATED)
+    assert_equal 2001, snapshots.size
     snapshots.clear
   end
 end

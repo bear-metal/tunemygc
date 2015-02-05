@@ -5,6 +5,7 @@ require 'thread'
 module TuneMyGc
   class Snapshotter
     UNITS_OF_WORK = /REQUEST_PROCESSING_STARTED|REQUEST_PROCESSING_ENDED/
+    TERMINATED = /TERMINATED/
     MAX_SAMPLES = (ENV['RUBY_GC_MAX_SAMPLES'] ? Integer(ENV['RUBY_GC_MAX_SAMPLES']) : 2000)
 
     attr_reader :buffer
@@ -42,7 +43,7 @@ module TuneMyGc
 
     private
     def _buffer(snapshot)
-      if size < MAX_SAMPLES
+      if snapshot[3] =~ TERMINATED || size < MAX_SAMPLES
         self.unit_of_work = true if snapshot[3] =~ UNITS_OF_WORK
         @buffer << snapshot
       else
