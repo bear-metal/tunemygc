@@ -20,6 +20,8 @@ The Ruby garbage collector has been flagged as the crux of Ruby performance and 
 
 We used [Discourse](http://www.discourse.org) as our primary test harness as it's representative of most Rails applications and has been instrumental in asserting RGenC developments on Rails as well.
 
+[Discourse](http://www.discourse.org) throughput: [GC defaults](https://tunemygc.com/configs/c5214cfa00b3bf429badd2161c4b6a08) VS TuneMyGc [suggestions](https://tunemygc.com/configs/e129791f94159a8c75bef3a636c05798)
+
 ![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/discourse_bench.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
 
 ## Installing
