@@ -83,7 +83,7 @@ Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in yo
 
 * `RUBY_GC_TUNE=1`
 
-Enables the interposer for taking a few lightweight snapshots and submitting them to `tunemygc.com`. Without this environment variable set, it won't interpose itself.
+Enables the interposer for taking a few lightweight snapshots of Rails requests and submitting them to `tunemygc.com`. Without this environment variable set, it won't interpose itself.
 
 For the above command sequences, to sample my Rails app for tuning, I'd run:
 
@@ -93,9 +93,17 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails 
 
 #### Advanced
 
+* `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. Either `action_controller` or `minitest`)
+
+Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [minitest](https://github.com/seattlerb/minitest) is also supported as an experimental feature.
+
 * `RUBY_GC_TUNE_REQUESTS=x` (a numeric value eg. `200`)
 
-Controls the interposer lifetime for sampling requests. It will enable itself, then remove request instrumentation after the specified number of requests. A good minimum ballpark sample set would be 200.
+Controls the interposer lifetime for sampling Rails requests. It will enable itself, then remove request instrumentation after the specified number of requests. A good minimum ballpark sample set would be 200.
+
+* `RUBY_GC_TUNE_TESTS=x` (a numeric value eg. `200`)
+
+Controls the interposer lifetime for sampling a [minitest](https://github.com/seattlerb/minitest) based test suite. It will enable itself, then remove request instrumentation after the specified number of tests has been run. A good minimum ballpark sample set would be 200.
 
 ## How do I use this?
 

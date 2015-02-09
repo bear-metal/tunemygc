@@ -11,6 +11,14 @@ class TestAgent < TuneMyGcTestCase
     assert_instance_of TuneMyGc::Snapshotter, TuneMyGc.snapshotter
   end
 
+  def test_spy
+    assert_equal :ActionController, TuneMyGc.spy
+    ENV['RUBY_GC_SPY'] = "minitest"
+    assert_equal 'Minitest', TuneMyGc.spy
+  ensure
+    ENV.delete('RUBY_GC_SPY')
+  end
+
   def test_log
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)

@@ -51,16 +51,15 @@ class TestMinitestInterposer < TuneMyGcTestCase
     interposer.uninstall
   end
 
-  def test_requests_limit
+  def test_tests_limit
     TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
     interposer = TuneMyGc.interposer
     interposer.install
     TuneMyGc.interposer.on_initialized
 
-    #assert_equal 2, interposer.spy.subscriptions.size
-
     ENV["RUBY_GC_TUNE_TESTS"] = "2"
 
+    run_tunemygc_test
     run_tunemygc_test
     
     stages = []
@@ -71,6 +70,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
 
     cycles = [:TEST_PROCESSING_STARTED]
 
+    sleep 1
     assert stages.any?{|s| cycles.include?(s[3]) }
 
     interposer.uninstall
