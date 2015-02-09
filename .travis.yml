@@ -18,3 +18,4 @@ branches:
   only:
     - master
     - compact-samples
+    - minitest
