@@ -1,15 +1,16 @@
 # encoding: utf-8
 
 require 'active_support'
-require 'tunemygc/spies/action_controller'
+require 'tunemygc/spies'
 
 module TuneMyGc
   class Interposer
     attr_reader :spy
     attr_accessor :installed
 
-    def initialize
+    def initialize(spy = TuneMyGc.spy)
       reset
+      @spy = TuneMyGc::Spies.const_get(spy).new
     end
 
     def on_initialized
@@ -54,7 +55,6 @@ module TuneMyGc
     private
     def reset
       @installed = false
-      @spy = TuneMyGc::Spies::ActionController.new
     end
   end
 end

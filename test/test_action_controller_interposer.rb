@@ -2,7 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'helper')
 
-class TestInterposer < TuneMyGcTestCase
+class TestActionControllerInterposer < TuneMyGcTestCase
   def setup
     TuneMyGc.interposer.uninstall
   end
@@ -58,10 +58,21 @@ class TestInterposer < TuneMyGcTestCase
 
     ENV["RUBY_GC_TUNE_REQUESTS"] = "2"
 
-    process_request
+    process_tunemygc_request
     assert_equal 2, interposer.spy.subscriptions.size
-    process_request
+    process_tunemygc_request
     assert_equal 0, interposer.spy.subscriptions.size
+
+    stages = []
+
+    while !TuneMyGc.snapshotter.empty?
+      stages << TuneMyGc.snapshotter.deq
+    end
+
+    cycles = [:REQUEST_PROCESSING_STARTED]
+
+    assert stages.any?{|s| cycles.include?(s[3]) }
+
     interposer.uninstall
   ensure
     ENV.delete("RUBY_GC_TUNE_REQUESTS")

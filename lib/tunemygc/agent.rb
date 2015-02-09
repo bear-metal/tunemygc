@@ -22,6 +22,10 @@ module TuneMyGc
     logger.info "[TuneMyGC] #{message}"
   end
 
+  def spy
+    ENV['RUBY_GC_SPY'] || :ActionController
+  end
+
   def reccommendations
     MUTEX.synchronize do
       require "tunemygc/syncer"
