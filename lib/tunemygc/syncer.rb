@@ -39,7 +39,7 @@ module TuneMyGc
     end
 
     def environment(snapshotter)
-      ENVIRONMENT.dup.concat([snapshotter.stat_keys, TuneMyGc.spy])
+      ENVIRONMENT.dup.concat([snapshotter.stat_keys, TuneMyGc.spy.underscore])
     end
 
     private

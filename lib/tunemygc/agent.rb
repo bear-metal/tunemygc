@@ -26,7 +26,7 @@ module TuneMyGc
     if ENV['RUBY_GC_SPY']
       ENV['RUBY_GC_SPY'].classify
     else
-      :ActionController
+      'ActionController'
     end
   end
 
