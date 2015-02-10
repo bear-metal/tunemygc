@@ -115,7 +115,7 @@ An instrumented process dumps a reccommended config to the Rails logger.
 
 ``` sh
 [TuneMyGC] Syncing 688 snapshots
-[TuneMyGC] ==== Recommended GC configs from https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818.json
+[TuneMyGC] ==== Recommended GC configs from https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818
 [TuneMyGC] export RUBY_GC_HEAP_INIT_SLOTS=382429
 [TuneMyGC] export RUBY_GC_HEAP_FREE_SLOTS=603850
 [TuneMyGC] export RUBY_GC_HEAP_GROWTH_FACTOR=1.2
