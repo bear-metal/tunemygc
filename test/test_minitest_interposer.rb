@@ -70,7 +70,6 @@ class TestMinitestInterposer < TuneMyGcTestCase
 
     cycles = [:TEST_PROCESSING_STARTED]
 
-    sleep 1
     assert stages.any?{|s| cycles.include?(s[3]) }
 
     interposer.uninstall

@@ -29,8 +29,7 @@ class TuneMyGcTestCase < Minitest::Test
   end
 
   def run_tunemygc_test
-    suite = MinitestSandboxTest.new("test_minitest_spy")
-    suite.run
+    MinitestSandboxTest.new("test_minitest_spy").run
   end
 end
 
