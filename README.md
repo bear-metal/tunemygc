@@ -44,7 +44,7 @@ Has not been tested at all.
 There isn't much setup other than adding the gem to your Gemfile and running a single command from your application root to register your application with the `https://tunemygc.com` service:
 
 ``` sh
-Lourenss-MacBook-Air-2:discourse lourens$ bundle exec tunemygc -r lourens@bearmetal.eu
+$ bundle exec tunemygc -r lourens@bearmetal.eu
 Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in your environment.
 ```
 
@@ -59,7 +59,7 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails 
 The CLI interface supports retrieving configuration options for your application as well.
 
 ``` sh
-Lourenss-MacBook-Air-2:discourse lourens$ bundle exec tunemygc
+$ bundle exec tunemygc
 Usage: tunemygc [options]
     -r, --register EMAIL             Register this Rails app with the https://tunemygc.com service
     -c, --config TOKEN               Fetch the last known config for a given Rails app
@@ -77,7 +77,7 @@ We fully embrace and encourage [12 factor](http://12factor.net) conventions and 
 This application specific token is required for GC instrumentation. You can generate one from the CLI interface by registering for the service with a valid email address:
 
 ``` sh
-Lourenss-MacBook-Air-2:discourse lourens$ bundle exec tunemygc -r lourens@bearmetal.eu
+$ bundle exec tunemygc -r lourens@bearmetal.eu
 Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in your environment.
 ```
 
@@ -132,7 +132,7 @@ An instrumented process dumps a reccommended config to the Rails logger.
 We're still in the process of building tools and a launcher shim around this. You can also retrieve the last known configuration for you app via the CLI interface:
 
 ``` sh
-Lourenss-MacBook-Air-2:discourse lourens$ bundle exec tunemygc -c 3b8796e5627f97ec760f000d55d9b3f5
+$ bundle exec tunemygc -c 3b8796e5627f97ec760f000d55d9b3f5
 === Suggested GC configuration:
 
 export RUBY_GC_HEAP_INIT_SLOTS=382429
