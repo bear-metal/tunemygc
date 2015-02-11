@@ -68,7 +68,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
       stages << TuneMyGc.snapshotter.deq
     end
 
-    cycles = [:TEST_PROCESSING_STARTED]
+    cycles = [:PROCESSING_STARTED]
 
     assert stages.any?{|s| cycles.include?(s[3]) }
 
