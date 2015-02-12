@@ -22,24 +22,4 @@ class TuneMyGcTestCase < Minitest::Test
       GC.stress = false
     end
   end
-
-  def process_tunemygc_request(path = '/test')
-    ActiveSupport::Notifications.instrument('start_processing.action_controller', path: path) {}
-    ActiveSupport::Notifications.instrument('process_action.action_controller', path: path) {}
-  end
-
-  def run_tunemygc_test
-    MinitestSandboxTest.new("test_minitest_spy").run
-  end
-end
-
-# for Minitest spy
-class MinitestSandboxTest < MiniTest::Unit::TestCase
-  def setup
-    @value = 123
-  end
-
-  def test_minitest_spy
-    assert_equal 123, @value
-  end
 end

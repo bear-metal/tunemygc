@@ -1,18 +1,14 @@
 # encoding: utf-8
 
 require File.join(File.dirname(__FILE__), 'helper')
+require 'active_job'
 
-class MinitestSandboxTest < MiniTest::Unit::TestCase
-  def setup
-    @value = 123
-  end
-
-  def test_minitest_spy
-    assert_equal 123, @value
+class TuneMyGcJob < ActiveJob::Base
+  def perform
   end
 end
 
-class TestMinitestInterposer < TuneMyGcTestCase
+class TestActiveJobInterposer < TuneMyGcTestCase
   def setup
     TuneMyGc.interposer.uninstall
   end
@@ -22,13 +18,13 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def test_init
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new(:ActiveJob)
     interposer = TuneMyGc.interposer
     assert !interposer.installed
   end
 
   def test_install_uninstall
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new(:ActiveJob)
     interposer = TuneMyGc.interposer
     interposer.install
     interposer.on_initialized
@@ -39,7 +35,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def test_gc_hooks
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new(:ActiveJob)
     interposer = TuneMyGc.interposer
     interposer.install
     TuneMyGc.interposer.on_initialized
@@ -62,15 +58,15 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def test_tests_limit
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new(:ActiveJob)
     interposer = TuneMyGc.interposer
     interposer.install
     TuneMyGc.interposer.on_initialized
 
-    ENV["RUBY_GC_TUNE_TESTS"] = "2"
+    ENV["RUBY_GC_TUNE_JOBS"] = "2"
 
-    run_tunemygc_test
-    run_tunemygc_test
+    run_tunemygc_job
+    run_tunemygc_job
     
     stages = []
 
@@ -87,7 +83,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
     ENV.delete("RUBY_GC_TUNE_TESTS")
   end
 
-  def run_tunemygc_test
-    MinitestSandboxTest.new("test_minitest_spy").run
+  def run_tunemygc_job
+    TuneMyGcJob.new.perform_now
   end
 end

@@ -77,4 +77,9 @@ class TestActionControllerInterposer < TuneMyGcTestCase
   ensure
     ENV.delete("RUBY_GC_TUNE_REQUESTS")
   end
+
+  def process_tunemygc_request(path = '/test')
+    ActiveSupport::Notifications.instrument('start_processing.action_controller', path: path) {}
+    ActiveSupport::Notifications.instrument('process_action.action_controller', path: path) {}
+  end
 end

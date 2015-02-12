@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
 
   Run this setup command from your application root to register your application with the `https://tunemygc.com` service:
 
-  bundle exec tunemygc -r your@email.address
+  $ bundle exec tunemygc -r your@email.address
 
   You should get back a token reference to identify this Rails app:
 
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
 
   Then sample your Rails app for tuning:
 
-  RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=1 bundle exec rails s
+  $ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=1 bundle exec rails s
 
   We require a valid email address as a canonical reference for tuner tokens for your applications.
 
@@ -47,4 +47,5 @@ eos
   s.add_development_dependency('rake', '~> 10.3')
   s.add_development_dependency('rake-compiler', '~> 0.9', '>= 0.9.5')
   s.add_development_dependency('webmock', '~> 1.2', '>= 1.2.0')
+  s.add_development_dependency('activejob', '~> 4.2.0')
 end

@@ -30,10 +30,8 @@ module TuneMyGc
 
       def install
         @subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
-        TuneMyGc.log "hooked: start_processing.action_controller"
-
         @subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
-        TuneMyGc.log "hooked: process_action.action_controller"
+        TuneMyGc.log "hooked: action_controller"
       end
 
       def uninstall
@@ -41,7 +39,7 @@ module TuneMyGc
         TuneMyGc.log "uninstalled GC tracepoint"
         @subscriptions.each{|s| ActiveSupport::Notifications.unsubscribe(s) }
         @subscriptions.clear
-        TuneMyGc.log "cleared ActiveSupport subscriptions"
+        TuneMyGc.log "uninstalled action_controller spy"
       end
 
       def check_uninstall
