@@ -23,11 +23,7 @@ module TuneMyGc
   end
 
   def spy
-    if ENV['RUBY_GC_SPY']
-      ENV['RUBY_GC_SPY'].classify
-    else
-      'ActionController'
-    end
+    TuneMyGc::Spies.current
   end
 
   def reccommendations

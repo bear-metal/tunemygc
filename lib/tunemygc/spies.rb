@@ -2,8 +2,25 @@
 
 module TuneMyGc
   module Spies
-    autoload :ActionController, 'tunemygc/spies/action_controller'
-    autoload :Minitest, 'tunemygc/spies/minitest'
-    autoload :ActiveJob, 'tunemygc/spies/active_job'
+    def self.spy(s)
+      autoload s, "tunemygc/spies/#{s.to_s.underscore}"
+      (@spies ||= []) << s.to_s
+    end
+
+    spy :ActionController
+    spy :Minitest
+    spy :ActiveJob
+
+    def self.current
+      s = if ENV['RUBY_GC_SPY']
+        ENV['RUBY_GC_SPY'].classify
+      else
+        'ActionController'
+      end
+      unless @spies.include?(s)
+        raise NotImplementedError, "TuneMyGC spy #{s.underscore.inspect} not supported. Valid spies are #{@spies.map(&:underscore)}"
+      end
+      s
+    end
   end
 end
