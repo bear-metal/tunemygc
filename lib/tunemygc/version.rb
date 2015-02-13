@@ -1,5 +1,5 @@
 # encoding: utf-8
 
 module TuneMyGc
-  VERSION = "1.0.14"
+  VERSION = "1.0.15"
 end
