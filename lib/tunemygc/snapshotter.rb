@@ -18,8 +18,8 @@ module TuneMyGc
       @stat_keys = GC.stat.keys
     end
 
-    def take(stage, timestamp = nil, meta = nil)
-      _buffer([(timestamp || TuneMyGc.walltime), TuneMyGc.peak_rss, TuneMyGc.current_rss, stage, GC.stat.values_at(*stat_keys), GC.latest_gc_info, meta])
+    def take(stage, meta = nil)
+      _buffer([TuneMyGc.walltime, TuneMyGc.peak_rss, TuneMyGc.current_rss, stage, GC.stat.values_at(*stat_keys), GC.latest_gc_info, meta])
     end
 
     # low level interface, for tests and GC callback
