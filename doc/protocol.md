@@ -42,9 +42,9 @@ The payload is a JSON encoded Array of samples, with the first element being a s
 
 Here's an example for a very short application lifecycle: a few GC cycles after booting the app, processing a single request and then terminating.
 
-``` json
+```json
 [["09dddb3e2e9d5d16ec093cd313f4ff80", "2.2.0", "4.1.8", {"RUBY_GC_TUNE_HOST"=>"localhost:5000", "RUBY_GC_TUNE"=>"1"}, "1.0.15", ["USE_RGENGC", "RGENGC_ESTIMATE_OLDMALLOC", "GC_ENABLE_LAZY_SWEEP"], {"RVALUE_SIZE"=>40, "HEAP_OBJ_LIMIT"=>408, "HEAP_BITMAP_SIZE"=>56, "HEAP_BITMAP_PLANES"=>3},["count", "heap_allocated_pages", "heap_sorted_length", "heap_allocatable_pages", "heap_available_slots", "heap_live_slots", "heap_free_slots", "heap_final_slots", "heap_marked_slots", "heap_swept_slots", "heap_eden_pages", "heap_tomb_pages", "total_allocated_pages", "total_freed_pages", "total_allocated_objects", "total_freed_objects", "malloc_increase_bytes", "malloc_increase_bytes_limit", "minor_gc_count", "major_gc_count", "remembered_wb_unprotected_objects", "remembered_wb_unprotected_objects_limit", "old_objects", "old_objects_limit", "oldmalloc_increase_bytes", "oldmalloc_increase_bytes_limit"], "localhost", 1, 153], [1422023921.481364, 132255744, 132255744, "BOOTED", [45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058], {"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}, nil], [1422023921.776498, 133820416, 133820416, "GC_CYCLE_STARTED", [46,1354,1368,0,551887,550614,1273,0,319748,232138,1354,0,1354,0,3423988,2873374,0,21991141,36,9,10683,21366,291637,583276,0,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"none"}, nil], [1422023922.952984, 135487488, 135487488, "PROCESSING_STARTED", [46,1354,1368,0,551887,550292,1595,0,353935,82038,1354,0,1354,0,3505836,2955544,885712,21991141,37,9,10983,21366,318878,583276,886096,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil], [1422023923.144252, 138760192, 138760192, "GC_CYCLE_ENDED", [46,1354,1368,0,551887,551576,311,0,353935,197952,1354,0,1354,0,3621836,3070260,2910064,21991141,37,9,10983,21366,318878,583276,2910064,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil], [1422023923.14436, 138768384, 138768384, "GC_CYCLE_STARTED", [47,1354,1368,0,551887,551665,222,0,353935,197952,1354,0,1354,0,3621925,3070260,0,21551318,37,9,10983,21366,318878,583276,2914224,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"none"}, nil], [1422023923.395543, 142356480, 142356480, "GC_CYCLE_ENDED", [47,1354,1368,0,551887,551805,82,0,382464,169422,1354,0,1354,0,3791265,3239460,1428176,21551318,38,9,11156,21366,339590,583276,4223920,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil], [1422023923.395638, 142360576, 142360576, "GC_CYCLE_STARTED", [48,1354,1368,0,551887,551873,14,0,382464,169422,1354,0,1354,0,3791333,3239460,0,21120291,38,9,11156,21366,339590,583276,4228048,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"none"}, nil], [1422023924.422288, 189997056, 189997056, "GC_CYCLE_ENDED", [48,2357,2437,79,960702,953883,6819,0,393242,600508,2357,0,2357,0,4352680,3398797,20876224,21120291,39,9,11159,21366,361238,583276,25098416,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil], [1422023924.459472, 190222336, 190222336, "GC_CYCLE_STARTED", [49,2357,2437,79,960702,958426,2276,0,393242,600508,2357,0,2357,0,4357318,3398892,0,29568470,39,9,11159,21366,361238,583276,25342528,27318891], {"major_by"=>nil, "gc_by"=>"malloc", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"none"}, nil], [1422023924.8609, 191332352, 191332352, "PROCESSING_ENDED", [49,2357,2437,79,960702,802035,158667,0,441562,278483,2195,162,2357,0,4447499,3645464,156448,29568470,40,9,11445,21366,416188,583276,19693888,27318891], {"major_by"=>nil, "gc_by"=>"malloc", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil]
-´´´
+```
 
 ### Sample set header
 
@@ -52,9 +52,9 @@ The header is a simple tuple structure with 11 elements.
 
 Example:
 
-``` json
+```json
 ["09dddb3e2e9d5d16ec093cd313f4ff80", "2.2.0", "4.1.8", {"RUBY_GC_TUNE"=>"1"}, "1.0.15", ["USE_RGENGC", "RGENGC_ESTIMATE_OLDMALLOC", "GC_ENABLE_LAZY_SWEEP"], {"RVALUE_SIZE"=>40, "HEAP_OBJ_LIMIT"=>408, "HEAP_BITMAP_SIZE"=>56, "HEAP_BITMAP_PLANES"=>3},["count", "heap_allocated_pages", "heap_sorted_length", "heap_allocatable_pages", "heap_available_slots", "heap_live_slots", "heap_free_slots", "heap_final_slots", "heap_marked_slots", "heap_swept_slots", "heap_eden_pages", "heap_tomb_pages", "total_allocated_pages", "total_freed_pages", "total_allocated_objects", "total_freed_objects", "malloc_increase_bytes", "malloc_increase_bytes_limit", "minor_gc_count", "major_gc_count", "remembered_wb_unprotected_objects", "remembered_wb_unprotected_objects_limit", "old_objects", "old_objects_limit", "oldmalloc_increase_bytes", "oldmalloc_increase_bytes_limit"], "localhost", 1, 153]
-´´´
+```
 
 The respective tuple elements are:
 
@@ -76,9 +76,9 @@ Samples are simple tuple structures with 11 elements.
 
 Example:
 
-``` json
+```json
 [1422023921.481364, 132255744, 132255744, "BOOTED", [45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058], {"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}, nil]
-´´´
+```
 
 * Timestamp. Position 0, a Float value such as <code>1422023921.481364</code>
 * Peak process RSS memory usage. Position 1, an Integer value such as <code>132255744</code>
@@ -94,9 +94,9 @@ Triggered when the application is ready to start doing work.
 
 Example:
 
-``` json
+```json
 [1422023921.481364, 132255744, 132255744, "BOOTED", [45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058], {"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}, nil]
-´´´
+```
 
 #### GC_CYCLE_STARTED
 
@@ -104,9 +104,9 @@ Emitted when a Garbage Collection cycle starts.
 
 Example:
 
-``` json
+```json
 [1422023921.776498, 133820416, 133820416, "GC_CYCLE_STARTED", [46,1354,1368,0,551887,550614,1273,0,319748,232138,1354,0,1354,0,3423988,2873374,0,21991141,36,9,10683,21366,291637,583276,0,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"none"}, nil]
-´´´
+```
 
 #### GC_CYCLE_ENDED
 
@@ -114,9 +114,9 @@ Emitted when a Garbage Collection cycle ends.
 
 Example:
 
-``` json
+```json
 [1422023923.144252, 138760192, 138760192, "GC_CYCLE_ENDED", [46,1354,1368,0,551887,551576,311,0,353935,197952,1354,0,1354,0,3621836,3070260,2910064,21991141,37,9,10983,21366,318878,583276,2910064,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil]
-´´´
+```
 
 #### PROCESSING_STARTED
 
@@ -124,9 +124,9 @@ Emitted at the start of a unit of work.
 
 Example:
 
-``` json
+```json
 [1422023922.952984, 135487488, 135487488, "PROCESSING_STARTED", [46,1354,1368,0,551887,550292,1595,0,353935,82038,1354,0,1354,0,3505836,2955544,885712,21991141,37,9,10983,21366,318878,583276,886096,22765743], {"major_by"=>nil, "gc_by"=>"newobj", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil]
-´´´
+```
 
 #### PROCESSING_ENDED:
 
@@ -134,9 +134,9 @@ Emitted at the end of a unit of work.
 
 Example:
 
-``` json
+```json
 [1422023924.8609, 191332352, 191332352, "PROCESSING_ENDED", [49,2357,2437,79,960702,802035,158667,0,441562,278483,2195,162,2357,0,4447499,3645464,156448,29568470,40,9,11445,21366,416188,583276,19693888,27318891], {"major_by"=>nil, "gc_by"=>"malloc", "have_finalizer"=>false, "immediate_sweep"=>false, "state"=>"sweeping"}, nil]
-´´´
+```
 
 #### TERMINATED
 
@@ -144,9 +144,9 @@ Triggered when the application terminates.
 
 Example:
 
-``` json
+```json
 [1422023962.011763, 204525568, 195096576, "TERMINATED", [76,2357,2437,174,960702,466696,494006,0,465869,494832,2183,174,2357,0,14999220,14532524,37216,17136915,64,12,11707,23412,434060,868122,37600,26258064], {"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}, nil]]
-´´´
+```
 
 ## HTTP Response codes
 
@@ -156,9 +156,9 @@ We were able to successfully tune your Rails application. Response body contains
 
 Example response body:
 
-``` json
+```json
 https://tunemygc.com/configs/e129791f94159a8c75bef3a636c05798
-´´´
+```
 
 ### 404 Not Found 
 
