@@ -8,7 +8,7 @@ A few events are important during the lifetime of a process for the tuner to gai
 
 ### BOOTED
 
-Triggered when the application is ready to start doing work. For Rails application, this is typically when the Rails application has been fully loaded in Production, ready to serve requests, to accept background work etc. All source files have been loaded and most resources acquired.
+Triggered when the application is ready to start doing work. For Rails application, this is typically when the app has been fully loaded in Production, ready to serve requests, to accept background work etc. All source files have been loaded and most resources acquired.
 
 ### PROCESSING_STARTED
 

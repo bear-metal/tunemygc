@@ -6,7 +6,7 @@ require 'timeout'
 
 module TuneMyGc
   class Syncer
-    TIMEOUT = 20 #seconds
+    TIMEOUT = 30 #seconds
     ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, Rails.version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
 
     attr_reader :uri, :client
