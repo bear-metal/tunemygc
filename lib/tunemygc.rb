@@ -7,12 +7,18 @@ module TuneMyGc
   HEADERS = { "Content-Type" => "application/json",
               "Accept" => "application/json",
               "User-Agent" => "TuneMyGC #{TuneMyGc::VERSION}"}.freeze
+
+  def self.rails?
+    defined?(Rails) && Rails.version >= "4.0"
+  end
 end
 
 if ENV["RUBY_GC_TUNE"]
-  if defined?(Rails) && Rails.version >= "4.0"
+  if TuneMyGc.rails?
+    puts "[TuneMyGC] Rails detected, loading railtie"
     require 'tunemygc/railtie'
   else
+    puts "[TuneMyGC] Rails not detected, loading minimal agent"
     require 'tunemygc/agent'
   end
 else
