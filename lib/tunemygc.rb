@@ -9,8 +9,12 @@ module TuneMyGc
               "User-Agent" => "TuneMyGC #{TuneMyGc::VERSION}"}.freeze
 end
 
-if ENV["RUBY_GC_TUNE"] && defined?(Rails) && Rails.version >= "4.0"
-  require 'tunemygc/railtie'
+if ENV["RUBY_GC_TUNE"]
+  if defined?(Rails) && Rails.version >= "4.0"
+    require 'tunemygc/railtie'
+  else
+    require 'tunemygc/agent'
+  end
 else
   puts "[TuneMyGC] not enabled"
 end

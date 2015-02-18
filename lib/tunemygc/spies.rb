@@ -10,6 +10,7 @@ module TuneMyGc
     spy :ActionController
     spy :Minitest
     spy :ActiveJob
+    spy :Manual
 
     def self.current
       s = if ENV['RUBY_GC_SPY']

@@ -5,14 +5,13 @@ require 'tunemygc/subscriber'
 module TuneMyGc
   class StartRequestSubscriber < Subscriber
     def start(name, id, payload)
-      TuneMyGc.snapshot(:PROCESSING_STARTED)
+      TuneMyGc.processing_started
     end
   end
 
   class EndRequestSubscriber < Subscriber
     def finish(name, id, payload)
-      TuneMyGc.snapshot(:PROCESSING_ENDED)
-      TuneMyGc.interposer.check_uninstall
+      TuneMyGc.processing_ended
     end
   end
 end

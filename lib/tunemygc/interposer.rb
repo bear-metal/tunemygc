@@ -48,6 +48,8 @@ module TuneMyGc
     end
 
     def uninstall
+      TuneMyGc.uninstall_gc_tracepoint
+      TuneMyGc.log "uninstalled GC tracepoint"
       @spy.uninstall
       reset
     end

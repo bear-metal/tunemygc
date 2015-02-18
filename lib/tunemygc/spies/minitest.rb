@@ -47,12 +47,11 @@ module TuneMyGc
 
           private
           def tunemygc_before_setup
-            TuneMyGc.snapshot(:PROCESSING_STARTED)
+            TuneMyGc.processing_started
           end
 
           def tunemygc_after_teardown
-            TuneMyGc.snapshot(:PROCESSING_ENDED)
-            TuneMyGc.interposer.check_uninstall
+            TuneMyGc.processing_ended
           end
         end
       end

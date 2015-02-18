@@ -10,6 +10,20 @@ module TuneMyGc
 
   attr_accessor :logger, :interposer, :snapshotter
 
+  # snapshot stages
+  def booted
+    snapshot(:BOOTED)
+  end
+
+  def processing_started
+    snapshot(:PROCESSING_STARTED)
+  end
+
+  def processing_ended
+    snapshot(:PROCESSING_ENDED)
+    interposer.check_uninstall
+  end
+
   def snapshot(stage, meta = nil)
     snapshotter.take(stage, meta)
   end
