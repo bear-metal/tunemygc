@@ -1,14 +1,10 @@
 # encoding: utf-8
 
-require 'net/http'
-require 'certified'
-require 'timeout'
+require 'tunemygc/network'
 require 'optparse'
 
 module TuneMyGc
   class CLI
-    TIMEOUT = 30
-
     attr_reader :uri, :client, :options
 
     def self.start(args)
@@ -36,7 +32,7 @@ module TuneMyGc
       @uri = URI("http://#{TuneMyGc::HOST}")
       @client = Net::HTTP.new(@uri.host, @uri.port)
       @client.use_ssl = (uri.port == 443)
-      @client.read_timeout = TIMEOUT
+      @client.read_timeout = NETWORK_TIMEOUT
       register if options[:email]
       fetch_config if options[:config]
     end
@@ -80,7 +76,7 @@ module TuneMyGc
 
     private
     def timeout(&block)
-      Timeout.timeout(TIMEOUT + 1){ block.call }
+      Timeout.timeout(NETWORK_TIMEOUT + 1){ block.call }
     end
   end
 end

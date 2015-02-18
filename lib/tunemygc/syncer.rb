@@ -1,12 +1,9 @@
 # encoding: utf-8
 
-require 'net/http'
-require 'certified'
-require 'timeout'
+require 'tunemygc/network'
 
 module TuneMyGc
   class Syncer
-    TIMEOUT = 30 #seconds
     ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, Rails.version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
 
     attr_reader :uri, :client
@@ -15,7 +12,7 @@ module TuneMyGc
       @uri = URI("http://#{host}/ruby")
       @client = Net::HTTP.new(@uri.host, @uri.port)
       @client.use_ssl = (uri.port == 443)
-      @client.read_timeout = TIMEOUT
+      @client.read_timeout = NETWORK_TIMEOUT
     end
 
     def sync(snapshotter)
@@ -44,7 +41,7 @@ module TuneMyGc
 
     private
     def timeout(&block)
-      Timeout.timeout(TIMEOUT + 1){ block.call }
+      Timeout.timeout(NETWORK_TIMEOUT + 1){ block.call }
     end
 
     def sync_with_tuner(snapshotter)
