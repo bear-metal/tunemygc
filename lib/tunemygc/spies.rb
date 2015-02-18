@@ -16,7 +16,7 @@ module TuneMyGc
       s = if ENV['RUBY_GC_SPY']
         ENV['RUBY_GC_SPY'].classify
       else
-        'ActionController'
+        TuneMyGc.rails? ? 'ActionController' : 'Manual'
       end
       unless @spies.include?(s)
         raise NotImplementedError, "TuneMyGC spy #{s.underscore.inspect} not supported. Valid spies are #{@spies.map(&:underscore)}"
