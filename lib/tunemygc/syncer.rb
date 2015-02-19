@@ -4,7 +4,7 @@ require 'tunemygc/network'
 
 module TuneMyGc
   class Syncer
-    ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, Rails.version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
+    ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, TuneMyGc.rails_version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
 
     attr_reader :uri, :client
 
@@ -64,7 +64,7 @@ module TuneMyGc
         TuneMyGc.log "Invalid application token. Please generate one with 'bundle exec tunemygc <a_valid_email_address>' and set the RUBY_GC_TOKEN environment variable"
         return false
       elsif Net::HTTPNotImplemented === response
-        TuneMyGc.log "Ruby version #{RUBY_VERSION} or Rails version #{Rails.version} not supported. Failed to sync #{snapshots} snapshots"
+        TuneMyGc.log "Ruby version #{RUBY_VERSION} or Rails version #{TuneMyGc.rails_version} not supported. Failed to sync #{snapshots} snapshots"
         return false
       elsif Net::HTTPUpgradeRequired === response
         TuneMyGc.log "Agent version #{response.body} required - please upgrade. Failed to sync #{snapshots} snapshots"
