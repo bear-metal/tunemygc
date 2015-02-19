@@ -10,9 +10,8 @@ module TuneMyGc
 
   attr_accessor :logger, :interposer, :snapshotter
 
-  # snapshot stages
   def booted
-    snapshot(:BOOTED)
+    TuneMyGc.interposer.install
   end
 
   def processing_started

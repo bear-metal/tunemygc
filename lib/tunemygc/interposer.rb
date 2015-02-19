@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'active_support'
 require 'tunemygc/spies'
 
 module TuneMyGc
@@ -18,14 +17,18 @@ module TuneMyGc
       TuneMyGc.install_gc_tracepoint
       TuneMyGc.log "hooked: GC tracepoints"
       TuneMyGc.snapshot(:BOOTED)
-
       TuneMyGc.interposer.spy.install
     end
 
     def install
       return if @installed
       TuneMyGc.log "interposing"
-      ActiveSupport.on_load(:after_initialize) do
+      if TuneMyGc.rails?
+        require 'active_support'
+        ActiveSupport.on_load(:after_initialize) do
+          TuneMyGc.interposer.on_initialized
+        end
+      else
         TuneMyGc.interposer.on_initialized
       end
       TuneMyGc.log "hooked: after_initialize"
