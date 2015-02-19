@@ -20,6 +20,7 @@ if ENV["RUBY_GC_TUNE"]
   else
     puts "[TuneMyGC] Rails not detected, loading minimal agent"
     require 'tunemygc/agent'
+    TuneMyGc.booted
   end
 else
   puts "[TuneMyGC] not enabled"
