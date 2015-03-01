@@ -89,9 +89,9 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails 
 
 #### Advanced
 
-* `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job` or `minitest` are supported)
+* `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job`, `minitest` or `rspec` are supported)
 
-Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob) and [minitest](https://github.com/seattlerb/minitest) are also supported as experimental features.
+Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob), [minitest](https://github.com/seattlerb/minitest) and [rspec](http://rspec.info) are also supported as experimental features.
 
 * `RUBY_GC_TUNE_REQUESTS=x` (a numeric value eg. `200`)
 
@@ -103,7 +103,7 @@ Controls the interposer lifetime for sampling ActiveJob jobs. It will enable its
 
 * `RUBY_GC_TUNE_TESTS=x` (a numeric value eg. `200`)
 
-Controls the interposer lifetime for sampling a [minitest](https://github.com/seattlerb/minitest) based test suite. It will enable itself, then remove request instrumentation after the specified number of tests has been run. A good minimum ballpark sample set would be 200.
+Controls the interposer lifetime for sampling a [minitest](https://github.com/seattlerb/minitest) or [rspec](http://rspec.info) based test suite. It will enable itself, then remove request instrumentation after the specified number of tests has been run. A good minimum ballpark sample set would be 200.
 
 ## How do I use this?
 
