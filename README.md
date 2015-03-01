@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bear-metal/tunemygc.svg)](https://travis-ci.org/bear-metal/tunemygc)
 
-The Ruby garbage collector has been flagged as the crux of Ruby performance and memory use for a long time. It has improved a lot over the last years, but there's still a lot to tune and control. *The default configuration is not suitable and optimal for Rails applications, and neither is there a one-size-fits-all set of tuned parameters that would suit every app.* However, hand-tuning the GC parameters is a slippery slope to navigate for most developers.
+The Ruby garbage collector has been flagged as the crux of Ruby performance and memory use for a long time. It has improved a lot over the last years, but there's still a lot to tune and control. *The default configuration is not suitable and optimal for large Ruby applications, and neither is there a one-size-fits-all set of tuned parameters that would suit every app.* However, hand-tuning the GC parameters is a slippery slope to navigate for most developers.
 
 ## We're fixing this
 
@@ -33,11 +33,7 @@ Add to your Gemfile and run `bundle install`
 ``` sh
 gem 'tunemygc'
 ```
-This gem linterposes itself into the Rails request/response lifecycles and piggy backs off the new GC events in Ruby 2.x for introspection. Tuning recommendations are handled through a web service at `https://tunemygc.com`. You will need a `rails > 4.1`, installation and MRI Ruby `2.1`, or later.
-
-#### Windows
-
-Has not been tested at all.
+This gem linterposes itself into the application and piggy backs off the new GC events in Ruby 2.x for introspection. Tuning recommendations are handled through a web service at `https://tunemygc.com`. You will need MRI Ruby `2.1`, or later. [Rails](http://www.rubyonrails.org) applications, background jobs, tests and any proprietary Ruby scripts and frameworks are supported.
 
 ## Getting started
 
@@ -50,7 +46,7 @@ Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in yo
 
 We require a valid email address as a canonical reference for tuner tokens for your applications.
 
-For the above command sequences, to sample your Rails app for tuning, run:
+For the above command sequences, to sample your app or script for tuning, run (inject `RUBY_GC_TOKEN` and `RUBY_GC_TUNE` to your env):
 
 ``` sh
 RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
@@ -61,8 +57,8 @@ The CLI interface supports retrieving configuration options for your application
 ``` sh
 $ bundle exec tunemygc
 Usage: tunemygc [options]
-    -r, --register EMAIL             Register this Rails app with the https://tunemygc.com service
-    -c, --config TOKEN               Fetch the last known config for a given Rails app
+    -r, --register EMAIL             Register this application with the https://tunemygc.com service
+    -c, --config TOKEN               Fetch the last known config for a given application
     -h, --help                       How to use the TuneMyGC agent CLI
 ```
 

@@ -13,10 +13,10 @@ module TuneMyGc
       OptionParser.new do |opts|
         opts.banner = "Usage: tunemygc [options]"
 
-        opts.on("-r ", "--register EMAIL", "Register this Rails app with the https://tunemygc.com service") do |email|
+        opts.on("-r ", "--register EMAIL", "Register this application with the https://tunemygc.com service") do |email|
           options[:email] = email
         end
-        opts.on("-c ", "--config TOKEN", "Fetch the last known config for a given Rails app") do |token|
+        opts.on("-c ", "--config TOKEN", "Fetch the last known config for a given application") do |token|
           options[:config] = token
         end
         opts.on_tail("-h", "--help", "How to use the TuneMyGC agent CLI") do
