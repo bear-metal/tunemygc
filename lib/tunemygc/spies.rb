@@ -7,6 +7,7 @@ module TuneMyGc
       (@spies ||= []) << s.to_s
     end
 
+    spy :Base
     spy :ActionController
     spy :Minitest
     spy :ActiveJob

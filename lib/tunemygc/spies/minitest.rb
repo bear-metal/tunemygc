@@ -4,7 +4,7 @@ require 'minitest'
 
 module TuneMyGc
   module Spies
-    class Minitest
+    class Minitest < TuneMyGc::Spies::Base
       def initialize
         @tests_processed = 0
         @tests_limit = nil

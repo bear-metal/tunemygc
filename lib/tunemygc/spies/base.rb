@@ -2,16 +2,17 @@
 
 module TuneMyGc
   module Spies
-    class Manual < TuneMyGc::Spies::Base
+    class Base
       def install
-        TuneMyGc.log "hooked: manual"
+        raise NotImplementedError
       end
 
       def uninstall
-        TuneMyGc.log "uninstalled manual spy"
+        raise NotImplementedError
       end
 
       def check_uninstall
+        raise NotImplementedError
       end
     end
   end

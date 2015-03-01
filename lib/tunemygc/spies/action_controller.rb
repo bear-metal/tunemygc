@@ -18,7 +18,7 @@ end
 
 module TuneMyGc
   module Spies
-    class ActionController
+    class ActionController < TuneMyGc::Spies::Base
       attr_reader :subscriptions
 
       def initialize

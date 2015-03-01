@@ -4,7 +4,7 @@ require 'active_job'
 
 module TuneMyGc
   module Spies
-    class ActiveJob
+    class ActiveJob < TuneMyGc::Spies::Base
       def initialize
         @jobs_processed = 0
         @jobs_limit = nil

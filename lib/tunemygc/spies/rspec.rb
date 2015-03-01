@@ -4,7 +4,7 @@ require 'rspec'
 
 module TuneMyGc
   module Spies
-    class Rspec
+    class Rspec < TuneMyGc::Spies::Base
       def initialize
         @tests_processed = 0
         @tests_limit = nil
