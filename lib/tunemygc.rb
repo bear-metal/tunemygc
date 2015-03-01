@@ -11,6 +11,10 @@ module TuneMyGc
   def self.rails?
     defined?(Rails) && Rails.version >= "4.0"
   end
+
+  def self.rails_version
+    rails? ? Rails.version : "0.0"
+  end
 end
 
 if ENV["RUBY_GC_TUNE"]

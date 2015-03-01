@@ -35,10 +35,6 @@ module TuneMyGc
     logger.info "[TuneMyGC] #{message}"
   end
 
-  def rails_version
-    rails? ? Rails.version : "0.0"
-  end
-
   def spy
     TuneMyGc::Spies.current
   end
