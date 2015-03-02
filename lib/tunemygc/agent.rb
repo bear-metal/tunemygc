@@ -54,7 +54,12 @@ module TuneMyGc
   extend self
 
   MUTEX.synchronize do
-    self.logger = Logger.new($stdout)
+    begin
+      require 'mono_logger'
+      self.logger = MonoLogger.new($stdout)
+    rescue LoadError
+      self.logger = Logger.new($stdout)
+    end
     self.interposer = TuneMyGc::Interposer.new
     self.snapshotter = TuneMyGc::Snapshotter.new
   end
