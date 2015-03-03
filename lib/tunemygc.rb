@@ -9,7 +9,7 @@ module TuneMyGc
               "User-Agent" => "TuneMyGC #{TuneMyGc::VERSION}"}.freeze
 
   def self.rails?
-    defined?(Rails) && Rails.version >= "4.0"
+    defined?(Rails) && Rails.version >= "3.0"
   end
 
   def self.rails_version
