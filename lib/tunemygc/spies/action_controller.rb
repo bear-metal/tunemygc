@@ -7,10 +7,20 @@ module TuneMyGc
     def start(name, id, payload)
       TuneMyGc.processing_started
     end
+
+    # Rails 3
+    def call(*args)
+      TuneMyGc.processing_started
+    end
   end
 
   class EndRequestSubscriber < Subscriber
     def finish(name, id, payload)
+      TuneMyGc.processing_ended
+    end
+
+    # Rails 3
+    def call(*args)
       TuneMyGc.processing_ended
     end
   end
