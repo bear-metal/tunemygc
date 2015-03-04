@@ -10,7 +10,7 @@ module TuneMyGc
 
     def configure
       if Hash === config && !config.empty?
-        TuneMyGc.log "==== Recommended GC configs from #{config.delete("report")}"
+        TuneMyGc.log "==== Recommended GC configs for #{TuneMyGCc::Spies.current}: #{config.delete("report")}"
         write_env("Speed")
       end
     end
