@@ -1,6 +1,10 @@
 # encoding: utf-8
 
-require 'rspec'
+begin
+  require 'rspec'
+rescue LoadError
+  require 'rspec/core'
+end
 
 module TuneMyGc
   module Spies
