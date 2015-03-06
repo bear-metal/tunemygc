@@ -93,10 +93,12 @@ module TuneMyGc
     end
 
     def process_config_callback(response)
+      report_url = nil
       config = client.get(URI(response.body).path)
-      ActiveSupport::JSON.decode(config.body).merge('report' => response.body.gsub(/\.json$/, ''))
+      ActiveSupport::JSON.decode(config.body).merge('report' => report_url)
+      report_url = response.body.gsub(/\.json$/, '')
     rescue Exception => e
-      TuneMyGc.log "Failed to process config callback url #{response.body} (error: #{e})"
+      TuneMyGc.log "Please visit #{report_url} to view your configuration and other Garbage Collector insights"
       return false
     end
   end
