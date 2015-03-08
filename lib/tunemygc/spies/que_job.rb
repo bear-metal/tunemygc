@@ -35,6 +35,7 @@ module TuneMyGc
 
       module Hooks
         def initialize(*args)
+          super
           define_singleton_method :run do |*args|
             self.class.tunemygc_before_run
             begin
