@@ -13,6 +13,7 @@ module TuneMyGc
     spy :ActiveJob
     spy :Manual
     spy :Rspec
+    spy :QueJob
 
     def self.current
       s = if ENV['RUBY_GC_SPY']
