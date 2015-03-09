@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.33)
+    tunemygc (1.0.34)
       certified (~> 1.0, >= 1.0.0)
 
 GEM
