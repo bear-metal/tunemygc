@@ -35,6 +35,10 @@ module TuneMyGc
     logger.info "[TuneMyGC, pid: #{Process.pid}] #{message}"
   end
 
+  def spy_id
+    TuneMyGc::Spies.id
+  end
+
   def spy
     TuneMyGc::Spies.current
   end
