@@ -8,6 +8,8 @@ The Ruby garbage collector has been flagged as the crux of Ruby performance and 
 
 ![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/tunemygc-graphic2x-80dac1571cacc70d9b272bb62ae9f6df.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
 
+We also recently [blogged](http://bearmetal.eu/theden/2015-02-20-rails-garbage-collection-tuning-approaches) about how the product works.
+
 ## Benefits
 
 * Faster boot times
@@ -33,6 +35,7 @@ Add to your Gemfile and run `bundle install`
 ``` sh
 gem 'tunemygc'
 ```
+
 This gem linterposes itself into the application and piggy backs off the new GC events in Ruby 2.x for introspection. Tuning recommendations are handled through a web service at `https://tunemygc.com`. You will need MRI Ruby `2.1`, or later. [Rails](http://www.rubyonrails.org) applications, background jobs, tests and any proprietary Ruby scripts and frameworks are supported.
 
 ## Getting started
@@ -123,9 +126,9 @@ Controls the interposer lifetime for sampling a [minitest](https://github.com/se
 
 ## How do I use this?
 
-This gem is only a lightweight agent and designed to not get in your way. There's not much workflow at the moment other than applying the suggested GC configuration to your application's environment.
+This gem is only a lightweight agent and designed to not get in your way. It samples your application during runtime, syncs data with our web service when it terminates and we provide a report URL where you can view a suggested GC configuration and additional tips and insights.
 
-#### Interpreting configurations
+#### Interpreting results
 
 An instrumented process dumps a report URL with a reccommended config to the Rails logger.
 
@@ -153,6 +156,8 @@ export RUBY_GC_OLDMALLOC_LIMIT=32782669
 export RUBY_GC_OLDMALLOC_LIMIT_MAX=49174003.5
 export RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=1.2
 ```
+
+We're busy working on adding tips on the report URLs for some common problem contexts.
 
 #### Heroku and 12 factor
 
