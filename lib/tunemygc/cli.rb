@@ -29,9 +29,14 @@ module TuneMyGc
 
     def initialize(options)
       @options = options
-      client = TuneMyGc.http_client
-      register if options[:email]
-      fetch_config if options[:config]
+      @client = TuneMyGc.http_client
+      if options[:email]
+        register
+      elsif options[:config]
+        fetch_config
+      else
+        raise ArgumentError, "Invalid CLI argument: you can either register or retrieve your last known GC config"
+      end
     end
 
     def register
