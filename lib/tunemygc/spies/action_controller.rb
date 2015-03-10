@@ -38,8 +38,8 @@ module TuneMyGc
       end
 
       def install
-        @subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
-        @subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
+        subscription(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
+        subscription(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
         TuneMyGc.log "hooked: action_controller"
       end
 
@@ -60,6 +60,11 @@ module TuneMyGc
             TuneMyGc.log "kamikaze after #{@requests_processed} of #{@requests_limit} requests"
           end
         end
+      end
+
+      private
+      def subscription(pattern, handler)
+        @subscriptions << ActiveSupport::Notifications.subscribe(pattern, handler)
       end
     end
   end
