@@ -9,11 +9,6 @@ end
 module TuneMyGc
   module Spies
     class Rspec < TuneMyGc::Spies::Base
-      def initialize
-        @tests_processed = 0
-        @tests_limit = nil
-      end
-
       def install
         RSpec::Core.__send__(:include, hooks_module)
         TuneMyGc.log "hooked: rspec"
@@ -28,11 +23,11 @@ module TuneMyGc
 
       def check_uninstall
         if ENV["RUBY_GC_TUNE_TESTS"]
-          @tests_limit ||= Integer(ENV["RUBY_GC_TUNE_TESTS"])
-          @tests_processed += 1
-          if @tests_processed == @tests_limit
+          @limit ||= Integer(ENV["RUBY_GC_TUNE_TESTS"])
+          @processed += 1
+          if @processed == @limit
             uninstall
-            TuneMyGc.log "kamikaze after #{@tests_processed} of #{@tests_limit} tests"
+            TuneMyGc.log "kamikaze after #{@processed} of #{@limit} tests"
           end
         end
       end

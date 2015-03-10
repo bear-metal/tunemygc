@@ -3,6 +3,11 @@
 module TuneMyGc
   module Spies
     class Base
+      def initialize
+        @processed = 0
+        @limit = nil
+      end
+
       def install
         raise NotImplementedError
       end

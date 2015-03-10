@@ -32,9 +32,8 @@ module TuneMyGc
       attr_reader :subscriptions
 
       def initialize
+        super
         @subscriptions = []
-        @requests_processed = 0
-        @requests_limit = nil
       end
 
       def install
@@ -53,11 +52,11 @@ module TuneMyGc
 
       def check_uninstall
         if ENV["RUBY_GC_TUNE_REQUESTS"]
-          @requests_limit ||= Integer(ENV["RUBY_GC_TUNE_REQUESTS"])
-          @requests_processed += 1
-          if @requests_processed == @requests_limit
+          @limit ||= Integer(ENV["RUBY_GC_TUNE_REQUESTS"])
+          @processed += 1
+          if @processed == @limit
             uninstall
-            TuneMyGc.log "kamikaze after #{@requests_processed} of #{@requests_limit} requests"
+            TuneMyGc.log "kamikaze after #{@processed} of #{@limit} requests"
           end
         end
       end
