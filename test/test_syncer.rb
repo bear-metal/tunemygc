@@ -3,12 +3,6 @@
 require File.join(File.dirname(__FILE__), 'helper')
 
 class TestSyncer < TuneMyGcTestCase
-  def test_uri
-    syncer = TuneMyGc::Syncer.new
-    assert_equal "tunemygc.com", syncer.uri.host
-    assert_equal 443, syncer.uri.port
-  end
-
   def test_client
     syncer = TuneMyGc::Syncer.new
     assert_instance_of Net::HTTP, syncer.client

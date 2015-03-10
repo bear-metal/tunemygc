@@ -5,7 +5,7 @@ require 'optparse'
 
 module TuneMyGc
   class CLI
-    attr_reader :uri, :client, :options
+    attr_reader :client, :options
 
     def self.start(args)
       args = ["-h"] if args.empty?
@@ -29,10 +29,7 @@ module TuneMyGc
 
     def initialize(options)
       @options = options
-      @uri = URI("http://#{TuneMyGc::HOST}")
-      @client = Net::HTTP.new(@uri.host, @uri.port)
-      @client.use_ssl = (uri.port == 443)
-      @client.read_timeout = NETWORK_TIMEOUT
+      client = TuneMyGc.http_client
       register if options[:email]
       fetch_config if options[:config]
     end
