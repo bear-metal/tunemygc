@@ -42,7 +42,6 @@ Gem::Specification.new do |s|
   - the Bear Metal cubs
 eos
 
-  s.add_dependency('certified', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('activesupport', '~> 4.1')
   s.add_development_dependency('rake', '~> 10.3')
   s.add_development_dependency('rake-compiler', '~> 0.9', '>= 0.9.5')

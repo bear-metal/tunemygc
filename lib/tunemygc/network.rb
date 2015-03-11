@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require 'net/http'
-require 'certified'
 require 'timeout'
 
 module TuneMyGc

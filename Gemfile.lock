@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.35)
-      certified (~> 1.0, >= 1.0.0)
+    tunemygc (1.0.37)
 
 GEM
   remote: https://rubygems.org/
@@ -45,7 +44,6 @@ GEM
     addressable (2.3.6)
     arel (6.0.0)
     builder (3.2.2)
-    certified (1.0.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     erubis (2.7.0)
