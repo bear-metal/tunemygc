@@ -10,9 +10,6 @@ module TuneMyGc
       def uninstall
         TuneMyGc.log "uninstalled manual spy"
       end
-
-      def check_uninstall
-      end
     end
   end
 end

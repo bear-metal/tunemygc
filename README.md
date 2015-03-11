@@ -52,7 +52,7 @@ We require a valid email address as a canonical reference for tuner tokens for y
 For the above command sequences, to sample your app or script for tuning, run (inject `RUBY_GC_TOKEN` and `RUBY_GC_TUNE` to your env):
 
 ``` sh
-RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
+RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rails s
 ```
 
 And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
@@ -88,14 +88,14 @@ $ bundle exec tunemygc -r lourens@bearmetal.eu
 Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in your environment.
 ```
 
-* `RUBY_GC_TUNE=1`
+* `RUBY_GC_TUNE=200`
 
-Enables the interposer for taking a few lightweight snapshots of Rails requests and submitting them to `tunemygc.com`. Without this environment variable set, it won't interpose itself.
+Enables the interposer and controls it's lifetime for sampling processing. It takes a few lightweight snapshots and submits them to `tunemygc.com`. A value of `200` implies `200` units of work - Rails requests, tests, background jobs etc. Without this environment variable set, it won't interpose itself. A good minimum ballpark sample set would be 200.
 
 For the above command sequences, to sample a Rails app for tuning, run:
 
 ``` sh
-RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
+RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rails s
 ```
 
 And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
@@ -111,18 +111,6 @@ And after some profiling requests, when the process terminates, you can visit th
 * `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job`, `minitest` or `rspec` are supported)
 
 Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob), [minitest](https://github.com/seattlerb/minitest) and [rspec](http://rspec.info) are also supported as experimental features.
-
-* `RUBY_GC_TUNE_REQUESTS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling Rails requests. It will enable itself, then remove request instrumentation after the specified number of requests. A good minimum ballpark sample set would be 200.
-
-* `RUBY_GC_TUNE_JOBS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling ActiveJob jobs. It will enable itself, then remove job instrumentation after the specified number of jobs were processed. A good minimum ballpark sample set would be 200.
-
-* `RUBY_GC_TUNE_TESTS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling a [minitest](https://github.com/seattlerb/minitest) or [rspec](http://rspec.info) based test suite. It will enable itself, then remove request instrumentation after the specified number of tests has been run. A good minimum ballpark sample set would be 200.
 
 ## How do I use this?
 

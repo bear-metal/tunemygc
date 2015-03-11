@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
 
   Then sample your Rails app for tuning:
 
-  $ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=1 bundle exec rails s
+  $ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=200 bundle exec rails s
 
   We require a valid email address as a canonical reference for tuner tokens for your applications.
 

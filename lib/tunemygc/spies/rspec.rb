@@ -21,17 +21,6 @@ module TuneMyGc
         TuneMyGc.log "uninstalled rspec spy"
       end
 
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_TESTS"]
-          @limit ||= Integer(ENV["RUBY_GC_TUNE_TESTS"])
-          @processed += 1
-          if @processed == @limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@processed} of #{@limit} tests"
-          end
-        end
-      end
-
       def hooks_module
         Module.new do
           RSpec.configure do |c|

@@ -50,17 +50,6 @@ module TuneMyGc
         TuneMyGc.log "uninstalled action_controller spy"
       end
 
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_REQUESTS"]
-          @limit ||= Integer(ENV["RUBY_GC_TUNE_REQUESTS"])
-          @processed += 1
-          if @processed == @limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@processed} of #{@limit} requests"
-          end
-        end
-      end
-
       private
       def subscription(pattern, handler)
         @subscriptions << ActiveSupport::Notifications.subscribe(pattern, handler)

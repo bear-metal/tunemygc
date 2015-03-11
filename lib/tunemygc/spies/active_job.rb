@@ -17,17 +17,6 @@ module TuneMyGc
         TuneMyGc.log "uninstalled active_job spy"
       end
 
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_JOBS"]
-          @limit ||= Integer(ENV["RUBY_GC_TUNE_JOBS"])
-          @processed += 1
-          if @processed == @limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@processed} of #{@limit} jobs"
-          end
-        end
-      end
-
       def hooks_module
         Module.new do
           def self.included(base)

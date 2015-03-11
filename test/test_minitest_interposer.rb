@@ -67,7 +67,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
     interposer.install
     TuneMyGc.interposer.on_initialized
 
-    ENV["RUBY_GC_TUNE_TESTS"] = "2"
+    ENV["RUBY_GC_TUNE"] = "2"
 
     run_tunemygc_test
     run_tunemygc_test
@@ -84,7 +84,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
 
     interposer.uninstall
   ensure
-    ENV.delete("RUBY_GC_TUNE_TESTS")
+    ENV["RUBY_GC_TUNE"] = "1"
   end
 
   def run_tunemygc_test
