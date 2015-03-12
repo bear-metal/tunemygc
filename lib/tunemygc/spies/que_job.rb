@@ -5,11 +5,6 @@ require 'que'
 module TuneMyGc
   module Spies
     class QueJob < TuneMyGc::Spies::Base
-      def initialize
-        @jobs_processed = 0
-        @jobs_limit = nil
-      end
-
       def install
         ::Que::Job.__send__(:include, TuneMyGc::Spies::QueJob::Hooks)
         TuneMyGc.log "hooked: que_job"
@@ -22,28 +17,12 @@ module TuneMyGc
         TuneMyGc.log "uninstalled que_job spy"
       end
 
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_JOBS"]
-          @jobs_limit ||= Integer(ENV["RUBY_GC_TUNE_JOBS"])
-          @jobs_processed += 1
-          if @jobs_processed == @jobs_limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@jobs_processed} of #{@jobs_limit} jobs"
-          end
-        end
-      end
-
       module Hooks
-        def initialize(*args)
+        def run(*args)
+          self.class.tunemygc_before_run
           super
-          define_singleton_method :run do |*args|
-            self.class.tunemygc_before_run
-            begin
-              super(*args)
-            ensure
-              self.class.tunemygc_after_run
-            end
-          end
+        ensure
+          self.class.tunemygc_after_run
         end
 
         def self.included(klass)
@@ -51,11 +30,11 @@ module TuneMyGc
         end
 
         module ClassMethods
-          def tunemygc_before_perform
+          def tunemygc_before_run
             TuneMyGc.processing_started
           end
 
-          def tunemygc_after_perform
+          def tunemygc_after_run
             TuneMyGc.processing_ended
           end
         end
@@ -67,10 +46,10 @@ module TuneMyGc
         end
 
         module ClassMethods
-          def tunemygc_before_perform
+          def tunemygc_before_run
           end
 
-          def tunemygc_after_perform
+          def tunemygc_after_run
           end
         end
       end
