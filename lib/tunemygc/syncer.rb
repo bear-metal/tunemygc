@@ -6,13 +6,10 @@ module TuneMyGc
   class Syncer
     ENVIRONMENT = [ENV['RUBY_GC_TOKEN'], RUBY_VERSION, TuneMyGc.rails_version, ENV.select {|k,v| k =~ /RUBY_GC_/ }, TuneMyGc::VERSION, GC::OPTS, GC::INTERNAL_CONSTANTS].freeze
 
-    attr_reader :uri, :client
+    attr_reader :client
 
     def initialize(host = TuneMyGc::HOST)
-      @uri = URI("http://#{host}/ruby")
-      @client = Net::HTTP.new(@uri.host, @uri.port)
-      @client.use_ssl = (uri.port == 443)
-      @client.read_timeout = NETWORK_TIMEOUT
+      @client = TuneMyGc.http_client
     end
 
     def sync(snapshotter)
@@ -36,7 +33,7 @@ module TuneMyGc
     end
 
     def environment(snapshotter)
-      ENVIRONMENT.dup.concat([snapshotter.stat_keys, TuneMyGc.spy.underscore, Socket.gethostname, Process.ppid, Process.pid])
+      ENVIRONMENT.dup.concat([snapshotter.stat_keys, TuneMyGc.spy_id, Socket.gethostname, Process.ppid, Process.pid])
     end
 
     private
@@ -58,7 +55,7 @@ module TuneMyGc
         payload << snapshot
       end
       data = ActiveSupport::JSON.encode(payload)
-      response = client.post(uri.path, data, TuneMyGc::HEADERS)
+      response = client.post('/ruby', data, TuneMyGc::HEADERS)
       snapshotter.unit_of_work = false
       if Net::HTTPNotFound === response
         TuneMyGc.log "Invalid application token. Please generate one with 'bundle exec tunemygc <a_valid_email_address>' and set the RUBY_GC_TOKEN environment variable"
@@ -94,11 +91,7 @@ module TuneMyGc
 
     def process_config_callback(response)
       report_url = response.body.gsub(/\.json$/, '')
-      config = client.get(URI(response.body).path)
-      ActiveSupport::JSON.decode(config.body).merge('report' => report_url)
-    rescue Exception => e
       TuneMyGc.log "Please visit #{report_url} to view your configuration and other Garbage Collector insights"
-      return false
     end
   end
 end

@@ -15,6 +15,7 @@ class TestAgent < TuneMyGcTestCase
     assert_equal 'ActionController', TuneMyGc.spy
     ENV['RUBY_GC_SPY'] = "minitest"
     assert_equal 'Minitest', TuneMyGc.spy
+    assert_equal 'minitest', TuneMyGc.spy_id
   ensure
     ENV.delete('RUBY_GC_SPY')
   end

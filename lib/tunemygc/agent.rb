@@ -35,6 +35,10 @@ module TuneMyGc
     logger.info "[TuneMyGC, pid: #{Process.pid}] #{message}"
   end
 
+  def spy_id
+    TuneMyGc::Spies.id
+  end
+
   def spy
     TuneMyGc::Spies.current
   end
@@ -44,8 +48,6 @@ module TuneMyGc
       require "tunemygc/syncer"
       syncer = TuneMyGc::Syncer.new
       config = syncer.sync(snapshotter)
-      require "tunemygc/configurator"
-      TuneMyGc::Configurator.new(config).configure
     end
   rescue Exception => e
     log "Config reccommendation error (#{e.message})"
@@ -54,12 +56,7 @@ module TuneMyGc
   extend self
 
   MUTEX.synchronize do
-    begin
-      require 'mono_logger'
-      self.logger = MonoLogger.new($stdout)
-    rescue LoadError
-      self.logger = Logger.new($stdout)
-    end
+    self.logger = Logger.new($stdout)
     self.interposer = TuneMyGc::Interposer.new
     self.snapshotter = TuneMyGc::Snapshotter.new
   end

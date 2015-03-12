@@ -8,6 +8,8 @@ The Ruby garbage collector has been flagged as the crux of Ruby performance and 
 
 ![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/tunemygc-graphic2x-80dac1571cacc70d9b272bb62ae9f6df.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
 
+We also recently [blogged](http://bearmetal.eu/theden/2015-02-20-rails-garbage-collection-tuning-approaches) about how the product works.
+
 ## Benefits
 
 * Faster boot times
@@ -33,6 +35,7 @@ Add to your Gemfile and run `bundle install`
 ``` sh
 gem 'tunemygc'
 ```
+
 This gem linterposes itself into the application and piggy backs off the new GC events in Ruby 2.x for introspection. Tuning recommendations are handled through a web service at `https://tunemygc.com`. You will need MRI Ruby `2.1`, or later. [Rails](http://www.rubyonrails.org) applications, background jobs, tests and any proprietary Ruby scripts and frameworks are supported.
 
 ## Getting started
@@ -49,7 +52,15 @@ We require a valid email address as a canonical reference for tuner tokens for y
 For the above command sequences, to sample your app or script for tuning, run (inject `RUBY_GC_TOKEN` and `RUBY_GC_TUNE` to your env):
 
 ``` sh
-RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
+RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rails s
+```
+
+And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
+
+``` sh
+[TuneMyGC, pid: 70160] Syncing 688 snapshots
+[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
+[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 The CLI interface supports retrieving configuration options for your application as well.
@@ -77,14 +88,22 @@ $ bundle exec tunemygc -r lourens@bearmetal.eu
 Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 in your environment.
 ```
 
-* `RUBY_GC_TUNE=1`
+* `RUBY_GC_TUNE=200`
 
-Enables the interposer for taking a few lightweight snapshots of Rails requests and submitting them to `tunemygc.com`. Without this environment variable set, it won't interpose itself.
+Enables the interposer and controls it's lifetime for sampling processing. It takes a few lightweight snapshots and submits them to `tunemygc.com`. A value of `200` implies `200` units of work - Rails requests, tests, background jobs etc. Without this environment variable set, it won't interpose itself. A good minimum ballpark sample set would be 200.
 
-For the above command sequences, to sample my Rails app for tuning, I'd run:
+For the above command sequences, to sample a Rails app for tuning, run:
 
 ``` sh
-RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails s
+RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rails s
+```
+
+And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
+
+``` sh
+[TuneMyGC, pid: 70160] Syncing 688 snapshots
+[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
+[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 #### Advanced
@@ -93,40 +112,18 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=1 bundle exec rails 
 
 Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob), [minitest](https://github.com/seattlerb/minitest) and [rspec](http://rspec.info) are also supported as experimental features.
 
-* `RUBY_GC_TUNE_REQUESTS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling Rails requests. It will enable itself, then remove request instrumentation after the specified number of requests. A good minimum ballpark sample set would be 200.
-
-* `RUBY_GC_TUNE_JOBS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling ActiveJob jobs. It will enable itself, then remove job instrumentation after the specified number of jobs were processed. A good minimum ballpark sample set would be 200.
-
-* `RUBY_GC_TUNE_TESTS=x` (a numeric value eg. `200`)
-
-Controls the interposer lifetime for sampling a [minitest](https://github.com/seattlerb/minitest) or [rspec](http://rspec.info) based test suite. It will enable itself, then remove request instrumentation after the specified number of tests has been run. A good minimum ballpark sample set would be 200.
-
 ## How do I use this?
 
-This gem is only a lightweight agent and designed to not get in your way. There's not much workflow at the moment other than applying the suggested GC configuration to your application's environment.
+This gem is only a lightweight agent and designed to not get in your way. It samples your application during runtime, syncs data with our web service when it terminates and we provide a report URL where you can view a suggested GC configuration and additional tips and insights.
 
-#### Interpreting configurations
+#### Interpreting results
 
-An instrumented process dumps a reccommended config to the Rails logger.
+An instrumented process dumps a report URL with a reccommended config to the Rails logger.
 
 ``` sh
-[TuneMyGC] Syncing 688 snapshots
-[TuneMyGC] ==== Recommended GC configs from https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818
-[TuneMyGC] export RUBY_GC_HEAP_INIT_SLOTS=382429
-[TuneMyGC] export RUBY_GC_HEAP_FREE_SLOTS=603850
-[TuneMyGC] export RUBY_GC_HEAP_GROWTH_FACTOR=1.2
-[TuneMyGC] export RUBY_GC_HEAP_GROWTH_MAX_SLOTS=301925
-[TuneMyGC] export RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=2.0
-[TuneMyGC] export RUBY_GC_MALLOC_LIMIT=35818030
-[TuneMyGC] export RUBY_GC_MALLOC_LIMIT_MAX=42981636
-[TuneMyGC] export RUBY_GC_MALLOC_LIMIT_GROWTH_FACTOR=1.32
-[TuneMyGC] export RUBY_GC_OLDMALLOC_LIMIT=32782669
-[TuneMyGC] export RUBY_GC_OLDMALLOC_LIMIT_MAX=49174003.5
-[TuneMyGC] export RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=1.2
+[TuneMyGC, pid: 70160] Syncing 688 snapshots
+[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
+[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 We're still in the process of building tools and a launcher shim around this. You can also retrieve the last known configuration for you app via the CLI interface:
@@ -148,9 +145,11 @@ export RUBY_GC_OLDMALLOC_LIMIT_MAX=49174003.5
 export RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=1.2
 ```
 
+We're busy working on adding tips on the report URLs for some common problem contexts.
+
 #### Heroku and 12 factor
 
-We have a [Heroku](http://www.heroku.com) addon in Alpha testing and the Ruby GC lends itself well to tuning through 12 factor principles as it's designed around environment variables.
+We have a [Heroku](http://www.heroku.com) addon in Alpha testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables.
 
 ## Security and privacy concerns
 

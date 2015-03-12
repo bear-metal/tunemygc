@@ -32,14 +32,13 @@ module TuneMyGc
       attr_reader :subscriptions
 
       def initialize
+        super
         @subscriptions = []
-        @requests_processed = 0
-        @requests_limit = nil
       end
 
       def install
-        @subscriptions << ActiveSupport::Notifications.subscribe(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
-        @subscriptions << ActiveSupport::Notifications.subscribe(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
+        subscription(/^start_processing.action_controller$/, TuneMyGc::StartRequestSubscriber.new)
+        subscription(/^process_action.action_controller$/, TuneMyGc::EndRequestSubscriber.new)
         TuneMyGc.log "hooked: action_controller"
       end
 
@@ -51,15 +50,9 @@ module TuneMyGc
         TuneMyGc.log "uninstalled action_controller spy"
       end
 
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_REQUESTS"]
-          @requests_limit ||= Integer(ENV["RUBY_GC_TUNE_REQUESTS"])
-          @requests_processed += 1
-          if @requests_processed == @requests_limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@requests_processed} of #{@requests_limit} requests"
-          end
-        end
+      private
+      def subscription(pattern, handler)
+        @subscriptions << ActiveSupport::Notifications.subscribe(pattern, handler)
       end
     end
   end

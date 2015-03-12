@@ -56,7 +56,7 @@ class TestActionControllerInterposer < TuneMyGcTestCase
 
     assert_equal 2, interposer.spy.subscriptions.size
 
-    ENV["RUBY_GC_TUNE_REQUESTS"] = "2"
+    ENV["RUBY_GC_TUNE"] = "2"
 
     process_tunemygc_request
     assert_equal 2, interposer.spy.subscriptions.size
@@ -75,7 +75,7 @@ class TestActionControllerInterposer < TuneMyGcTestCase
 
     interposer.uninstall
   ensure
-    ENV.delete("RUBY_GC_TUNE_REQUESTS")
+    ENV["RUBY_GC_TUNE"] = "1"
   end
 
   def process_tunemygc_request(path = '/test')

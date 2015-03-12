@@ -5,7 +5,7 @@ require 'optparse'
 
 module TuneMyGc
   class CLI
-    attr_reader :uri, :client, :options
+    attr_reader :client, :options
 
     def self.start(args)
       args = ["-h"] if args.empty?
@@ -29,12 +29,14 @@ module TuneMyGc
 
     def initialize(options)
       @options = options
-      @uri = URI("http://#{TuneMyGc::HOST}")
-      @client = Net::HTTP.new(@uri.host, @uri.port)
-      @client.use_ssl = (uri.port == 443)
-      @client.read_timeout = NETWORK_TIMEOUT
-      register if options[:email]
-      fetch_config if options[:config]
+      @client = TuneMyGc.http_client
+      if options[:email]
+        register
+      elsif options[:config]
+        fetch_config
+      else
+        raise ArgumentError, "Invalid CLI argument: you can either register or retrieve your last known GC config"
+      end
     end
 
     def register

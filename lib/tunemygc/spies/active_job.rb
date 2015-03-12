@@ -5,11 +5,6 @@ require 'active_job'
 module TuneMyGc
   module Spies
     class ActiveJob < TuneMyGc::Spies::Base
-      def initialize
-        @jobs_processed = 0
-        @jobs_limit = nil
-      end
-
       def install
         ::ActiveJob::Base.__send__(:include, hooks_module)
         TuneMyGc.log "hooked: active_job"
@@ -20,17 +15,6 @@ module TuneMyGc
         TuneMyGc.log "uninstalled GC tracepoint"
         ::ActiveJob::Base.__send__(:include, disabled_hooks_module)
         TuneMyGc.log "uninstalled active_job spy"
-      end
-
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_JOBS"]
-          @jobs_limit ||= Integer(ENV["RUBY_GC_TUNE_JOBS"])
-          @jobs_processed += 1
-          if @jobs_processed == @jobs_limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@jobs_processed} of #{@jobs_limit} jobs"
-          end
-        end
       end
 
       def hooks_module

@@ -5,11 +5,6 @@ require 'minitest'
 module TuneMyGc
   module Spies
     class Minitest < TuneMyGc::Spies::Base
-      def initialize
-        @tests_processed = 0
-        @tests_limit = nil
-      end
-
       def install
         MiniTest::Unit::TestCase.__send__(:include, hooks_module)
         TuneMyGc.log "hooked: minitest"
@@ -20,17 +15,6 @@ module TuneMyGc
         TuneMyGc.log "uninstalled GC tracepoint"
         MiniTest::Unit::TestCase.__send__(:include, disabled_hooks_module)
         TuneMyGc.log "uninstalled minitest spy"
-      end
-
-      def check_uninstall
-        if ENV["RUBY_GC_TUNE_TESTS"]
-          @tests_limit ||= Integer(ENV["RUBY_GC_TUNE_TESTS"])
-          @tests_processed += 1
-          if @tests_processed == @tests_limit
-            uninstall
-            TuneMyGc.log "kamikaze after #{@tests_processed} of #{@tests_limit} tests"
-          end
-        end
       end
 
       def hooks_module
