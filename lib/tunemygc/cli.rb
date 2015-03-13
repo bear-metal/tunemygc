@@ -47,7 +47,7 @@ module TuneMyGc
         if Net::HTTPUnprocessableEntity === response
           puts "Registration error: #{response.body}"
         elsif Net::HTTPSuccess === response
-          puts "Application registered. Use RUBY_GC_TOKEN=#{response.body} in your environment."
+          puts "Application #{app_name} registered. Use RUBY_GC_TOKEN=#{response.body} in your environment."
         else
           puts "Registration error: #{response.body}"
         end
