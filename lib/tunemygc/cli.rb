@@ -42,7 +42,7 @@ module TuneMyGc
     def register
       timeout do
         registration = Net::HTTP::Post.new('/accounts')
-        registration.set_form_data(:email => options[:email])
+        registration.set_form_data(:email => options[:email], :app => app_name)
         response = client.request(registration)
         if Net::HTTPUnprocessableEntity === response
           puts "Registration error: #{response.body}"
@@ -79,6 +79,11 @@ module TuneMyGc
     private
     def timeout(&block)
       Timeout.timeout(NETWORK_TIMEOUT + 1){ block.call }
+    end
+
+    # Naive internal app identifier
+    def app_name
+      Dir.getwd.split("/").last
     end
   end
 end
