@@ -13,6 +13,7 @@ module TuneMyGc
     spy :ActiveJob, 'active_job'
     spy :Manual, 'manual'
     spy :Rspec, 'rspec'
+    spy :QueJob, 'que_job'
 
     def self.id
       @spies.key(current)
