@@ -6,7 +6,7 @@ module TuneMyGc
   module Spies
     class QueJob < TuneMyGc::Spies::Base
       def install
-        ::Que::Job.__send__(:include, TuneMyGc::Spies::QueJob::Hooks)
+        ::Que::Job.__send__(:prepend, TuneMyGc::Spies::QueJob::Hooks)
         TuneMyGc.log "hooked: que_job"
       end
 
@@ -25,7 +25,7 @@ module TuneMyGc
           self.class.tunemygc_after_run
         end
 
-        def self.included(klass)
+        def self.prepended(klass)
           klass.extend(TuneMyGc::Spies::QueJob::Hooks::ClassMethods)
         end
 
