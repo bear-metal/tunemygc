@@ -151,6 +151,48 @@ We're busy working on adding tips on the report URLs for some common problem con
 
 We have a [Heroku](http://www.heroku.com) addon in Alpha testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables.
 
+#### Custom GC hooks
+
+Here's an example of instrumenting a custom worker script:
+
+``` ruby
+# inject the agent and force the manual spy
+ENV['RUBY_GC_SPY'] ||= 'manual'
+require 'tunemygc'
+
+require 'timeout'
+require 'queue_classic'
+
+FailedQueue = QC::Queue.new("failed_jobs")
+
+class MyWorker < QC::Worker
+  def handle_failure(job, e)
+    FailedQueue.enqueue(job[:method], *job[:args])
+  end
+end
+
+worker = MyWorker.new
+
+trap('INT') { exit }
+trap('TERM') { worker.stop }
+
+# Signal we're ready to start doing work
+TuneMyGc.booted
+
+loop do
+  job = worker.lock_job
+  Timeout::timeout(5) do
+    # signal the start of a unit of work
+    TuneMyGc.processing_started
+    worker.process(job)
+    # signal the end of a unit of work
+    TuneMyGc.processing_ended
+  end
+end
+
+# When the process exits, results are synced with the TuneMyGC service
+```
+
 ## Security and privacy concerns
 
 We don't track any data specific to your application other than a simple environment header which allows us to pick the best tuner for your setup:
