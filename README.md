@@ -151,7 +151,7 @@ We're busy working on adding tips on the report URLs for some common problem con
 
 We have a [Heroku](http://www.heroku.com) addon in Alpha testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables.
 
-#### Custom GC hooks
+#### Custom hooks for add hoc scripts
 
 Here's an example of instrumenting a custom worker script:
 
