@@ -6,16 +6,15 @@ rvm:
   - 2.1.2
   - 2.1.5
   - 2.2.0
+  - 2.2.1
   - ruby-head
 script: "bundle exec rake"
-env: RUBY_GC_TUNE=1 RUBY_GC_TUNE_DEBUG=1 RUBY_GC_SYNC_ALWAYS=1
+env: RUBY_GC_TUNE=200 RUBY_GC_TUNE_DEBUG=1 RUBY_GC_SYNC_ALWAYS=1
 gemfile:
   - Gemfile
 notifications:
   recipients:
-    - lourens@methodmissing.com
+    - info@bearmetal.eu
 branches:
   only:
     - master
-    - compact-samples
-    - minitest
