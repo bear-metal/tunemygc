@@ -35,14 +35,15 @@ module TuneMyGc
                   sleep(retries + 1)
                 else
                   process_config_callback(response)
-                  break
+                  return true
                 end
               else
-                break
+                return false
               end
             end
           end
-          true
+          TuneMyGc.log "Sync failed after retries ..."
+          false
         ensure
           payload.clear
         end

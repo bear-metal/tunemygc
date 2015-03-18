@@ -46,7 +46,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Ruby version/, out)
     assert_match(/Rails version/, out)
@@ -65,7 +65,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/The GC is already tuned by environment variables/, out)
     assert_match(/Failed to sync 1 snapshots/, out)
@@ -82,7 +82,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Invalid payload/, out)
     assert_match(/snapshot timestamp/, out)
@@ -100,7 +100,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Invalid application token/, out)
   end
@@ -116,7 +116,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Agent version 2 required/, out)
     assert_match(/Failed to sync 1 snapshots/, out)
@@ -132,7 +132,7 @@ class TestSyncer < TuneMyGcTestCase
 
     out, err = capture_io do
       TuneMyGc.logger = Logger.new($stdout)
-      assert syncer.sync(snapshots)
+      assert_equal false, syncer.sync(snapshots)
     end
     assert_match(/Failed to sync 1 snapshots/, out)
     assert_match(/dang/, out)
