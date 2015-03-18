@@ -21,26 +21,6 @@ Gem::Specification.new do |s|
   s.test_files = `git ls-files test`.split($/)
   s.require_paths = ["lib"]
   s.required_ruby_version = '>= 2.1.0'
-  s.post_install_message = <<-eos
-  [TuneMyGC] Getting started:
-
-  Run this setup command from your application root to register your application with the `https://tunemygc.com` service:
-
-  $ bundle exec tunemygc -r your@email.address
-
-  You should get back a token reference to identify this Rails app:
-
-  Application registered. Use RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 in your environment.
-
-  Then sample your Rails app for tuning:
-
-  $ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d32 RUBY_GC_TUNE=200 bundle exec rails s
-
-  We require a valid email address as a canonical reference for tuner tokens for your applications.
-
-  Happy hacking,
-  - the Bear Metal cubs
-eos
 
   s.add_development_dependency('activesupport', '~> 4.1')
   s.add_development_dependency('rake', '~> 10.3')
