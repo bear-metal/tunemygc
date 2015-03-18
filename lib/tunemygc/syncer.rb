@@ -32,7 +32,7 @@ module TuneMyGc
               if response
                 if response == :retryable
                   TuneMyGc.log "Retrying in #{retries} seconds ..."
-                  sleep(retries)
+                  sleep(retries + 1)
                 else
                   process_config_callback(response)
                   break
