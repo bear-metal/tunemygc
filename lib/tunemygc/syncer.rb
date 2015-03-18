@@ -15,12 +15,10 @@ module TuneMyGc
     def sync(snapshotter)
       if sync_required?(snapshotter)
         response = nil
-        timeout do
+        Timeout.timeout(NETWORK_TIMEOUT + 1) do
           response = sync_with_tuner(snapshotter)
+          process_config_callback(response) if response
         end
-        timeout do
-          process_config_callback(response)
-        end if response
       else
         TuneMyGc.log "Nothing to sync, discarding #{snapshotter.size} snapshots"
         snapshotter.clear
@@ -37,10 +35,6 @@ module TuneMyGc
     end
 
     private
-    def timeout(&block)
-      Timeout.timeout(NETWORK_TIMEOUT + 1){ block.call }
-    end
-
     def sync_with_tuner(snapshotter)
       snapshots = 0
       # Fallback to Timeout if Net::HTTP read timeout fails
