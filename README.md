@@ -6,7 +6,7 @@ The Ruby garbage collector has been flagged as the crux of Ruby performance and 
 
 ## We're fixing this
 
-![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/tunemygc-graphic2x-80dac1571cacc70d9b272bb62ae9f6df.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
+![tunemygc workflow diagram](https://raw.githubusercontent.com/bear-metal/tunemygc/master/assets/tunemygc-graphic2x-b3390590eadab5528577f4e0285330fd.png?token=AAABe8sM_ofiQkrCpNw7OYRbtHMLO9l5ks5UuQlYwA%3D%3D)
 
 We also recently [blogged](http://bearmetal.eu/theden/2015-02-20-rails-garbage-collection-tuning-approaches) about how the product works.
 
