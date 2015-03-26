@@ -15,15 +15,19 @@ module TuneMyGc
     spy :Rspec, 'rspec'
     spy :QueJob, 'que_job'
 
-    def self.id
-      @spies.key(current)
+    def self.ids
+      current.map do |spy|
+        @spies.key(spy)
+      end.join(',')
     end
 
     def self.current
       if ENV['RUBY_GC_SPY']
-        @spies[ENV['RUBY_GC_SPY']] || raise(NotImplementedError, "TuneMyGC spy #{ENV['RUBY_GC_SPY']} not supported. Valid spies are #{@spies.keys}")
+        ENV['RUBY_GC_SPY'].split(",").map do |spy|
+          @spies[spy] || raise(NotImplementedError, "TuneMyGC spy #{spy} not supported. Valid spies are #{@spies.keys}")
+        end
       else
-        TuneMyGc.rails? ? 'ActionController' : 'Manual'
+        [(TuneMyGc.rails? ? 'ActionController' : 'Manual')]
       end
     end
   end

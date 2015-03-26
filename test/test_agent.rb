@@ -12,10 +12,13 @@ class TestAgent < TuneMyGcTestCase
   end
 
   def test_spy
-    assert_equal 'ActionController', TuneMyGc.spy
+    assert_equal ['ActionController'], TuneMyGc.spies
     ENV['RUBY_GC_SPY'] = "minitest"
-    assert_equal 'Minitest', TuneMyGc.spy
-    assert_equal 'minitest', TuneMyGc.spy_id
+    assert_equal ['Minitest'], TuneMyGc.spies
+    assert_equal 'minitest', TuneMyGc.spy_ids
+    ENV['RUBY_GC_SPY'] = "action_controller,active_job"
+    assert_equal ['ActionController','ActiveJob'], TuneMyGc.spies
+    assert_equal 'action_controller,active_job', TuneMyGc.spy_ids
   ensure
     ENV.delete('RUBY_GC_SPY')
   end

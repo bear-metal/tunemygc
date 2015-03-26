@@ -18,17 +18,17 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def teardown
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:ActionController)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new([:ActionController])
   end
 
   def test_init
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new([:Minitest])
     interposer = TuneMyGc.interposer
     assert !interposer.installed
   end
 
   def test_install_uninstall
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new([:Minitest])
     interposer = TuneMyGc.interposer
     interposer.install
     interposer.on_initialized
@@ -39,7 +39,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def test_gc_hooks
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new([:Minitest])
     interposer = TuneMyGc.interposer
     interposer.install
     TuneMyGc.interposer.on_initialized
@@ -62,7 +62,7 @@ class TestMinitestInterposer < TuneMyGcTestCase
   end
 
   def test_tests_limit
-    TuneMyGc.interposer = TuneMyGc::Interposer.new(:Minitest)
+    TuneMyGc.interposer = TuneMyGc::Interposer.new([:Minitest])
     interposer = TuneMyGc.interposer
     interposer.install
     TuneMyGc.interposer.on_initialized

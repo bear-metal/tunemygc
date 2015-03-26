@@ -4,12 +4,16 @@ require 'tunemygc/spies'
 
 module TuneMyGc
   class Interposer
-    attr_reader :spy
+    attr_reader :spies
     attr_accessor :installed
 
-    def initialize(spy = TuneMyGc.spy)
+    def initialize(spies = TuneMyGc.spies)
       reset
-      @spy = TuneMyGc::Spies.const_get(spy).new
+      @spies = spies.map{|s| TuneMyGc::Spies.const_get(s).new }
+    end
+
+    def spy
+      @spies.first
     end
 
     def on_initialized
@@ -17,7 +21,7 @@ module TuneMyGc
       TuneMyGc.install_gc_tracepoint
       TuneMyGc.log "hooked: GC tracepoints"
       TuneMyGc.snapshot(:BOOTED)
-      TuneMyGc.interposer.spy.install
+      TuneMyGc.interposer.spies.each{|s| s.install }
     end
 
     def install
@@ -36,7 +40,7 @@ module TuneMyGc
       at_exit do
         if @installed
           TuneMyGc.log "at_exit"
-          @spy.uninstall
+          @spies.each{|s| s.uninstall }
           TuneMyGc.snapshot(:TERMINATED)
           TuneMyGc.reccommendations
         end
@@ -47,13 +51,13 @@ module TuneMyGc
     end
 
     def check_uninstall
-      @spy.check_uninstall
+      @spies.each{|s| s.check_uninstall }
     end
 
     def uninstall
       TuneMyGc.uninstall_gc_tracepoint
       TuneMyGc.log "uninstalled GC tracepoint"
-      @spy.uninstall
+      @spies.each{|s| s.uninstall }
       reset
     end
 
