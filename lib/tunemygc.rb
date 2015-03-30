@@ -17,7 +17,7 @@ module TuneMyGc
   end
 end
 
-if ENV["RUBY_GC_TUNE"]
+if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
   if TuneMyGc.rails?
     puts "[TuneMyGC] Rails detected, loading railtie"
     require 'tunemygc/railtie'

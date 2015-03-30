@@ -22,7 +22,7 @@ module TuneMyGc
     end
 
     def self.current
-      if ENV['RUBY_GC_SPY']
+      if ENV['RUBY_GC_SPY'] && ENV['RUBY_GC_SPY'] != ""
         ENV['RUBY_GC_SPY'].split(",").map do |spy|
           @spies[spy] || raise(NotImplementedError, "TuneMyGC spy #{spy} not supported. Valid spies are #{@spies.keys}")
         end

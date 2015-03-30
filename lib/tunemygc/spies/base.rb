@@ -17,7 +17,7 @@ module TuneMyGc
       end
 
       def check_uninstall
-        if ENV["RUBY_GC_TUNE"]
+        if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
           @limit ||= parse_gc_tune
           @processed += 1
           if @processed == @limit
