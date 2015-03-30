@@ -20,7 +20,7 @@ module TuneMyGc
       GC.start(full_mark: true, :immediate_sweep => true)
       TuneMyGc.install_gc_tracepoint
       TuneMyGc.log "hooked: GC tracepoints"
-      TuneMyGc.snapshot(:BOOTED)
+      TuneMyGc.snapshot(:BOOTED, ObjectSpace.count_objects)
       TuneMyGc.interposer.spies.each{|s| s.install }
     end
 
@@ -41,7 +41,7 @@ module TuneMyGc
         if @installed
           TuneMyGc.log "at_exit"
           @spies.each{|s| s.uninstall }
-          TuneMyGc.snapshot(:TERMINATED)
+          TuneMyGc.snapshot(:TERMINATED, ObjectSpace.count_objects)
           TuneMyGc.reccommendations
         end
       end

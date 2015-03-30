@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.48)
+    tunemygc (1.0.51)
 
 GEM
   remote: https://rubygems.org/
