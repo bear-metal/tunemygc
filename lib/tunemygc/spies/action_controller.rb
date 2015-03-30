@@ -5,23 +5,25 @@ require 'tunemygc/subscriber'
 module TuneMyGc
   class StartRequestSubscriber < Subscriber
     def start(name, id, payload)
-      TuneMyGc.processing_started
+      TuneMyGc.processing_started({:path => payload[:path], :method => payload[:method], :controller => payload[:controller], :action => payload[:action]})
     end
 
     # Rails 3
     def call(*args)
-      TuneMyGc.processing_started
+      event = ActiveSupport::Notifications::Event.new(*args)
+      TuneMyGc.processing_started({:path => event.payload[:path], :method => event.payload[:method], :controller => event.payload[:controller], :action => event.payload[:action]})
     end
   end
 
   class EndRequestSubscriber < Subscriber
     def finish(name, id, payload)
-      TuneMyGc.processing_ended
+      TuneMyGc.processing_ended({:path => payload[:path], :method => payload[:method], :controller => payload[:controller], :action => payload[:action]})
     end
 
     # Rails 3
     def call(*args)
-      TuneMyGc.processing_ended
+      event = ActiveSupport::Notifications::Event.new(*args)
+      TuneMyGc.processing_ended({:path => event.payload[:path], :method => event.payload[:method], :controller => event.payload[:controller], :action => event.payload[:action]})
     end
   end
 end

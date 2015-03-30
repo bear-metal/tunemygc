@@ -14,12 +14,12 @@ module TuneMyGc
     TuneMyGc.interposer.install
   end
 
-  def processing_started
-    snapshot(:PROCESSING_STARTED)
+  def processing_started(meta = nil)
+    snapshot(:PROCESSING_STARTED, meta)
   end
 
-  def processing_ended
-    snapshot(:PROCESSING_ENDED)
+  def processing_ended(meta = nil)
+    snapshot(:PROCESSING_ENDED, meta)
     interposer.check_uninstall
   end
 
