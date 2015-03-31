@@ -162,7 +162,7 @@ https://tunemygc.com/configs/e129791f94159a8c75bef3a636c05798
 
 ### 404 Not Found 
 
-Invalid application token. Contact us at info@bearmetal.eu to resolve
+Invalid application token. Contact us at tunemygc@bearmetal.eu to resolve
 
 ### 501 Not Implemented
 
@@ -186,4 +186,4 @@ An unknown error occurred.
 
 ## Integrations and Support
 
-This is an initial draft specification to explore the viability of third party integrations. Please reach out via email to info@bearmetal.eu if any additional information or support is desired.
+This is an initial draft specification to explore the viability of third party integrations. Please reach out via email to tunemygc@bearmetal.eu if any additional information or support is desired.

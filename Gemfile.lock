@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.51)
+    tunemygc (1.0.52)
 
 GEM
   remote: https://rubygems.org/
@@ -115,7 +115,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activejob (~> 4.2.0)
+  activejob (~> 4.2, >= 4.2.0)
   activesupport (~> 4.1)
   rails
   rake (~> 10.3)
