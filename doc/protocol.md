@@ -77,25 +77,26 @@ Samples are simple tuple structures with 11 elements.
 Example:
 
 ```json
-[1422023921.481364,132255744,132255744,"BOOTED",[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},null]
+[70201748333020,1422023921.481364,132255744,132255744,"BOOTED",[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},null]
 ```
 
-* Timestamp. Position 0, a Float value such as <code>1422023921.481364</code>
-* Peak process RSS memory usage. Position 1, an Integer value such as <code>132255744</code>
-* Current process RSS memory usage. Position 2, an Integer value such as <code>132255744</code>
-* Event / sample type. Position 3, a String value such as <code>BOOTED</code>. Valid events: <code>BOOTED</code>, <code>GC_CYCLE_STARTED</code>, <code>GC_CYCLE_ENDED</code>, <code>PROCESSING_STARTED</code>, <code>PROCESSING_ENDED</code> and <code>TERMINATED</code>
-* Garbage Collection metrics - values of <code>GC.stat</code> output. Position 4, an Array value such as <code>[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058]</code>
-* Information from the latest GC cycle - output of <code>GC.latest_gc_info</code> Position 5, a Hash value such as <code>{"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}</code>
-* Reserved for future use - metadata. <code>GC.latest_gc_info</code> Position 6, a Hash or nil value such as <code>{"path"=>"stats"}</code>
+* Current thread identifier. Position 0, a Numerict value such as <code>70201748333020</code>
+* Timestamp. Position 1, a Float value such as <code>1422023921.481364</code>
+* Peak process RSS memory usage. Position 2, an Integer value such as <code>132255744</code>
+* Current process RSS memory usage. Position 3, an Integer value such as <code>132255744</code>
+* Event / sample type. Position 4, a String value such as <code>BOOTED</code>. Valid events: <code>BOOTED</code>, <code>GC_CYCLE_STARTED</code>, <code>GC_CYCLE_ENDED</code>, <code>PROCESSING_STARTED</code>, <code>PROCESSING_ENDED</code> and <code>TERMINATED</code>
+* Garbage Collection metrics - values of <code>GC.stat</code> output. Position 5, an Array value such as <code>[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058]</code>
+* Information from the latest GC cycle - output of <code>GC.latest_gc_info</code> Position 6, a Hash value such as <code>{"major_by"=>"force", "gc_by"=>"method", "have_finalizer"=>false, "immediate_sweep"=>true, "state"=>"none"}</code>
+* Reserved for future use - metadata. <code>GC.latest_gc_info</code> Position 7, a Hash or nil value such as <code>{"path"=>"stats"}</code>
 
 #### BOOTED
 
-Triggered when the application is ready to start doing work.
+Triggered when the application is ready to start doing work. Also includes additional metadata about object type distribution in the Ruby heap.
 
 Example:
 
 ```json
-[1422023921.481364,132255744,132255744,"BOOTED",[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},null]
+[70201748333020,1422023921.481364,132255744,132255744,"BOOTED",[45,1354,1368,0,551887,319759,232128,0,319748,232138,1354,0,1354,0,3191859,2872100,1280,22439940,36,9,10683,21366,291638,583276,1664,23221058],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},{"TOTAL":33016,"FREE":260,"T_OBJECT":963,"T_CLASS":911,"T_MODULE":45,"T_FLOAT":7,"T_STRING":18985,"T_REGEXP":387,"T_ARRAY":2803,"T_HASH":191,"T_STRUCT":222,"T_BIGNUM":2,"T_FILE":233,"T_DATA":1391,"T_MATCH":519,"T_COMPLEX":1,"T_NODE":6045,"T_ICLASS":48,"T_ZOMBIE":3}]
 ```
 
 #### GC_CYCLE_STARTED
@@ -105,7 +106,7 @@ Emitted when a Garbage Collection cycle starts.
 Example:
 
 ```json
-[1422023921.776498,133820416,133820416,"GC_CYCLE_STARTED",[46,1354,1368,0,551887,550614,1273,0,319748,232138,1354,0,1354,0,3423988,2873374,0,21991141,36,9,10683,21366,291637,583276,0,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"none"},null]
+[70201748333020,1422023921.776498,133820416,133820416,"GC_CYCLE_STARTED",[46,1354,1368,0,551887,550614,1273,0,319748,232138,1354,0,1354,0,3423988,2873374,0,21991141,36,9,10683,21366,291637,583276,0,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"none"},null]
 ```
 
 #### GC_CYCLE_ENDED
@@ -115,7 +116,7 @@ Emitted when a Garbage Collection cycle ends.
 Example:
 
 ```json
-[1422023923.144252,138760192,138760192,"GC_CYCLE_ENDED",[46,1354,1368,0,551887,551576,311,0,353935,197952,1354,0,1354,0,3621836,3070260,2910064,21991141,37,9,10983,21366,318878,583276,2910064,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
+[70201748333020,1422023923.144252,138760192,138760192,"GC_CYCLE_ENDED",[46,1354,1368,0,551887,551576,311,0,353935,197952,1354,0,1354,0,3621836,3070260,2910064,21991141,37,9,10983,21366,318878,583276,2910064,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
 ```
 
 #### PROCESSING_STARTED
@@ -125,7 +126,7 @@ Emitted at the start of a unit of work.
 Example:
 
 ```json
-[1422023922.952984,135487488,135487488,"PROCESSING_STARTED",[46,1354,1368,0,551887,550292,1595,0,353935,82038,1354,0,1354,0,3505836,2955544,885712,21991141,37,9,10983,21366,318878,583276,886096,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
+[70201748333020,1422023922.952984,135487488,135487488,"PROCESSING_STARTED",[46,1354,1368,0,551887,550292,1595,0,353935,82038,1354,0,1354,0,3505836,2955544,885712,21991141,37,9,10983,21366,318878,583276,886096,22765743],{"major_by":null,"gc_by":"newobj","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
 ```
 
 #### PROCESSING_ENDED:
@@ -135,17 +136,17 @@ Emitted at the end of a unit of work.
 Example:
 
 ```json
-[1422023924.8609,191332352,191332352,"PROCESSING_ENDED",[49,2357,2437,79,960702,802035,158667,0,441562,278483,2195,162,2357,0,4447499,3645464,156448,29568470,40,9,11445,21366,416188,583276,19693888,27318891],{"major_by":null,"gc_by":"malloc","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
+[70201748333020,1422023924.8609,191332352,191332352,"PROCESSING_ENDED",[49,2357,2437,79,960702,802035,158667,0,441562,278483,2195,162,2357,0,4447499,3645464,156448,29568470,40,9,11445,21366,416188,583276,19693888,27318891],{"major_by":null,"gc_by":"malloc","have_finalizer":false,"immediate_sweep":false,"state":"sweeping"},null]
 ```
 
 #### TERMINATED
 
-Triggered when the application terminates.
+Triggered when the application terminates. Also includes additional metadata about object type distribution in the Ruby heap.
 
 Example:
 
 ```json
-[1422023962.011763,204525568,195096576,"TERMINATED",[76,2357,2437,174,960702,466696,494006,0,465869,494832,2183,174,2357,0,14999220,14532524,37216,17136915,64,12,11707,23412,434060,868122,37600,26258064],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},null]
+[70201748333020,1422023962.011763,204525568,195096576,"TERMINATED",[76,2357,2437,174,960702,466696,494006,0,465869,494832,2183,174,2357,0,14999220,14532524,37216,17136915,64,12,11707,23412,434060,868122,37600,26258064],{"major_by":"force","gc_by":"method","have_finalizer":false,"immediate_sweep":true,"state":"none"},{"TOTAL":33016,"FREE":260,"T_OBJECT":963,"T_CLASS":911,"T_MODULE":45,"T_FLOAT":7,"T_STRING":18985,"T_REGEXP":387,"T_ARRAY":2803,"T_HASH":191,"T_STRUCT":222,"T_BIGNUM":2,"T_FILE":233,"T_DATA":1391,"T_MATCH":519,"T_COMPLEX":1,"T_NODE":6045,"T_ICLASS":48,"T_ZOMBIE":3}]
 ```
 
 ## HTTP Response codes

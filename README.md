@@ -202,7 +202,7 @@ We don't track any data specific to your application other than a simple environ
 * Compile time GC options eg. "["USE_RGENGC", "RGENGC_ESTIMATE_OLDMALLOC", "GC_ENABLE_LAZY_SWEEP"]"
 * Compile time GC constants eg. "{"RVALUE_SIZE"=>40, "HEAP_OBJ_LIMIT"=>408, "HEAP_BITMAP_SIZE"=>56, "HEAP_BITMAP_PLANES"=>3}"
 
-Samples hitting our tuner endpoint doesn't include any proprietary details from your application either - just data points about GC activity.
+Samples hitting our tuner endpoint doesn't include any proprietary details from your application either - just data points about GC activity, memory usage, current thread etc.
 
 We do however ask for a valid email address as a canonical reference for tuner tokens for your applications.
 

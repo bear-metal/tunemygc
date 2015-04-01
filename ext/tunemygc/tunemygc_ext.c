@@ -59,6 +59,7 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
 
     tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
+    stat->thread_id = rb_obj_id(rb_thread_current());
     stat->ts = _tunemygc_walltime();
     stat->peak_rss = getPeakRSS();
     stat->current_rss = getCurrentRSS();
