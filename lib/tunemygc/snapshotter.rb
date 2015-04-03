@@ -19,7 +19,7 @@ module TuneMyGc
     end
 
     def take(stage, meta = nil)
-      _buffer([Thread.current.object_id, TuneMyGc.walltime, TuneMyGc.peak_rss, TuneMyGc.current_rss, stage, GC.stat.values_at(*stat_keys), GC.latest_gc_info, meta])
+      _buffer([TuneMyGc.walltime, TuneMyGc.peak_rss, TuneMyGc.current_rss, stage, GC.stat.values_at(*stat_keys), GC.latest_gc_info, meta, thread_id])
     end
 
     # low level interface, for tests and GC callback
@@ -44,9 +44,15 @@ module TuneMyGc
     end
 
     private
+    def thread_id
+      if Thread.current == Thread.main
+        Thread.current.object_id
+      end
+    end
+
     def _buffer(snapshot)
-      if snapshot[4] =~ TERMINATED || size < MAX_SAMPLES
-        self.unit_of_work = true if snapshot[4] =~ UNITS_OF_WORK
+      if snapshot[3] =~ TERMINATED || size < MAX_SAMPLES
+        self.unit_of_work = true if snapshot[3] =~ UNITS_OF_WORK
         @buffer << snapshot
       else
         TuneMyGc.log "Discarding snapshot #{snapshot.inspect} (max samples threshold of #{MAX_SAMPLES} reached)"

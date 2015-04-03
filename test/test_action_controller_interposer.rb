@@ -43,7 +43,7 @@ class TestActionControllerInterposer < TuneMyGcTestCase
     # Account for incremental GC on 2.2
     cycles = [:GC_CYCLE_STARTED, :GC_CYCLE_ENTERED]
 
-    assert stages.any?{|s| cycles.include?(s[4]) }
+    assert stages.any?{|s| cycles.include?(s[3]) }
 
     interposer.uninstall
     assert_equal [], interposer.spy.subscriptions
@@ -71,7 +71,7 @@ class TestActionControllerInterposer < TuneMyGcTestCase
 
     cycles = [:PROCESSING_STARTED]
 
-    assert stages.any?{|s| cycles.include?(s[4]) }
+    assert stages.any?{|s| cycles.include?(s[3]) }
 
     interposer.uninstall
   ensure

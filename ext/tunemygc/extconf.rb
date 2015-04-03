@@ -59,14 +59,14 @@ if gc_events
       gc_latest_info.keys.each.with_index{|k, i|
         f.puts "    rb_hash_aset(latest_info, sym_latest_gc_info[#{i}], record->#{k});"
       }
-      f.puts "    rb_ary_store(snapshot, 0, record->thread_id);"
-      f.puts "    rb_ary_store(snapshot, 1, DBL2NUM(record->ts));"
-      f.puts "    rb_ary_store(snapshot, 2, SIZET2NUM(record->peak_rss));"
-      f.puts "    rb_ary_store(snapshot, 3, SIZET2NUM(record->current_rss));"
-      f.puts "    rb_ary_store(snapshot, 4, record->stage);"
-      f.puts "    rb_ary_store(snapshot, 5, stat);"
-      f.puts "    rb_ary_store(snapshot, 6, latest_info);"
-      f.puts "    rb_ary_store(snapshot, 7, Qnil);"
+      f.puts "    rb_ary_store(snapshot, 0, DBL2NUM(record->ts));"
+      f.puts "    rb_ary_store(snapshot, 1, SIZET2NUM(record->peak_rss));"
+      f.puts "    rb_ary_store(snapshot, 2, SIZET2NUM(record->current_rss));"
+      f.puts "    rb_ary_store(snapshot, 3, record->stage);"
+      f.puts "    rb_ary_store(snapshot, 4, stat);"
+      f.puts "    rb_ary_store(snapshot, 5, latest_info);"
+      f.puts "    rb_ary_store(snapshot, 6, Qnil);"
+      f.puts "    rb_ary_store(snapshot, 7, record->thread_id);"
       f.puts "    return snapshot;"
       #
     f.puts "}"
