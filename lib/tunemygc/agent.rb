@@ -4,6 +4,7 @@ require "tunemygc/tunemygc_ext"
 require "tunemygc/interposer"
 require "tunemygc/snapshotter"
 require "logger"
+require "objspace"
 
 module TuneMyGc
   MUTEX = Mutex.new
