@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.53)
+    tunemygc (1.0.56)
 
 GEM
   remote: https://rubygems.org/
@@ -46,6 +46,8 @@ GEM
     builder (3.2.2)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    delayed_job (4.0.6)
+      activesupport (>= 3.0, < 5.0)
     erubis (2.7.0)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
@@ -117,6 +119,7 @@ PLATFORMS
 DEPENDENCIES
   activejob (~> 4.2, >= 4.2.0)
   activesupport (~> 4.1)
+  delayed_job (~> 4.0.6, >= 4.0.6)
   rails
   rake (~> 10.3)
   rake-compiler (~> 0.9, >= 0.9.5)

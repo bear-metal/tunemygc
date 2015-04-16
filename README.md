@@ -108,9 +108,9 @@ And after some profiling requests, when the process terminates, you can visit th
 
 #### Advanced
 
-* `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job`, `que_job`, `minitest` or `rspec` are supported)
+* `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job`, `delayed_job`, `que_job`, `minitest` or `rspec` are supported)
 
-Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob), [que](https://github.com/chanks/que), [minitest](https://github.com/seattlerb/minitest) and [rspec](http://rspec.info) are also supported as experimental features.
+Defines what type of processing you would like to sample for GC activity. An Action Controller spy is the default, but [ActiveJob](https://github.com/rails/rails/tree/master/activejob), [delayed_job](https://github.com/collectiveidea/delayed_job), [que](https://github.com/chanks/que), [minitest](https://github.com/seattlerb/minitest) and [rspec](http://rspec.info) are also supported as experimental features.
 
 ## How do I use this?
 

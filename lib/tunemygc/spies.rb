@@ -8,12 +8,21 @@ module TuneMyGc
     end
 
     spy :Base, 'base'
+
+    # Web
     spy :ActionController, 'action_controller'
-    spy :Minitest, 'minitest'
-    spy :ActiveJob, 'active_job'
+
+    # Manual
     spy :Manual, 'manual'
+
+    # Tests
+    spy :Minitest, 'minitest'
     spy :Rspec, 'rspec'
+
+    # Async jobs
+    spy :ActiveJob, 'active_job'
     spy :QueJob, 'que_job'
+    spy :DelayedJob, 'delayed_job'
 
     def self.ids
       current.map do |spy|
