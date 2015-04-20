@@ -15,6 +15,8 @@
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <mach/mach.h>
+#include <mach/task.h>
+#include <mach/task_info.h>
 
 #elif (defined(_AIX) || defined(__TOS__AIX__)) || (defined(__sun__) || defined(__sun) || defined(sun) && (defined(__SVR4) || defined(__svr4__)))
 #include <fcntl.h>
@@ -94,13 +96,21 @@ size_t getCurrentRSS( )
 
 #elif defined(__APPLE__) && defined(__MACH__)
 	/* OSX ------------------------------------------------------ */
+#ifdef MACH_TASK_BASIC_INFO
 	struct mach_task_basic_info info;
 	mach_msg_type_number_t infoCount = MACH_TASK_BASIC_INFO_COUNT;
 	if ( task_info( mach_task_self( ), MACH_TASK_BASIC_INFO,
 		(task_info_t)&info, &infoCount ) != KERN_SUCCESS )
 		return (size_t)0L;		/* Can't access? */
 	return (size_t)info.resident_size;
-
+#else
+	struct task_basic_info info;
+	mach_msg_type_number_t infoCount = TASK_BASIC_INFO_COUNT
+	if (task_info( mach_task_self(), TASK_BASIC_INFO,
+		(task_info_t)&info, &infoCount) != KERN_SUCCESS)
+		return (size_t)0L;
+		return (size_t)info.resident_size;
+#endif
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
 	/* Linux ---------------------------------------------------- */
 	long rss = 0L;
