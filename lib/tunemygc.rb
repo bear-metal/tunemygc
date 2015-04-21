@@ -19,13 +19,13 @@ end
 
 if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
   if TuneMyGc.rails?
-    puts "[TuneMyGC] Rails detected, loading railtie"
+    puts "[tunemygc] Rails detected, loading railtie"
     require 'tunemygc/railtie'
   else
-    puts "[TuneMyGC] Rails not detected, loading minimal agent"
+    puts "[tunemygc] Rails not detected, loading minimal agent"
     require 'tunemygc/agent'
     TuneMyGc.booted
   end
 else
-  puts "[TuneMyGC] not enabled"
+  puts "[tunemygc] not enabled"
 end

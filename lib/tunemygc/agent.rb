@@ -33,7 +33,7 @@ module TuneMyGc
   end
 
   def log(message)
-    logger.info "[TuneMyGC, pid: #{Process.pid}] #{message}"
+    logger.info "[tunemygc, pid: #{Process.pid}] #{message}"
   end
 
   def spy_ids

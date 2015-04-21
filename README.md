@@ -58,9 +58,9 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rail
 And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
 
 ``` sh
-[TuneMyGC, pid: 70160] Syncing 688 snapshots
-[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
-[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
+[tunemygc, pid: 70160] Syncing 688 snapshots
+[tunemygc, pid: 70160] ==== Recommended GC configs for ActionController
+[tunemygc, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 The CLI interface supports retrieving configuration options for your application as well.
@@ -101,9 +101,9 @@ RUBY_GC_TOKEN=08de9e8822c847244b31290cedfc1d51 RUBY_GC_TUNE=200 bundle exec rail
 And after some profiling requests, when the process terminates, you can visit the given report URL for a config recommendation and some further insights:
 
 ``` sh
-[TuneMyGC, pid: 70160] Syncing 688 snapshots
-[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
-[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
+[tunemygc, pid: 70160] Syncing 688 snapshots
+[tunemygc, pid: 70160] ==== Recommended GC configs for ActionController
+[tunemygc, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 #### Advanced
@@ -121,9 +121,9 @@ This gem is only a lightweight agent and designed to not get in your way. It sam
 An instrumented process dumps a report URL with a reccommended config to the Rails logger.
 
 ``` sh
-[TuneMyGC, pid: 70160] Syncing 688 snapshots
-[TuneMyGC, pid: 70160] ==== Recommended GC configs for ActionController
-[TuneMyGC, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
+[tunemygc, pid: 70160] Syncing 688 snapshots
+[tunemygc, pid: 70160] ==== Recommended GC configs for ActionController
+[tunemygc, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
 We're still in the process of building tools and a launcher shim around this. You can also retrieve the last known configuration for you app via the CLI interface:
