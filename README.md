@@ -147,9 +147,9 @@ export RUBY_GC_OLDMALLOC_LIMIT_GROWTH_FACTOR=1.2
 
 We're busy working on adding tips on the report URLs for some common problem contexts.
 
-#### Heroku and 12 factor
+#### Heroku, 12 factor and PaaS platforms
 
-We have a [Heroku](http://www.heroku.com) addon in Alpha testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables.
+We have a [Heroku](http://www.heroku.com) addon in Alpha / Beta testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables. Ping us at <tunemygc@bearmetal.eu> with your Heroku email for an invite.
 
 #### Custom hooks for add hoc scripts
 
