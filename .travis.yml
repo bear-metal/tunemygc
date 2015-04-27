@@ -7,6 +7,7 @@ rvm:
   - 2.1.5
   - 2.2.0
   - 2.2.1
+  - 2.2.2
   - ruby-head
 script: "bundle exec rake"
 env: RUBY_GC_TUNE=200 RUBY_GC_TUNE_DEBUG=1 RUBY_GC_SYNC_ALWAYS=1
