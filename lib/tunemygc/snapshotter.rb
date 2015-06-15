@@ -52,7 +52,9 @@ module TuneMyGc
 
     def _buffer(snapshot)
       if snapshot[3] =~ TERMINATED || size < MAX_SAMPLES
-        self.unit_of_work = true if snapshot[3] =~ UNITS_OF_WORK
+        unless self.unit_of_work
+          self.unit_of_work = true if snapshot[3] =~ UNITS_OF_WORK
+        end
         @buffer << snapshot
       else
         TuneMyGc.log "Discarding snapshot #{snapshot.inspect} (max samples threshold of #{MAX_SAMPLES} reached)"
