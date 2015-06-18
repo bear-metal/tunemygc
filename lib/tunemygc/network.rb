@@ -2,6 +2,11 @@
 
 require 'net/http'
 require 'timeout'
+require 'openssl'
+
+if OpenSSL::VERSION < "1.0.1"
+  TuneMyGc.log "!!! and openssl version > 1.0.1 is required for syncing data with the configuration service !!! "
+end
 
 module TuneMyGc
   NETWORK_TIMEOUT = 30 #seconds
