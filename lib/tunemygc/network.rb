@@ -5,7 +5,7 @@ require 'timeout'
 require 'openssl'
 
 # Ruby 2.1.x versions don't have OpenSSL::OPENSSL_LIBRARY_VERSION defined
-ssl_version_const = OpenSSl.const_defined?(:OPENSSL_LIBRARY_VERSION) ? :OPENSSL_LIBRARY_VERSION : :OPENSSL_VERSION
+ssl_version_const = OpenSSL.const_defined?(:OPENSSL_LIBRARY_VERSION) ? :OPENSSL_LIBRARY_VERSION : :OPENSSL_VERSION
 ssl_version = OpenSSL.const_get(ssl_version_const).scan(/\d+\.\d+\.\d+/)[0]
 if ssl_version.nil?
   TuneMyGc.log "!!! could not determine OpenSSL version !!!"
