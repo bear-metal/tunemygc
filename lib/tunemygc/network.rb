@@ -4,8 +4,11 @@ require 'net/http'
 require 'timeout'
 require 'openssl'
 
-if OpenSSL::VERSION < "1.0.1"
-  TuneMyGc.log "!!! and openssl version > 1.0.1 is required for syncing data with the configuration service !!! "
+ssl_version = OpenSSL::OPENSSL_LIBRARY_VERSION.scan(/\d+\.\d+\.\d+/)[0]
+if ssl_version.nil?
+  TuneMyGc.log "!!! could not determine OpenSSL version !!!"
+elsif ssl_version < "1.0.1"
+  TuneMyGc.log "!!! and openssl version > 1.0.1 is required for syncing data with the configuration service !!!"
 end
 
 module TuneMyGc
