@@ -51,7 +51,7 @@ module TuneMyGc
       config = syncer.sync(snapshotter)
     end
   rescue Exception => e
-    log "Config reccommendation error (#{e.message})"
+    log "Config recommendation error (#{e.message})"
   end
 
   extend self
