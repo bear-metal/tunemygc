@@ -42,7 +42,7 @@ module TuneMyGc
           TuneMyGc.log "at_exit"
           @spies.each{|s| s.uninstall }
           TuneMyGc.snapshot(:TERMINATED, ObjectSpace.count_objects.merge(:memsize => ObjectSpace.memsize_of_all))
-          TuneMyGc.reccommendations
+          TuneMyGc.recommendations
         end
       end
       TuneMyGc.log "hooked: at_exit"
