@@ -44,14 +44,14 @@ module TuneMyGc
     TuneMyGc::Spies.current
   end
 
-  def reccommendations
+  def recommendations
     MUTEX.synchronize do
       require "tunemygc/syncer"
       syncer = TuneMyGc::Syncer.new
       config = syncer.sync(snapshotter)
     end
   rescue Exception => e
-    log "Config reccommendation error (#{e.message})"
+    log "Config recommendation error (#{e.message})"
   end
 
   extend self

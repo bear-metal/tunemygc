@@ -118,7 +118,7 @@ This gem is only a lightweight agent and designed to not get in your way. It sam
 
 #### Interpreting results
 
-An instrumented process dumps a report URL with a reccommended config to the Rails logger.
+An instrumented process dumps a report URL with a recommended config to the Rails logger.
 
 ``` sh
 [tunemygc, pid: 70160] Syncing 688 snapshots
