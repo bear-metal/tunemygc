@@ -106,6 +106,13 @@ And after some profiling requests, when the process terminates, you can visit th
 [tunemygc, pid: 70160] Please visit https://tunemygc.com/configs/d739119e4abc38d42e183d1361991818 to view your configuration and other Garbage Collector insights
 ```
 
+* `RUBY_GC_TUNE_VERBOSE=0`
+
+In some environments (such as CI) you do not want the gem to be outputting the
+"not running" message as this can pollute your log data. If you'd like to
+silence the output, you can set `RUBY_GC_TUNE_VERBOSE=0` and it will not output
+the message.
+
 #### Advanced
 
 * `RUBY_GC_SPY=action_controller` (Spy on the GC for this type of processing. `action_controller`, `active_job`, `delayed_job`, `que_job`, `minitest` or `rspec` are supported)

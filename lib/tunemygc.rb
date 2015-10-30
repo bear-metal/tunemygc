@@ -15,6 +15,10 @@ module TuneMyGc
   def self.rails_version
     rails? ? Rails.version : "0.0"
   end
+
+  def self.run_silently?
+    !ENV['RUBY_GC_TUNE_VERBOSE'].nil? && ENV['RUBY_GC_TUNE_VERBOSE'].to_i == 0
+  end
 end
 
 if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
@@ -27,5 +31,5 @@ if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
     TuneMyGc.booted
   end
 else
-  puts "[tunemygc] not enabled"
+  puts "[tunemygc] not enabled" unless TuneMyGc.run_silently?
 end
