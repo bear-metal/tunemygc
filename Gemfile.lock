@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tunemygc (1.0.61)
+    tunemygc (1.0.62)
 
 GEM
   remote: https://rubygems.org/
@@ -125,3 +125,6 @@ DEPENDENCIES
   rake-compiler (~> 0.9, >= 0.9.5)
   tunemygc!
   webmock (~> 1.2, >= 1.2.0)
+
+BUNDLED WITH
+   1.10.6
