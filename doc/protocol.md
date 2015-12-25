@@ -175,7 +175,7 @@ The agent (protocol) version requires an upgrade. Response body defines the mini
 
 ### 412 Precondition Failed
 
-The GC is already tuned by environment variables, We respect that for most cases, but won't do a reccommendation when the tuner detects that we might clobber the existing config by too much. Response body is a JSON encoded Hash of existing RUBY_GC_* environment variables.
+The GC is already tuned by environment variables, We respect that for most cases, but won't do a recommendation when the tuner detects that we might clobber the existing config by too much. Response body is a JSON encoded Hash of existing RUBY_GC_* environment variables.
 
 ### 400 Bad Request
 
