@@ -61,6 +61,23 @@ module TuneMyGc
       reset
     end
 
+    def kamikaze
+      Thread.new do
+        TuneMyGc.snapshot(:TERMINATED, ObjectSpace.count_objects.merge(:memsize => ObjectSpace.memsize_of_all))
+        TuneMyGc.log "kamikaze: synching #{TuneMyGc.snapshotter.size} GC sample snapshots ahead of time (usually only on process exit)"
+        Timeout.timeout(TuneMyGC::KAMIZE_SYNC_TIMEOUT) do
+          begin
+            TuneMyGc.recommendations
+            reset
+          rescue Timeout::Error
+            # Discard the TERMINATED snapshot, retry in the at_exit block
+            TuneMyGc.snapshotter.deq
+            TuneMyGc.log "kamikaze: timeout syncing #{TuneMyGc.snapshotter.size} GC samples ahead of time"
+          end
+        end
+      end
+    end
+
     private
     def reset
       @installed = false

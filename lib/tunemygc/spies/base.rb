@@ -23,6 +23,7 @@ module TuneMyGc
           if @processed == @limit
             uninstall
             TuneMyGc.log "kamikaze after #{@processed} of #{@limit} units of work"
+            TuneMyGc.interposer.kamikaze
           end
         end
       end
