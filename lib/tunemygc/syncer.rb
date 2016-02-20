@@ -48,7 +48,7 @@ module TuneMyGc
           payload.clear
         end
       else
-        TunemMyGc.log "The TuneMyGC service requires an instrumented application to do at least one unit of work (an ActionController request / response cycle, processing a background job through ActiveJob etc.) in order to suggest a configuration."
+        TuneMyGc.log "The TuneMyGC service requires an instrumented application to do at least one unit of work (an ActionController request / response cycle, processing a background job through ActiveJob etc.) in order to suggest a configuration."
         TuneMyGc.log "During the last instrumented run, the agent observed #{snapshotter.size} GC events of interest, but none of them happened within the context of a unit of work and is thus not representative of your application's GC profile."
         TuneMyGc.log "Therefore, we're discarding #{snapshotter.size} snapshots and will generate a configuration when there's more context available for the agent to get a representative sample size."
         false
