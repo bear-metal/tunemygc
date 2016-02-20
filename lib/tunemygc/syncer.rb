@@ -48,7 +48,9 @@ module TuneMyGc
           payload.clear
         end
       else
-        TuneMyGc.log "Nothing to sync, discarding #{snapshotter.size} snapshots"
+        TunemMyGc.log "The TuneMyGC service requires an instrumented application to do at least one unit of work (an ActionController request / response cycle, processing a background job through ActiveJob etc.) in order to suggest a configuration."
+        TuneMyGc.log "During the last instrumented run, the agent observed #{snapshotter.size} GC events of interest, but none of them happened within the context of a unit of work and is thus not representative of your application's GC profile."
+        TuneMyGc.log "Nothing to sync, discarding #{snapshotter.size} snapshots."
         false
       end
     end
