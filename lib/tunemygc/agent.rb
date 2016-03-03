@@ -24,6 +24,14 @@ module TuneMyGc
     interposer.check_uninstall
   end
 
+  def terminated
+    TuneMyGc.snapshot(:TERMINATED, count_objects)
+  end
+
+  def count_objects
+    ObjectSpace.count_objects.merge(:memsize => ObjectSpace.memsize_of_all)
+  end
+
   def snapshot(stage, meta = nil)
     snapshotter.take(stage, meta)
   end

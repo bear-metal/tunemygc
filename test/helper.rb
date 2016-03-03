@@ -7,6 +7,7 @@ require 'tunemygc'
 require "tunemygc/syncer"
 require 'minitest/autorun'
 require 'webmock/minitest'
+require 'mocha/mini_test'
 
 WebMock.disable_net_connect!
 

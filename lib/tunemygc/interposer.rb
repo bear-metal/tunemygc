@@ -41,7 +41,7 @@ module TuneMyGc
         if @installed
           TuneMyGc.log "at_exit"
           @spies.each{|s| s.uninstall }
-          TuneMyGc.snapshot(:TERMINATED, ObjectSpace.count_objects.merge(:memsize => ObjectSpace.memsize_of_all))
+          TuneMyGc.terminated
           TuneMyGc.recommendations
         end
       end
@@ -63,9 +63,9 @@ module TuneMyGc
 
     def kamikaze
       Thread.new do
-        TuneMyGc.snapshot(:TERMINATED, ObjectSpace.count_objects.merge(:memsize => ObjectSpace.memsize_of_all))
+        TuneMyGc.terminated
         TuneMyGc.log "kamikaze: synching #{TuneMyGc.snapshotter.size} GC sample snapshots ahead of time (usually only on process exit)"
-        Timeout.timeout(TuneMyGC::KAMIZE_SYNC_TIMEOUT) do
+        Timeout.timeout(TuneMyGc::KAMIZE_SYNC_TIMEOUT) do
           begin
             TuneMyGc.recommendations
             reset

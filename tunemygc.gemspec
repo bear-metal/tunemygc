@@ -28,4 +28,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('webmock', '~> 1.2', '>= 1.2.0')
   s.add_development_dependency('activejob', '~> 4.2', '>= 4.2.0')
   s.add_development_dependency('delayed_job', '~> 4.0.6', '>= 4.0.6')
+  s.add_development_dependency('mocha', '~> 1.1.0')
 end
