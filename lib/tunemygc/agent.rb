@@ -25,7 +25,7 @@ module TuneMyGc
   end
 
   def terminated
-    TuneMyGc.snapshot(:TERMINATED, count_objects)
+    snapshot(:TERMINATED, count_objects)
   end
 
   def count_objects
