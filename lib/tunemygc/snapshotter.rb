@@ -45,7 +45,7 @@ module TuneMyGc
 
     private
     def thread_id
-      if Thread.current == Thread.main
+      if Thread.current != Thread.main
         Thread.current.object_id
       end
     end
