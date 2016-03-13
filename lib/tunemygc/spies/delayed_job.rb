@@ -25,8 +25,6 @@ module TuneMyGc
       end
 
       def uninstall
-        TuneMyGc.uninstall_gc_tracepoint
-        TuneMyGc.log "uninstalled GC tracepoint"
         Delayed::Worker.plugins.delete(Delayed::Plugins::TuneMyGcPlugin)
         TuneMyGc.log "uninstalled delayed_job spy"
       end

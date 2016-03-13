@@ -11,8 +11,6 @@ module TuneMyGc
       end
 
       def uninstall
-        TuneMyGc.uninstall_gc_tracepoint
-        TuneMyGc.log "uninstalled GC tracepoint"
         ::Que::Job.__send__(:include, TuneMyGc::Spies::QueJob::DisabledHooks)
         TuneMyGc.log "uninstalled que_job spy"
       end

@@ -15,8 +15,6 @@ module TuneMyGc
       end
 
       def uninstall
-        TuneMyGc.uninstall_gc_tracepoint
-        TuneMyGc.log "uninstalled GC tracepoint"
         RSpec::Core.__send__(:include, disabled_hooks_module)
         TuneMyGc.log "uninstalled rspec spy"
       end

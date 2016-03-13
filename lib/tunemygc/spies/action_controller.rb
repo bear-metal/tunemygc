@@ -45,8 +45,6 @@ module TuneMyGc
       end
 
       def uninstall
-        TuneMyGc.uninstall_gc_tracepoint
-        TuneMyGc.log "uninstalled GC tracepoint"
         @subscriptions.each{|s| ActiveSupport::Notifications.unsubscribe(s) }
         @subscriptions.clear
         TuneMyGc.log "uninstalled action_controller spy"
