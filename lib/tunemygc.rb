@@ -19,9 +19,13 @@ module TuneMyGc
   def self.run_silently?
     !ENV['RUBY_GC_TUNE_VERBOSE'].nil? && ENV['RUBY_GC_TUNE_VERBOSE'].to_i == 0
   end
+
+  def self.enabled?
+    ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
+  end
 end
 
-if ENV["RUBY_GC_TUNE"] && ENV["RUBY_GC_TUNE"] != ""
+if TuneMyGc.enabled?
   if TuneMyGc.rails?
     puts "[tunemygc] Rails detected, loading railtie"
     require 'tunemygc/railtie'
