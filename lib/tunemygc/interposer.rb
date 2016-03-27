@@ -68,7 +68,7 @@ module TuneMyGc
         Timeout.timeout(TuneMyGc::KAMIZE_SYNC_TIMEOUT) do
           begin
             TuneMyGc.recommendations
-            reset
+            uninstall
           rescue Timeout::Error
             # Discard the TERMINATED snapshot, retry in the at_exit block
             TuneMyGc.snapshotter.deq
