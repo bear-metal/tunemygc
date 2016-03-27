@@ -16,6 +16,8 @@ end
 module TuneMyGc
   NETWORK_TIMEOUT = 30 #seconds
   KAMIZE_SYNC_TIMEOUT = 35 #seconds
+  NETWORK_ERRORS = [ Timeout::Error, Errno::ETIMEDOUT, Errno::EINVAL, Errno::ECONNRESET, Errno::ECONNREFUSED,
+                     EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, IOError ]
 
   def self.http_client
     uri = URI("https://#{TuneMyGc::HOST}")

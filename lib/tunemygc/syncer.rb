@@ -92,8 +92,7 @@ module TuneMyGc
         TuneMyGc.log "Unknown error: #{response.body}"
         return false
       end
-    rescue Timeout::Error, Errno::ETIMEDOUT, Errno::EINVAL, Errno::ECONNRESET, Errno::ECONNREFUSED,
-           EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, IOError => e
+    rescue *TuneMyGc::NETWORK_ERRORS => e
       TuneMyGc.log "Failed to sync #{snapshots} snapshots (error: #{e})"
       return :retryable
     end
