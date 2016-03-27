@@ -67,8 +67,8 @@ module TuneMyGc
         TuneMyGc.log "kamikaze: synching #{TuneMyGc.snapshotter.size} GC sample snapshots ahead of time (usually only on process exit)"
         Timeout.timeout(TuneMyGc::KAMIZE_SYNC_TIMEOUT) do
           begin
-            TuneMyGc.recommendations
             uninstall
+            TuneMyGc.recommendations
           rescue Timeout::Error
             # Discard the TERMINATED snapshot, retry in the at_exit block
             TuneMyGc.snapshotter.deq
