@@ -35,5 +35,5 @@ if TuneMyGc.enabled?
     TuneMyGc.booted
   end
 else
-  puts "[tunemygc] not enabled" unless TuneMyGc.run_silently?
+  STDERR.puts "[tunemygc] not enabled" unless TuneMyGc.run_silently?
 end
