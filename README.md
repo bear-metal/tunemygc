@@ -156,7 +156,7 @@ We're busy working on adding tips on the report URLs for some common problem con
 
 #### Heroku, 12 factor and PaaS platforms
 
-We have a [Heroku](http://www.heroku.com) addon in Alpha / Beta testing and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables. Ping us at <tunemygc@bearmetal.eu> with your Heroku email for an invite.
+We have a [Heroku](http://www.heroku.com) [addon in Beta](https://elements.heroku.com/addons/tunemygc) and the Ruby GC lends itself well to tuning through [12 factor](http://12factor.net) principles as it's designed around environment variables.
 
 #### Custom hooks for add hoc scripts
 
