@@ -24,6 +24,8 @@ module TuneMyGc
             uninstall
             TuneMyGc.log "kamikaze after #{@processed} of #{@limit} units of work"
             TuneMyGc.interposer.kamikaze
+          elsif ENV['RUBY_GC_TUNE_VERBOSE']
+            TuneMyGc.log "logged #{@processed} of #{@limit} units of work"
           end
         end
       end
