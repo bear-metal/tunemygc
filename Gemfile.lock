@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/flori/json.git
+  revision: c7a6e31f3abde6efbf0629dea68b43bebb62c94a
+  branch: v1.8
+  specs:
+    json (1.8.5)
+
 PATH
   remote: .
   specs:
@@ -54,7 +61,6 @@ GEM
     hashdiff (0.3.0)
     hike (1.2.3)
     i18n (0.7.0)
-    json (1.8.2)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -125,6 +131,7 @@ DEPENDENCIES
   activejob (~> 4.2, >= 4.2.0)
   activesupport (~> 4.1)
   delayed_job (~> 4.0.6, >= 4.0.6)
+  json!
   mocha (~> 1.1.0)
   rails
   rake (~> 10.3)
