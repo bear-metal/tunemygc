@@ -8,14 +8,7 @@ class TuneMyGcJob < ActiveJob::Base
   end
 end
 
-class TestActiveJobInterposer < TuneMyGcTestCase
-  def setup
-    TuneMyGc.interposer.uninstall
-  end
-
-  def teardown
-    TuneMyGc.interposer = TuneMyGc::Interposer.new([:ActionController])
-  end
+class TestActiveJobInterposer < TuneMyGcInterposerTestCase
 
   def test_init
     TuneMyGc.interposer = TuneMyGc::Interposer.new([:ActiveJob])

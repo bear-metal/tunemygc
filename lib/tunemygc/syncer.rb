@@ -56,7 +56,8 @@ module TuneMyGc
     end
 
     def sync_required?(snapshotter)
-      return true if ENV['RUBY_GC_SYNC_ALWAYS']
+      return false if ENV['RUBY_GC_SYNC_NEVER']
+      return true  if ENV['RUBY_GC_SYNC_ALWAYS']
       TuneMyGc.log "Sync required? #{snapshotter.unit_of_work}"
       snapshotter.unit_of_work
     end

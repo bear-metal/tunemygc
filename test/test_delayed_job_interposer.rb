@@ -10,14 +10,7 @@ NewsletterJob = Struct.new(:text, :emails) do
   end
 end
 
-class TestDelayedJobInterposer < TuneMyGcTestCase
-  def setup
-    TuneMyGc.interposer.uninstall
-  end
-
-  def teardown
-    TuneMyGc.interposer = TuneMyGc::Interposer.new([:ActionController])
-  end
+class TestDelayedJobInterposer < TuneMyGcInterposerTestCase
 
   def test_init
     TuneMyGc.interposer = TuneMyGc::Interposer.new([:DelayedJob])

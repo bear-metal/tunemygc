@@ -2,10 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'helper')
 
-class TestActionControllerInterposer < TuneMyGcTestCase
-  def setup
-    TuneMyGc.interposer.uninstall
-  end
+class TestActionControllerInterposer < TuneMyGcInterposerTestCase
 
   def test_init
     interposer = TuneMyGc.interposer

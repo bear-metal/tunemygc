@@ -12,14 +12,7 @@ class MinitestSandboxTest < MiniTest::Unit::TestCase
   end
 end
 
-class TestMinitestInterposer < TuneMyGcTestCase
-  def setup
-    TuneMyGc.interposer.uninstall
-  end
-
-  def teardown
-    TuneMyGc.interposer = TuneMyGc::Interposer.new([:ActionController])
-  end
+class TestMinitestInterposer < TuneMyGcInterposerTestCase
 
   def test_init
     TuneMyGc.interposer = TuneMyGc::Interposer.new([:Minitest])
