@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'tunemygc/spies'
+require 'tunemygc/network'
 
 module TuneMyGc
   class Interposer
