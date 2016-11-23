@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    tunemygc (1.0.65)
+    tunemygc (1.0.68)
 
 GEM
   remote: https://rubygems.org/
@@ -128,16 +128,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activejob (~> 4.2, >= 4.2.0)
-  activesupport (~> 4.1)
-  delayed_job (~> 4.0.6, >= 4.0.6)
+  delayed_job (~> 4.0.6)
   json!
   mocha (~> 1.1.0)
-  rails
+  rails (~> 4.2)
   rake (~> 10.3)
   rake-compiler (~> 0.9, >= 0.9.5)
   tunemygc!
   webmock (~> 1.2, >= 1.2.0)
 
 BUNDLED WITH
-   1.10.6
+   1.13.6
