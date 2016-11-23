@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    tunemygc (1.0.68)
+    tunemygc (1.0.69)
 
 GEM
   remote: https://rubygems.org/
