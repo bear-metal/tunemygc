@@ -3,6 +3,7 @@
 require 'rubygems' unless defined?(Gem)
 require 'rake' unless defined?(Rake)
 
+require "bundler/gem_tasks"
 require 'rake/extensiontask'
 require 'rake/testtask'
 
