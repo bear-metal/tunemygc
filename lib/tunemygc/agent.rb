@@ -52,13 +52,7 @@ module TuneMyGc
   end
 
   def recommendations
-    MUTEX.synchronize do
-      require "tunemygc/syncer"
-      syncer = TuneMyGc::Syncer.new
-      config = syncer.sync(snapshotter)
-    end
-  rescue Exception => e
-    log "Config recommendation error (#{e.message})"
+  # no op
   end
 
   extend self
