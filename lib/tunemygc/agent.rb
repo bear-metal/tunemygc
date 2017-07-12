@@ -3,7 +3,6 @@
 require "tunemygc/tunemygc_ext"
 require "tunemygc/interposer"
 require "tunemygc/snapshotter"
-require "logger"
 require "objspace"
 
 module TuneMyGc
@@ -41,7 +40,7 @@ module TuneMyGc
   end
 
   def log(message)
-    logger.info "[tunemygc, ppid: #{Process.ppid}, pid: #{Process.pid}] #{message}"
+    puts "[tunemygc, ppid: #{Process.ppid}, pid: #{Process.pid}] #{message}"
   end
 
   def spy_ids
@@ -65,7 +64,6 @@ module TuneMyGc
   extend self
 
   MUTEX.synchronize do
-    self.logger = Logger.new($stdout)
     self.interposer = TuneMyGc::Interposer.new
     self.snapshotter = TuneMyGc::Snapshotter.new
   end
