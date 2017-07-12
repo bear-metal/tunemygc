@@ -1,5 +1,7 @@
 #include "tunemygc_ext.h"
 
+static char disabled = 0;
+
 VALUE rb_mTunemygc;
 static ID id_tunemygc_tracepoint;
 static ID id_tunemygc_raw_snapshot;
@@ -56,10 +58,18 @@ static void tunemygc_invoke_gc_snapshot(void *data)
  */
 static void tunemygc_gc_hook_i(VALUE tpval, void *data)
 {
+    if (disabled) {
+        return;
+    }
     rb_trace_arg_t *tparg = rb_tracearg_from_tracepoint(tpval);
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
 
     tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
+    if(stat == NULL) {
+        fprintf(stderr, "[TuneMyGc.ext] malloc'ing tunemygc_stat_record failed, disabling!\n");
+        disabled = 1;
+        return;
+    }
     if (rb_thread_current() == rb_thread_main()) {
       stat->thread_id = Qnil;
     } else {
@@ -90,7 +100,11 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     }
 
     tunemygc_set_stat_record(stat);
-    rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat);
+    if(!rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat)) {
+        fprintf(stderr, "[TuneMyGc.ext] Failed enqueing rb_postponed_job_register, disabling!\n");
+        disabled = 1;
+        free(stat);
+    }
 }
 
 /* Installs the GC tracepoint and declare interest only in start of the cycle and end of sweep
