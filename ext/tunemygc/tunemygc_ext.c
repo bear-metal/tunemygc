@@ -18,7 +18,7 @@ static double _tunemygc_walltime()
 {
   struct timespec ts;
 #ifdef HAVE_CLOCK_GETTIME
-  if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+  if (clock_gettime(CLOCK_MONOTONIC, &ts) == -1) {
     rb_sys_fail("clock_gettime");
   }
 #else
