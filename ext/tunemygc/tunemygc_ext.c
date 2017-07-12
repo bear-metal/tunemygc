@@ -1,6 +1,7 @@
 #include "tunemygc_ext.h"
 
 static char disabled = 0;
+static tunemygc_stat_record* current_cycle = NULL;
 
 VALUE rb_mTunemygc;
 static ID id_tunemygc_tracepoint;
@@ -42,15 +43,33 @@ static VALUE tunemygc_walltime(VALUE mod)
     return DBL2NUM(_tunemygc_walltime());
 }
 
+static void reverse(tunemygc_stat_record** head_ref) {
+    tunemygc_stat_record* prev   = NULL;
+    tunemygc_stat_record* current = *head_ref;
+    tunemygc_stat_record* next;
+    while (current != NULL) {
+        next  = current->next;  
+        current->next = prev;   
+        prev = current;
+        current = next;
+    }
+    *head_ref = prev;
+}
+
 /* Postponed job callback that fires when the VM is in a consistent state again (sometime
  * after the GC cycle, notably RUBY_INTERNAL_EVENT_GC_END_SWEEP)
  */
 static void tunemygc_invoke_gc_snapshot(void *data)
 {
     tunemygc_stat_record *stat = (tunemygc_stat_record *)data;
-    VALUE snapshot = tunemygc_get_stat_record(stat);
-    rb_funcall(rb_mTunemygc, id_tunemygc_raw_snapshot, 1, snapshot);
-    free(stat);
+    reverse(&stat);
+    while(stat != NULL) {
+        VALUE snapshot = tunemygc_get_stat_record(stat);
+        rb_funcall(rb_mTunemygc, id_tunemygc_raw_snapshot, 1, snapshot);
+        tunemygc_stat_record *next = (tunemygc_stat_record *)stat->next;
+        free(stat);
+        stat = next;
+    }
 }
 
 /* GC tracepoint hook. Snapshots GC state using new low level helpers which are safe
@@ -61,6 +80,7 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     if (disabled) {
         return;
     }
+    char publish = 0;
     rb_trace_arg_t *tparg = rb_tracearg_from_tracepoint(tpval);
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
 
@@ -92,18 +112,29 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
         case RUBY_INTERNAL_EVENT_GC_ENTER:
             stat->stage = sym_gc_cycle_entered;
+            if (current_cycle != NULL) {
+                fprintf(stderr, "Reentrant GC Cycle?!");
+                abort();
+            }
             break;
         case RUBY_INTERNAL_EVENT_GC_EXIT:
             stat->stage = sym_gc_cycle_exited;
+            publish = 1;
             break;
 #endif
     }
 
     tunemygc_set_stat_record(stat);
-    if(!rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat)) {
-        fprintf(stderr, "[TuneMyGc.ext] Failed enqueing rb_postponed_job_register, disabling!\n");
-        disabled = 1;
-        free(stat);
+    stat->next = current_cycle;
+    current_cycle = stat;
+
+    if (publish == 1) {
+        if (!rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat)) {
+            fprintf(stderr, "[TuneMyGc.ext] Failed enqueing rb_postponed_job_register, disabling!\n");
+            disabled = 1;
+            free(stat);
+        }
+        current_cycle = NULL;
     }
 }
 
