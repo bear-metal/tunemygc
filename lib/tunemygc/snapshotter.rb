@@ -9,13 +9,14 @@ module TuneMyGc
     MAX_SAMPLES = (ENV['RUBY_GC_MAX_SAMPLES'] ? Integer(ENV['RUBY_GC_MAX_SAMPLES']) : 50000)
 
     attr_reader :buffer
-    attr_accessor :unit_of_work
+    attr_accessor :unit_of_work, :reducer
     attr_reader :stat_keys
 
     def initialize(buf = Queue.new)
       @buffer = buf
       @unit_of_work = false
       @stat_keys = GC.stat.keys
+      @reducer = nil
     end
 
     def take(stage, meta = nil)
@@ -51,6 +52,10 @@ module TuneMyGc
     end
 
     def _buffer(snapshot)
+      if reducer && size >= MAX_SAMPLES
+        reducer.call(self)
+      end
+
       if snapshot[3] =~ TERMINATED || size < MAX_SAMPLES
         unless self.unit_of_work
           self.unit_of_work = true if snapshot[3] =~ UNITS_OF_WORK
