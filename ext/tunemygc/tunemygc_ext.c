@@ -113,8 +113,14 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
         case RUBY_INTERNAL_EVENT_GC_ENTER:
             stat->stage = sym_gc_cycle_entered;
             if (current_cycle != NULL) {
-                fprintf(stderr, "Reentrant GC Cycle?!");
-                abort();
+                fprintf(stderr, "[TuneMyGc.ext] Reentrant GC Cycle?! Disabling!");
+                disabled = 1;
+                while(stat != NULL) {
+                    tunemygc_stat_record *next = (tunemygc_stat_record *)stat->next;
+                    free(stat);
+                    stat = next;
+                }
+                return;
             }
             break;
         case RUBY_INTERNAL_EVENT_GC_EXIT:
