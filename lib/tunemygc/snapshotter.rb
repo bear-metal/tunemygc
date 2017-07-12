@@ -6,7 +6,7 @@ module TuneMyGc
   class Snapshotter
     UNITS_OF_WORK = /PROCESSING_STARTED|PROCESSING_ENDED/
     TERMINATED = /TERMINATED/
-    MAX_SAMPLES = (ENV['RUBY_GC_MAX_SAMPLES'] ? Integer(ENV['RUBY_GC_MAX_SAMPLES']) : 2000)
+    MAX_SAMPLES = (ENV['RUBY_GC_MAX_SAMPLES'] ? Integer(ENV['RUBY_GC_MAX_SAMPLES']) : 50000)
 
     attr_reader :buffer
     attr_accessor :unit_of_work
