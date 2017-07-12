@@ -132,7 +132,11 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
         if (!rb_postponed_job_register(0, tunemygc_invoke_gc_snapshot, (void *)stat)) {
             fprintf(stderr, "[TuneMyGc.ext] Failed enqueing rb_postponed_job_register, disabling!\n");
             disabled = 1;
-            free(stat);
+            while(stat != NULL) {
+                tunemygc_stat_record *next = (tunemygc_stat_record *)stat->next;
+                free(stat);
+                stat = next;
+            }
         }
         current_cycle = NULL;
     }
