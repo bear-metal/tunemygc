@@ -5,7 +5,8 @@ static ID id_tunemygc_tracepoint;
 static ID id_tunemygc_raw_snapshot;
 
 static VALUE sym_gc_cycle_started;
-static VALUE sym_gc_cycle_ended;
+static VALUE sym_gc_cycle_mark_ended;
+static VALUE sym_gc_cycle_sweep_ended;
 
 /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
@@ -72,8 +73,11 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
         case RUBY_INTERNAL_EVENT_GC_START:
             stat->stage = sym_gc_cycle_started;
             break;
+        case RUBY_INTERNAL_EVENT_GC_END_MARK:
+            stat->stage = sym_gc_cycle_mark_ended;
+            break;
         case RUBY_INTERNAL_EVENT_GC_END_SWEEP:
-            stat->stage = sym_gc_cycle_ended;
+            stat->stage = sym_gc_cycle_sweep_ended;
             break;
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
         case RUBY_INTERNAL_EVENT_GC_ENTER:
@@ -142,7 +146,8 @@ void Init_tunemygc_ext()
 
     /* Symbol warmup */
     sym_gc_cycle_started = ID2SYM(rb_intern("GC_CYCLE_STARTED"));
-    sym_gc_cycle_ended = ID2SYM(rb_intern("GC_CYCLE_ENDED"));
+    sym_gc_cycle_mark_ended = ID2SYM(rb_intern("GC_CYCLE_MARK_ENDED"));
+    sym_gc_cycle_sweep_ended = ID2SYM(rb_intern("GC_CYCLE_SWEEP_ENDED"));
 
     /* For 2.2.x incremental GC */
 #ifdef RUBY_INTERNAL_EVENT_GC_ENTER
