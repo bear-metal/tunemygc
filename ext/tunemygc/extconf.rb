@@ -31,6 +31,7 @@ if gc_events
     gc_latest_info.each do |key, val|
       f.puts "    VALUE #{key};"
     end
+    f.puts "    void *next;"
     f.puts '} tunemygc_stat_record;'
 
     f.puts "static void"
@@ -44,6 +45,7 @@ if gc_events
         f.puts "    record->#{k} = rb_gc_latest_gc_info(sym_latest_gc_info[#{i}]);"
       }
       #
+    f.puts "    record->next = NULL;"
     f.puts "}"
 
     f.puts "static VALUE"
