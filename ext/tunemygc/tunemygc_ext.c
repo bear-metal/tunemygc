@@ -58,7 +58,10 @@ static void tunemygc_gc_hook_i(VALUE tpval, void *data)
     rb_trace_arg_t *tparg = rb_tracearg_from_tracepoint(tpval);
     rb_event_flag_t flag = rb_tracearg_event_flag(tparg);
 
-    tunemygc_stat_record *stat = ((tunemygc_stat_record*)malloc(sizeof(tunemygc_stat_record)));
+    tunemygc_stat_record *stat = ((tunemygc_stat_record*)calloc(1, sizeof(tunemygc_stat_record)));
+    if (!stat) {
+      return;
+    }
     if (rb_thread_current() == rb_thread_main()) {
       stat->thread_id = Qnil;
     } else {
