@@ -4,7 +4,7 @@ require 'mkmf'
 
 dir_config('tunemygc')
 
-# Only defined for Ruby 2.1.x and 2.2.x
+# Only defined for Ruby 2.1+
 gc_events = have_const('RUBY_INTERNAL_EVENT_GC_END_SWEEP')
 
 if gc_events
