@@ -11,6 +11,11 @@ rvm:
   - 2.2.5
   - 2.3.0
   - 2.3.1
+  - 2.3.2
+  - 2.3.3
+  - 2.3.4
+  - 2.4.0
+  - 2.4.1
   - ruby-head
 script: "bundle exec rake"
 env: RUBY_GC_TUNE=200 RUBY_GC_TUNE_DEBUG=1 RUBY_GC_SYNC_ALWAYS=1
@@ -27,6 +32,18 @@ matrix:
       gemfile: Gemfile_5
     - rvm: 2.3.0
       gemfile: Gemfile_5
+    - rvm: 2.3.1
+      gemfile: Gemfile_5
+    - rvm: 2.3.2
+      gemfile: Gemfile_5
+    - rvm: 2.3.3
+      gemfile: Gemfile_5
+    - rvm: 2.3.4
+      gemfile: Gemfile_5
+    - rvm: 2.4.0
+      gemfile: Gemfile_5
+    - rvm: 2.4.1
+      gemfile: Gemfile_5
     - rvm: 2.1.0
       gemfile: Gemfile_5
       os: osx
@@ -37,6 +54,24 @@ matrix:
       gemfile: Gemfile_5
       os: osx
     - rvm: 2.3.0
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.3.1
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.3.2
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.3.3
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.3.4
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.4.0
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.4.1
       gemfile: Gemfile_5
       os: osx
 notifications:
