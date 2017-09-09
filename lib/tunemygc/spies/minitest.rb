@@ -6,12 +6,12 @@ module TuneMyGc
   module Spies
     class Minitest < TuneMyGc::Spies::Base
       def install
-        MiniTest::Unit::TestCase.__send__(:include, hooks_module)
+        MiniTest::Test.__send__(:include, hooks_module)
         TuneMyGc.log "hooked: minitest"
       end
 
       def uninstall
-        MiniTest::Unit::TestCase.__send__(:include, disabled_hooks_module)
+        MiniTest::Test.__send__(:include, disabled_hooks_module)
         TuneMyGc.log "uninstalled minitest spy"
       end
 

@@ -2,7 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'helper')
 
-class MinitestSandboxTest < MiniTest::Unit::TestCase
+class MinitestSandboxTest < MiniTest::Test
   def setup
     @value = 123
   end

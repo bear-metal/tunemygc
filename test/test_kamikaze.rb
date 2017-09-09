@@ -2,7 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'helper')
 
-class TestKamikaze < MiniTest::Unit::TestCase
+class TestKamikaze < MiniTest::Test
   def test_kamikaze
     syncer = TuneMyGc::Syncer.new
     snapshots = TuneMyGc::Snapshotter.new
