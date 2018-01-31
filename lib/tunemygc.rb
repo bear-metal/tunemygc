@@ -27,10 +27,10 @@ end
 
 if TuneMyGc.enabled?
   if TuneMyGc.rails?
-    puts "[tunemygc] Rails detected, loading railtie"
+    puts "[tunemygc] Rails detected, loading railtie" unless TuneMyGc.run_silently?
     require 'tunemygc/railtie'
   else
-    puts "[tunemygc] Rails not detected, loading minimal agent"
+    puts "[tunemygc] Rails not detected, loading minimal agent" unless TuneMyGc.run_silently?
     require 'tunemygc/agent'
     TuneMyGc.booted
   end
