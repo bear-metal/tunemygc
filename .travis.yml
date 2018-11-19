@@ -16,6 +16,8 @@ rvm:
   - 2.3.4
   - 2.4.0
   - 2.4.1
+  - 2.4.5
+  - 2.5.3
   - ruby-head
 script: "bundle exec rake"
 env: RUBY_GC_TUNE=200 RUBY_GC_TUNE_DEBUG=1 RUBY_GC_SYNC_ALWAYS=1
@@ -72,6 +74,12 @@ matrix:
       gemfile: Gemfile_5
       os: osx
     - rvm: 2.4.1
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.4.5
+      gemfile: Gemfile_5
+      os: osx
+    - rvm: 2.5.3
       gemfile: Gemfile_5
       os: osx
 notifications:
